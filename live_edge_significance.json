@@ -1,0 +1,4563 @@
+{
+  "cells": {
+    "BNBUSDT_15m": {
+      "direction": {
+        "hit_rate": 0.5994277539341917,
+        "hits": 419,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.055898553585797185,
+            0.3938051060440225
+          ],
+          "n": 699,
+          "p_value": 0.010397920415916816,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.22356579804960833,
+          "valid_resamples": 5000
+        },
+        "n": 699,
+        "vs_chance": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.5293276108726752,
+            0.6666666666666666
+          ],
+          "difference": 0.09942775393419168,
+          "hit_rate": 0.5994277539341917,
+          "hits": 419,
+          "n": 699,
+          "naive_wilson_ci_95": [
+            0.5626535878240266,
+            0.6351150529633705
+          ],
+          "null": 0.5,
+          "observed": 0.5994277539341917,
+          "p_value": 0.004599080183963208,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.027181688125894134,
+            0.20028612303290416
+          ],
+          "difference": 0.11587982832618025,
+          "model_hit_rate": 0.5994277539341917,
+          "model_hits": 419,
+          "n": 699,
+          "null": 0.0,
+          "observed": 0.11587982832618025,
+          "p_value": 0.009598080383923215,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.48354792560801146,
+          "persistence_hits": 338,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "15m",
+      "horizon_minutes": 15,
+      "regime_60m": null,
+      "rows_available": 700,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.07854425314045382,
+          "reason": null,
+          "statistic": 5.0881861575179
+        },
+        "classification": "weakens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.6566523605150214,
+            "hits": 153,
+            "minus_chance": 0.1566523605150214,
+            "n": 233,
+            "target_time_end_s": 1789370400,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5836909871244635,
+            "hits": 136,
+            "minus_chance": 0.08369098712446355,
+            "n": 233,
+            "target_time_end_s": 1789384440,
+            "target_time_start_s": 1789370460,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5579399141630901,
+            "hits": 130,
+            "minus_chance": 0.05793991416309008,
+            "n": 233,
+            "target_time_end_s": 1789398420,
+            "target_time_start_s": 1789384500,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BNBUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "BNBUSDT_1m": {
+      "direction": {
+        "hit_rate": 0.48206599713055953,
+        "hits": 336,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            5.5800794042069456e-05,
+            0.15077794934050492
+          ],
+          "n": 697,
+          "p_value": 0.05038992201559688,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.07455066757030719,
+          "valid_resamples": 5000
+        },
+        "n": 697,
+        "vs_chance": {
+          "block_length_rows": 1,
+          "ci_95": [
+            0.4447632711621234,
+            0.5193687230989957
+          ],
+          "difference": -0.01793400286944047,
+          "hit_rate": 0.48206599713055953,
+          "hits": 336,
+          "n": 697,
+          "naive_wilson_ci_95": [
+            0.44517039076378084,
+            0.5191582035490222
+          ],
+          "null": 0.5,
+          "observed": 0.48206599713055953,
+          "p_value": 0.34973005398920215,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 1,
+          "ci_95": [
+            -0.06312769010043041,
+            0.05021520803443329
+          ],
+          "difference": -0.007173601147776184,
+          "model_hit_rate": 0.48206599713055953,
+          "model_hits": 336,
+          "n": 697,
+          "null": 0.0,
+          "observed": -0.007173601147776184,
+          "p_value": 0.8206358728254349,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.48923959827833574,
+          "persistence_hits": 341,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "1m",
+      "horizon_minutes": 1,
+      "regime_60m": null,
+      "rows_available": 714,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.9561994110209877,
+          "reason": null,
+          "statistic": 0.08957759749659032
+        },
+        "classification": "flat",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.48497854077253216,
+            "hits": 113,
+            "minus_chance": -0.015021459227467837,
+            "n": 233,
+            "target_time_end_s": 1789370820,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.47413793103448276,
+            "hits": 110,
+            "minus_chance": -0.025862068965517238,
+            "n": 232,
+            "target_time_end_s": 1789385160,
+            "target_time_start_s": 1789370880,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.4870689655172414,
+            "hits": 113,
+            "minus_chance": -0.012931034482758619,
+            "n": 232,
+            "target_time_end_s": 1789399260,
+            "target_time_start_s": 1789385220,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BNBUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "BNBUSDT_5m": {
+      "direction": {
+        "hit_rate": 0.5671852899575672,
+        "hits": 401,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.018506855217150394,
+            0.2839961119462388
+          ],
+          "n": 707,
+          "p_value": 0.026794641071785644,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.15187478920394842,
+          "valid_resamples": 5000
+        },
+        "n": 707,
+        "vs_chance": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.5134370579915134,
+            0.6223479490806223
+          ],
+          "difference": 0.06718528995756723,
+          "hit_rate": 0.5671852899575672,
+          "hits": 401,
+          "n": 707,
+          "naive_wilson_ci_95": [
+            0.5303974472222774,
+            0.6032469805487304
+          ],
+          "null": 0.5,
+          "observed": 0.5671852899575672,
+          "p_value": 0.014797040591881624,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.002828854314002829,
+            0.15275813295615276
+          ],
+          "difference": 0.07779349363507779,
+          "model_hit_rate": 0.5671852899575672,
+          "model_hits": 401,
+          "n": 707,
+          "null": 0.0,
+          "observed": 0.07779349363507779,
+          "p_value": 0.04299140171965607,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.4893917963224894,
+          "persistence_hits": 346,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "5m",
+      "horizon_minutes": 5,
+      "regime_60m": null,
+      "rows_available": 710,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.35057263616638884,
+          "reason": null,
+          "statistic": 2.096374716250251
+        },
+        "classification": "mixed",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.5677966101694916,
+            "hits": 134,
+            "minus_chance": 0.06779661016949157,
+            "n": 236,
+            "target_time_end_s": 1789370580,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5338983050847458,
+            "hits": 126,
+            "minus_chance": 0.03389830508474578,
+            "n": 236,
+            "target_time_end_s": 1789384800,
+            "target_time_start_s": 1789370640,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.6,
+            "hits": 141,
+            "minus_chance": 0.09999999999999998,
+            "n": 235,
+            "target_time_end_s": 1789399020,
+            "target_time_start_s": 1789384860,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BNBUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "BNBUSDT_60m": {
+      "direction": {
+        "hit_rate": 0.7232415902140673,
+        "hits": 473,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.3364352915454753,
+            0.6914323917832113
+          ],
+          "n": 654,
+          "p_value": 0.0003999200159968006,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.5521746888192471,
+          "valid_resamples": 5000
+        },
+        "n": 654,
+        "vs_chance": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.6284403669724771,
+            0.8089067278287456
+          ],
+          "difference": 0.2232415902140673,
+          "hit_rate": 0.7232415902140673,
+          "hits": 473,
+          "n": 654,
+          "naive_wilson_ci_95": [
+            0.6877246651916772,
+            0.7561512810332164
+          ],
+          "null": 0.5,
+          "observed": 0.7232415902140673,
+          "p_value": 0.0001999600079984003,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.15749235474006115,
+            0.3440366972477064
+          ],
+          "difference": 0.25382262996941896,
+          "model_hit_rate": 0.7232415902140673,
+          "model_hits": 473,
+          "n": 654,
+          "null": 0.0,
+          "observed": 0.25382262996941896,
+          "p_value": 0.0001999600079984003,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.4694189602446483,
+          "persistence_hits": 307,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "60m",
+      "horizon_minutes": 60,
+      "regime_60m": {
+        "concentration": "higher_in_high_vol",
+        "high": {
+          "half": "high_realized_vol (> median)",
+          "hit_rate": 0.764525993883792,
+          "hits": 250,
+          "mean_realized_vol": 0.004212177792593647,
+          "median_realized_vol": 0.0042138419072138816,
+          "model_minus_persistence": 0.3211009174311927,
+          "n": 327,
+          "persistence_hit_rate": 0.4434250764525994,
+          "persistence_hits": 145,
+          "persistence_n": 327
+        },
+        "high_minus_low_hit_rate": 0.0825688073394496,
+        "high_minus_low_persistence_rate": -0.0519877675840979,
+        "interpretation": "descriptive volatility split; it is not evidence of a signed trend causal effect",
+        "low": {
+          "half": "low_realized_vol (<= median)",
+          "hit_rate": 0.6819571865443425,
+          "hits": 223,
+          "mean_realized_vol": 0.002589746532362652,
+          "median_realized_vol": 0.0026137896021605675,
+          "model_minus_persistence": 0.18654434250764518,
+          "n": 327,
+          "persistence_hit_rate": 0.4954128440366973,
+          "persistence_hits": 162,
+          "persistence_n": 327
+        },
+        "median_realized_vol": 0.002916341200044129,
+        "proxy": "realized_vol (not a signed trend measure)"
+      },
+      "rows_available": 655,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.599406791011156,
+          "reason": null,
+          "statistic": 1.0236295889642928
+        },
+        "classification": "flat",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.7064220183486238,
+            "hits": 154,
+            "minus_chance": 0.20642201834862384,
+            "n": 218,
+            "target_time_end_s": 1789369500,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.7155963302752294,
+            "hits": 156,
+            "minus_chance": 0.2155963302752294,
+            "n": 218,
+            "target_time_end_s": 1789382640,
+            "target_time_start_s": 1789369560,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.7477064220183486,
+            "hits": 163,
+            "minus_chance": 0.24770642201834858,
+            "n": 218,
+            "target_time_end_s": 1789395720,
+            "target_time_start_s": 1789382700,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BNBUSDT",
+      "verdict": {
+        "overall": "supports a stable live edge beyond chance and persistence",
+        "significant_vs_chance": true,
+        "significant_vs_persistence": true,
+        "stable": true
+      }
+    },
+    "BTCUSDT_15m": {
+      "direction": {
+        "hit_rate": 0.5593705293276109,
+        "hits": 391,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.0003435006889831282,
+            0.36997406309947983
+          ],
+          "n": 699,
+          "p_value": 0.049590081983603276,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.1835154834958074,
+          "valid_resamples": 5000
+        },
+        "n": 699,
+        "vs_chance": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.47782546494992845,
+            0.6380543633762518
+          ],
+          "difference": 0.05937052932761089,
+          "hit_rate": 0.5593705293276109,
+          "hits": 391,
+          "n": 699,
+          "naive_wilson_ci_95": [
+            0.5223412265382092,
+            0.5957508395434739
+          ],
+          "null": 0.5,
+          "observed": 0.5593705293276109,
+          "p_value": 0.15996800639872025,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 15,
+          "ci_95": [
+            -0.028648068669527883,
+            0.17024320457796852
+          ],
+          "difference": 0.07010014306151645,
+          "model_hit_rate": 0.5593705293276109,
+          "model_hits": 391,
+          "n": 699,
+          "null": 0.0,
+          "observed": 0.07010014306151645,
+          "p_value": 0.17336532693461307,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.4892703862660944,
+          "persistence_hits": 342,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "15m",
+      "horizon_minutes": 15,
+      "regime_60m": null,
+      "rows_available": 700,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.0006982166610330447,
+          "reason": null,
+          "statistic": 14.533962201481383
+        },
+        "classification": "fades",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.6223175965665236,
+            "hits": 145,
+            "minus_chance": 0.12231759656652363,
+            "n": 233,
+            "target_time_end_s": 1789370400,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5965665236051502,
+            "hits": 139,
+            "minus_chance": 0.09656652360515017,
+            "n": 233,
+            "target_time_end_s": 1789384440,
+            "target_time_start_s": 1789370460,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.4592274678111588,
+            "hits": 107,
+            "minus_chance": -0.04077253218884119,
+            "n": 233,
+            "target_time_end_s": 1789398420,
+            "target_time_start_s": 1789384500,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BTCUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": false
+      }
+    },
+    "BTCUSDT_1m": {
+      "direction": {
+        "hit_rate": 0.5113636363636364,
+        "hits": 360,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            -0.02156823062512887,
+            0.13587551837426717
+          ],
+          "n": 704,
+          "p_value": 0.15796840631873627,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.05568061444321244,
+          "valid_resamples": 5000
+        },
+        "n": 704,
+        "vs_chance": {
+          "block_length_rows": 1,
+          "ci_95": [
+            0.4744318181818182,
+            0.546875
+          ],
+          "difference": 0.011363636363636354,
+          "hit_rate": 0.5113636363636364,
+          "hits": 360,
+          "n": 704,
+          "naive_wilson_ci_95": [
+            0.4744773254571739,
+            0.5481266062575025
+          ],
+          "null": 0.5,
+          "observed": 0.5113636363636364,
+          "p_value": 0.5678864227154569,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 1,
+          "ci_95": [
+            -0.05397727272727273,
+            0.06395596590909039
+          ],
+          "difference": 0.005681818181818182,
+          "model_hit_rate": 0.5113636363636364,
+          "model_hits": 360,
+          "n": 704,
+          "null": 0.0,
+          "observed": 0.005681818181818182,
+          "p_value": 0.8704259148170366,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.5056818181818182,
+          "persistence_hits": 356,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "1m",
+      "horizon_minutes": 1,
+      "regime_60m": null,
+      "rows_available": 714,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.344090451059854,
+          "reason": null,
+          "statistic": 2.1337014340873806
+        },
+        "classification": "fades",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.5191489361702127,
+            "hits": 122,
+            "minus_chance": 0.019148936170212738,
+            "n": 235,
+            "target_time_end_s": 1789370820,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5404255319148936,
+            "hits": 127,
+            "minus_chance": 0.04042553191489362,
+            "n": 235,
+            "target_time_end_s": 1789385040,
+            "target_time_start_s": 1789370880,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.47435897435897434,
+            "hits": 111,
+            "minus_chance": -0.02564102564102566,
+            "n": 234,
+            "target_time_end_s": 1789399260,
+            "target_time_start_s": 1789385100,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BTCUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": false
+      }
+    },
+    "BTCUSDT_5m": {
+      "direction": {
+        "hit_rate": 0.5450704225352113,
+        "hits": 387,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.027353834866521896,
+            0.3004777374185825
+          ],
+          "n": 710,
+          "p_value": 0.01759648070385923,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.16301135684028528,
+          "valid_resamples": 5000
+        },
+        "n": 710,
+        "vs_chance": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.48732394366197185,
+            0.604225352112676
+          ],
+          "difference": 0.04507042253521132,
+          "hit_rate": 0.5450704225352113,
+          "hits": 387,
+          "n": 710,
+          "naive_wilson_ci_95": [
+            0.5082974182053314,
+            0.5813583438818576
+          ],
+          "null": 0.5,
+          "observed": 0.5450704225352113,
+          "p_value": 0.1339732053589282,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 5,
+          "ci_95": [
+            -0.007042253521126761,
+            0.14366197183098592
+          ],
+          "difference": 0.0676056338028169,
+          "model_hit_rate": 0.5450704225352113,
+          "model_hits": 387,
+          "n": 710,
+          "null": 0.0,
+          "observed": 0.0676056338028169,
+          "p_value": 0.08418316336732654,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.47746478873239434,
+          "persistence_hits": 339,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "5m",
+      "horizon_minutes": 5,
+      "regime_60m": null,
+      "rows_available": 710,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.5477321105193504,
+          "reason": null,
+          "statistic": 1.203937921954393
+        },
+        "classification": "flat",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.5654008438818565,
+            "hits": 134,
+            "minus_chance": 0.06540084388185652,
+            "n": 237,
+            "target_time_end_s": 1789370640,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5527426160337553,
+            "hits": 131,
+            "minus_chance": 0.052742616033755296,
+            "n": 237,
+            "target_time_end_s": 1789384860,
+            "target_time_start_s": 1789370700,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5169491525423728,
+            "hits": 122,
+            "minus_chance": 0.016949152542372836,
+            "n": 236,
+            "target_time_end_s": 1789399020,
+            "target_time_start_s": 1789384920,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BTCUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "BTCUSDT_60m": {
+      "direction": {
+        "hit_rate": 0.6458015267175573,
+        "hits": 423,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.14324505983534783,
+            0.5576141670261262
+          ],
+          "n": 655,
+          "p_value": 0.0015996800639872025,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.3506162896561384,
+          "valid_resamples": 5000
+        },
+        "n": 655,
+        "vs_chance": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.566412213740458,
+            0.7236641221374046
+          ],
+          "difference": 0.1458015267175573,
+          "hit_rate": 0.6458015267175573,
+          "hits": 423,
+          "n": 655,
+          "naive_wilson_ci_95": [
+            0.6084215412398101,
+            0.6814812835488487
+          ],
+          "null": 0.5,
+          "observed": 0.6458015267175573,
+          "p_value": 0.0003999200159968006,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.051908396946564885,
+            0.2732824427480916
+          ],
+          "difference": 0.1648854961832061,
+          "model_hit_rate": 0.6458015267175573,
+          "model_hits": 423,
+          "n": 655,
+          "null": 0.0,
+          "observed": 0.1648854961832061,
+          "p_value": 0.0027994401119776045,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.48091603053435117,
+          "persistence_hits": 315,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "60m",
+      "horizon_minutes": 60,
+      "regime_60m": {
+        "concentration": "not_concentrated",
+        "high": {
+          "half": "high_realized_vol (> median)",
+          "hit_rate": 0.6422018348623854,
+          "hits": 210,
+          "mean_realized_vol": 0.004817906852084494,
+          "median_realized_vol": 0.004324455801908519,
+          "model_minus_persistence": 0.1834862385321101,
+          "n": 327,
+          "persistence_hit_rate": 0.45871559633027525,
+          "persistence_hits": 150,
+          "persistence_n": 327
+        },
+        "high_minus_low_hit_rate": -0.007188409040053689,
+        "high_minus_low_persistence_rate": -0.044333184157529626,
+        "interpretation": "descriptive volatility split; it is not evidence of a signed trend causal effect",
+        "low": {
+          "half": "low_realized_vol (<= median)",
+          "hit_rate": 0.649390243902439,
+          "hits": 213,
+          "mean_realized_vol": 0.002705473547355141,
+          "median_realized_vol": 0.0027427944077638923,
+          "model_minus_persistence": 0.14634146341463417,
+          "n": 328,
+          "persistence_hit_rate": 0.5030487804878049,
+          "persistence_hits": 165,
+          "persistence_n": 328
+        },
+        "median_realized_vol": 0.0031759761423797816,
+        "proxy": "realized_vol (not a signed trend measure)"
+      },
+      "rows_available": 655,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.024354690238320202,
+          "reason": null,
+          "statistic": 7.4300616608235455
+        },
+        "classification": "weakens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.7168949771689498,
+            "hits": 157,
+            "minus_chance": 0.2168949771689498,
+            "n": 219,
+            "target_time_end_s": 1789369560,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.6192660550458715,
+            "hits": 135,
+            "minus_chance": 0.11926605504587151,
+            "n": 218,
+            "target_time_end_s": 1789382640,
+            "target_time_start_s": 1789369620,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.6009174311926605,
+            "hits": 131,
+            "minus_chance": 0.1009174311926605,
+            "n": 218,
+            "target_time_end_s": 1789395720,
+            "target_time_start_s": 1789382700,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "BTCUSDT",
+      "verdict": {
+        "overall": "clears chance and persistence after Bonferroni correction but is not stable across thirds",
+        "significant_vs_chance": true,
+        "significant_vs_persistence": true,
+        "stable": false
+      }
+    },
+    "ETHUSDT_15m": {
+      "direction": {
+        "hit_rate": 0.5593705293276109,
+        "hits": 391,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.10220808826584889,
+            0.4079155256417345
+          ],
+          "n": 699,
+          "p_value": 0.0015996800639872025,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.25723269954094996,
+          "valid_resamples": 5000
+        },
+        "n": 699,
+        "vs_chance": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.4892703862660944,
+            0.630901287553648
+          ],
+          "difference": 0.05937052932761089,
+          "hit_rate": 0.5593705293276109,
+          "hits": 391,
+          "n": 699,
+          "naive_wilson_ci_95": [
+            0.5223412265382092,
+            0.5957508395434739
+          ],
+          "null": 0.5,
+          "observed": 0.5593705293276109,
+          "p_value": 0.10237952409518096,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 15,
+          "ci_95": [
+            -0.017167381974248927,
+            0.15021459227467812
+          ],
+          "difference": 0.06723891273247497,
+          "model_hit_rate": 0.5593705293276109,
+          "model_hits": 391,
+          "n": 699,
+          "null": 0.0,
+          "observed": 0.06723891273247497,
+          "p_value": 0.11357728454309138,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.49213161659513593,
+          "persistence_hits": 344,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "15m",
+      "horizon_minutes": 15,
+      "regime_60m": null,
+      "rows_available": 700,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.0704702821562983,
+          "reason": null,
+          "statistic": 5.305128375460856
+        },
+        "classification": "weakens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.6180257510729614,
+            "hits": 144,
+            "minus_chance": 0.11802575107296143,
+            "n": 233,
+            "target_time_end_s": 1789370400,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5150214592274678,
+            "hits": 120,
+            "minus_chance": 0.015021459227467782,
+            "n": 233,
+            "target_time_end_s": 1789384380,
+            "target_time_start_s": 1789370460,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5450643776824035,
+            "hits": 127,
+            "minus_chance": 0.045064377682403456,
+            "n": 233,
+            "target_time_end_s": 1789398420,
+            "target_time_start_s": 1789384440,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "ETHUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "ETHUSDT_1m": {
+      "direction": {
+        "hit_rate": 0.5035161744022504,
+        "hits": 358,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            -0.026406837817705017,
+            0.12818858226560273
+          ],
+          "n": 711,
+          "p_value": 0.20075984803039393,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.05056042889871348,
+          "valid_resamples": 5000
+        },
+        "n": 711,
+        "vs_chance": {
+          "block_length_rows": 1,
+          "ci_95": [
+            0.46554149085794655,
+            0.540084388185654
+          ],
+          "difference": 0.0035161744022503827,
+          "hit_rate": 0.5035161744022504,
+          "hits": 358,
+          "n": 711,
+          "naive_wilson_ci_95": [
+            0.4668448679740498,
+            0.5401496899636624
+          ],
+          "null": 0.5,
+          "observed": 0.5035161744022504,
+          "p_value": 0.8510297940411917,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 1,
+          "ci_95": [
+            -0.05625879043600562,
+            0.06469760900140648
+          ],
+          "difference": 0.004219409282700422,
+          "model_hit_rate": 0.5035161744022504,
+          "model_hits": 358,
+          "n": 711,
+          "null": 0.0,
+          "observed": 0.004219409282700422,
+          "p_value": 0.9042191561687662,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.49929676511954996,
+          "persistence_hits": 355,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "1m",
+      "horizon_minutes": 1,
+      "regime_60m": null,
+      "rows_available": 714,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.3264086031471747,
+          "reason": null,
+          "statistic": 2.2392105971164953
+        },
+        "classification": "emerges",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.4641350210970464,
+            "hits": 110,
+            "minus_chance": -0.03586497890295359,
+            "n": 237,
+            "target_time_end_s": 1789370640,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5189873417721519,
+            "hits": 123,
+            "minus_chance": 0.01898734177215189,
+            "n": 237,
+            "target_time_end_s": 1789384920,
+            "target_time_start_s": 1789370700,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5274261603375527,
+            "hits": 125,
+            "minus_chance": 0.02742616033755274,
+            "n": 237,
+            "target_time_end_s": 1789399260,
+            "target_time_start_s": 1789385040,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "ETHUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": false
+      }
+    },
+    "ETHUSDT_5m": {
+      "direction": {
+        "hit_rate": 0.556657223796034,
+        "hits": 393,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.054982007910048654,
+            0.3083246112051821
+          ],
+          "n": 706,
+          "p_value": 0.005198960207958408,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.18327702564455114,
+          "valid_resamples": 5000
+        },
+        "n": 706,
+        "vs_chance": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.5014164305949008,
+            0.6104815864022662
+          ],
+          "difference": 0.056657223796033995,
+          "hit_rate": 0.556657223796034,
+          "hits": 393,
+          "n": 706,
+          "naive_wilson_ci_95": [
+            0.5198040567110616,
+            0.5928971655208848
+          ],
+          "null": 0.5,
+          "observed": 0.556657223796034,
+          "p_value": 0.04399120175964807,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.0028328611898017,
+            0.14589235127478753
+          ],
+          "difference": 0.07507082152974505,
+          "model_hit_rate": 0.556657223796034,
+          "model_hits": 393,
+          "n": 706,
+          "null": 0.0,
+          "observed": 0.07507082152974505,
+          "p_value": 0.04019196160767846,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.48158640226628896,
+          "persistence_hits": 340,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "5m",
+      "horizon_minutes": 5,
+      "regime_60m": null,
+      "rows_available": 710,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.8799256976830676,
+          "reason": null,
+          "statistic": 0.2558356190514668
+        },
+        "classification": "flat",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.5677966101694916,
+            "hits": 134,
+            "minus_chance": 0.06779661016949157,
+            "n": 236,
+            "target_time_end_s": 1789370700,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5446808510638298,
+            "hits": 128,
+            "minus_chance": 0.044680851063829796,
+            "n": 235,
+            "target_time_end_s": 1789384860,
+            "target_time_start_s": 1789370760,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5574468085106383,
+            "hits": 131,
+            "minus_chance": 0.057446808510638325,
+            "n": 235,
+            "target_time_end_s": 1789399020,
+            "target_time_start_s": 1789384920,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "ETHUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "ETHUSDT_60m": {
+      "direction": {
+        "hit_rate": 0.6045801526717557,
+        "hits": 396,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.21351805155360468,
+            0.5973455986758359
+          ],
+          "n": 655,
+          "p_value": 0.0003999200159968006,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.42246860902673045,
+          "valid_resamples": 5000
+        },
+        "n": 655,
+        "vs_chance": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.49770992366412214,
+            0.6946564885496184
+          ],
+          "difference": 0.10458015267175569,
+          "hit_rate": 0.6045801526717557,
+          "hits": 396,
+          "n": 655,
+          "naive_wilson_ci_95": [
+            0.5666306076403427,
+            0.6413101619724648
+          ],
+          "null": 0.5,
+          "observed": 0.6045801526717557,
+          "p_value": 0.03659268146370726,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.030534351145038167,
+            0.2549618320610687
+          ],
+          "difference": 0.1480916030534351,
+          "model_hit_rate": 0.6045801526717557,
+          "model_hits": 396,
+          "n": 655,
+          "null": 0.0,
+          "observed": 0.1480916030534351,
+          "p_value": 0.010397920415916816,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.45648854961832064,
+          "persistence_hits": 299,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "60m",
+      "horizon_minutes": 60,
+      "regime_60m": {
+        "concentration": "higher_in_high_vol",
+        "high": {
+          "half": "high_realized_vol (> median)",
+          "hit_rate": 0.6636085626911316,
+          "hits": 217,
+          "mean_realized_vol": 0.00607126994776717,
+          "median_realized_vol": 0.00524111310016884,
+          "model_minus_persistence": 0.2048929663608563,
+          "n": 327,
+          "persistence_hit_rate": 0.45871559633027525,
+          "persistence_hits": 150,
+          "persistence_n": 327
+        },
+        "high_minus_low_hit_rate": 0.11787685537405834,
+        "high_minus_low_persistence_rate": 0.004447303647348411,
+        "interpretation": "descriptive volatility split; it is not evidence of a signed trend causal effect",
+        "low": {
+          "half": "low_realized_vol (<= median)",
+          "hit_rate": 0.5457317073170732,
+          "hits": 179,
+          "mean_realized_vol": 0.003246349612476868,
+          "median_realized_vol": 0.0032247913115204183,
+          "model_minus_persistence": 0.09146341463414637,
+          "n": 328,
+          "persistence_hit_rate": 0.45426829268292684,
+          "persistence_hits": 149,
+          "persistence_n": 328
+        },
+        "median_realized_vol": 0.004056864290473089,
+        "proxy": "realized_vol (not a signed trend measure)"
+      },
+      "rows_available": 655,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.009898702573742818,
+          "reason": null,
+          "statistic": 9.230703167174198
+        },
+        "classification": "weakens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.684931506849315,
+            "hits": 150,
+            "minus_chance": 0.18493150684931503,
+            "n": 219,
+            "target_time_end_s": 1789369560,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5504587155963303,
+            "hits": 120,
+            "minus_chance": 0.050458715596330306,
+            "n": 218,
+            "target_time_end_s": 1789382640,
+            "target_time_start_s": 1789369620,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5779816513761468,
+            "hits": 126,
+            "minus_chance": 0.07798165137614677,
+            "n": 218,
+            "target_time_end_s": 1789395720,
+            "target_time_start_s": 1789382700,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "ETHUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": false
+      }
+    },
+    "SOLUSDT_15m": {
+      "direction": {
+        "hit_rate": 0.597953216374269,
+        "hits": 409,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.13662118835948198,
+            0.45478012289877595
+          ],
+          "n": 684,
+          "p_value": 0.0011997600479904018,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.29529450881178604,
+          "valid_resamples": 5000
+        },
+        "n": 684,
+        "vs_chance": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.5307017543859649,
+            0.6652046783625731
+          ],
+          "difference": 0.09795321637426901,
+          "hit_rate": 0.597953216374269,
+          "hits": 409,
+          "n": 684,
+          "naive_wilson_ci_95": [
+            0.5607603666085141,
+            0.6340519673699339
+          ],
+          "null": 0.5,
+          "observed": 0.597953216374269,
+          "p_value": 0.0065986802639472104,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 15,
+          "ci_95": [
+            0.04239766081871345,
+            0.20760233918128654
+          ],
+          "difference": 0.12719298245614036,
+          "model_hit_rate": 0.597953216374269,
+          "model_hits": 409,
+          "n": 684,
+          "null": 0.0,
+          "observed": 0.12719298245614036,
+          "p_value": 0.002999400119976005,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.47076023391812866,
+          "persistence_hits": 322,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "15m",
+      "horizon_minutes": 15,
+      "regime_60m": null,
+      "rows_available": 700,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.013909405093361062,
+          "reason": null,
+          "statistic": 8.550380084463214
+        },
+        "classification": "weakens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.6491228070175439,
+            "hits": 148,
+            "minus_chance": 0.14912280701754388,
+            "n": 228,
+            "target_time_end_s": 1789370400,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.6228070175438597,
+            "hits": 142,
+            "minus_chance": 0.1228070175438597,
+            "n": 228,
+            "target_time_end_s": 1789384620,
+            "target_time_start_s": 1789370460,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5219298245614035,
+            "hits": 119,
+            "minus_chance": 0.021929824561403466,
+            "n": 228,
+            "target_time_end_s": 1789398420,
+            "target_time_start_s": 1789384680,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "SOLUSDT",
+      "verdict": {
+        "overall": "beats persistence after Bonferroni correction, but not chance",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": true,
+        "stable": false
+      }
+    },
+    "SOLUSDT_1m": {
+      "direction": {
+        "hit_rate": 0.5198776758409785,
+        "hits": 340,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            -0.010047954238983853,
+            0.14874876000700726
+          ],
+          "n": 654,
+          "p_value": 0.09278144371125775,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.0688943111178269,
+          "valid_resamples": 5000
+        },
+        "n": 654,
+        "vs_chance": {
+          "block_length_rows": 1,
+          "ci_95": [
+            0.481651376146789,
+            0.5565749235474006
+          ],
+          "difference": 0.019877675840978548,
+          "hit_rate": 0.5198776758409785,
+          "hits": 340,
+          "n": 654,
+          "naive_wilson_ci_95": [
+            0.4815833507972178,
+            0.5579398498940398
+          ],
+          "null": 0.5,
+          "observed": 0.5198776758409785,
+          "p_value": 0.3213357328534293,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 1,
+          "ci_95": [
+            -0.04434250764525994,
+            0.08256880733944955
+          ],
+          "difference": 0.01834862385321101,
+          "model_hit_rate": 0.5198776758409785,
+          "model_hits": 340,
+          "n": 654,
+          "null": 0.0,
+          "observed": 0.01834862385321101,
+          "p_value": 0.5872825434913017,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.5015290519877675,
+          "persistence_hits": 328,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "1m",
+      "horizon_minutes": 1,
+      "regime_60m": null,
+      "rows_available": 714,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.3299592680815689,
+          "reason": null,
+          "statistic": 2.217572124391158
+        },
+        "classification": "emerges",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": false,
+        "thirds": [
+          {
+            "hit_rate": 0.4908256880733945,
+            "hits": 107,
+            "minus_chance": -0.009174311926605505,
+            "n": 218,
+            "target_time_end_s": 1789370640,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5596330275229358,
+            "hits": 122,
+            "minus_chance": 0.059633027522935755,
+            "n": 218,
+            "target_time_end_s": 1789384800,
+            "target_time_start_s": 1789370700,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5091743119266054,
+            "hits": 111,
+            "minus_chance": 0.00917431192660545,
+            "n": 218,
+            "target_time_end_s": 1789399200,
+            "target_time_start_s": 1789384860,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "SOLUSDT",
+      "verdict": {
+        "overall": "does not survive Bonferroni-corrected block-bootstrap testing",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": false,
+        "stable": false
+      }
+    },
+    "SOLUSDT_5m": {
+      "direction": {
+        "hit_rate": 0.5889212827988338,
+        "hits": 404,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.07096278612659214,
+            0.3430602887116885
+          ],
+          "n": 686,
+          "p_value": 0.004799040191961607,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.20642712563638996,
+          "valid_resamples": 5000
+        },
+        "n": 686,
+        "vs_chance": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.5306122448979592,
+            0.6457725947521866
+          ],
+          "difference": 0.08892128279883382,
+          "hit_rate": 0.5889212827988338,
+          "hits": 404,
+          "n": 686,
+          "naive_wilson_ci_95": [
+            0.5517059977280444,
+            0.6251462317806936
+          ],
+          "null": 0.5,
+          "observed": 0.5889212827988338,
+          "p_value": 0.001799640071985603,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 5,
+          "ci_95": [
+            0.0029154518950437317,
+            0.15014577259475217
+          ],
+          "difference": 0.07871720116618076,
+          "model_hit_rate": 0.5889212827988338,
+          "model_hits": 404,
+          "n": 686,
+          "null": 0.0,
+          "observed": 0.07871720116618076,
+          "p_value": 0.038592281543691265,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.5102040816326531,
+          "persistence_hits": 350,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "5m",
+      "horizon_minutes": 5,
+      "regime_60m": null,
+      "rows_available": 710,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.9322411942061452,
+          "reason": null,
+          "statistic": 0.14032741142151428
+        },
+        "classification": "flat",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.5938864628820961,
+            "hits": 136,
+            "minus_chance": 0.09388646288209612,
+            "n": 229,
+            "target_time_end_s": 1789370880,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5938864628820961,
+            "hits": 136,
+            "minus_chance": 0.09388646288209612,
+            "n": 229,
+            "target_time_end_s": 1789385100,
+            "target_time_start_s": 1789370940,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.5789473684210527,
+            "hits": 132,
+            "minus_chance": 0.07894736842105265,
+            "n": 228,
+            "target_time_end_s": 1789399020,
+            "target_time_start_s": 1789385220,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "SOLUSDT",
+      "verdict": {
+        "overall": "above chance after Bonferroni correction, but not beyond persistence",
+        "significant_vs_chance": true,
+        "significant_vs_persistence": false,
+        "stable": true
+      }
+    },
+    "SOLUSDT_60m": {
+      "direction": {
+        "hit_rate": 0.6197836166924265,
+        "hits": 401,
+        "ic": {
+          "block_bootstrap_ci_95": [
+            0.3226357772575418,
+            0.6145350639566672
+          ],
+          "n": 647,
+          "p_value": 0.0003999200159968006,
+          "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
+          "spearman": 0.4756292027015381,
+          "valid_resamples": 5000
+        },
+        "n": 647,
+        "vs_chance": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.5239567233384853,
+            0.7001545595054096
+          ],
+          "difference": 0.11978361669242654,
+          "hit_rate": 0.6197836166924265,
+          "hits": 401,
+          "n": 647,
+          "naive_wilson_ci_95": [
+            0.5817753183343133,
+            0.6563779183707599
+          ],
+          "null": 0.5,
+          "observed": 0.6197836166924265,
+          "p_value": 0.009998000399920015,
+          "valid_resamples": 5000
+        },
+        "vs_persistence": {
+          "block_length_rows": 60,
+          "ci_95": [
+            0.080370942812983,
+            0.2890262751159196
+          ],
+          "difference": 0.18856259659969088,
+          "model_hit_rate": 0.6197836166924265,
+          "model_hits": 401,
+          "n": 647,
+          "null": 0.0,
+          "observed": 0.18856259659969088,
+          "p_value": 0.0003999200159968006,
+          "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+          "persistence_hit_rate": 0.4312210200927357,
+          "persistence_hits": 279,
+          "valid_resamples": 5000
+        }
+      },
+      "horizon": "60m",
+      "horizon_minutes": 60,
+      "regime_60m": {
+        "concentration": "higher_in_low_vol",
+        "high": {
+          "half": "high_realized_vol (> median)",
+          "hit_rate": 0.541795665634675,
+          "hits": 175,
+          "mean_realized_vol": 0.006765603722894318,
+          "median_realized_vol": 0.006650447637013666,
+          "model_minus_persistence": 0.16718266253869973,
+          "n": 323,
+          "persistence_hit_rate": 0.3746130030959752,
+          "persistence_hits": 121,
+          "persistence_n": 323
+        },
+        "high_minus_low_hit_rate": -0.1557351985628559,
+        "high_minus_low_persistence_rate": -0.1130413178916791,
+        "interpretation": "descriptive volatility split; it is not evidence of a signed trend causal effect",
+        "low": {
+          "half": "low_realized_vol (<= median)",
+          "hit_rate": 0.6975308641975309,
+          "hits": 226,
+          "mean_realized_vol": 0.003695030563414183,
+          "median_realized_vol": 0.0038184561185227914,
+          "model_minus_persistence": 0.20987654320987653,
+          "n": 324,
+          "persistence_hit_rate": 0.4876543209876543,
+          "persistence_hits": 158,
+          "persistence_n": 324
+        },
+        "median_realized_vol": 0.004264633802486665,
+        "proxy": "realized_vol (not a signed trend measure)"
+      },
+      "rows_available": 655,
+      "stability": {
+        "chi_square": {
+          "df": 2,
+          "p_value": 0.06004747554923954,
+          "reason": null,
+          "statistic": 5.625239540973066
+        },
+        "classification": "strengthens",
+        "criterion": "all thirds on the same side of 50% and chi-square p >= 0.05",
+        "stable": true,
+        "thirds": [
+          {
+            "hit_rate": 0.5925925925925926,
+            "hits": 128,
+            "minus_chance": 0.09259259259259256,
+            "n": 216,
+            "target_time_end_s": 1789369500,
+            "target_time_start_s": 1789354200,
+            "third": "first"
+          },
+          {
+            "hit_rate": 0.5833333333333334,
+            "hits": 126,
+            "minus_chance": 0.08333333333333337,
+            "n": 216,
+            "target_time_end_s": 1789382640,
+            "target_time_start_s": 1789369560,
+            "third": "middle"
+          },
+          {
+            "hit_rate": 0.6837209302325581,
+            "hits": 147,
+            "minus_chance": 0.1837209302325581,
+            "n": 215,
+            "target_time_end_s": 1789395720,
+            "target_time_start_s": 1789382700,
+            "third": "last"
+          }
+        ]
+      },
+      "symbol": "SOLUSDT",
+      "verdict": {
+        "overall": "beats persistence after Bonferroni correction, but not chance",
+        "significant_vs_chance": false,
+        "significant_vs_persistence": true,
+        "stable": true
+      }
+    }
+  },
+  "generated_utc": "2026-09-14T15:23:47.456442+00:00",
+  "historical_contrast": {
+    "historical_serial_dependence_note": "README says naive Wilson intervals are optimistic uncertainty intervals under minute-level serial dependence",
+    "walk_forward_15m_hit_rate_range": [
+      0.517,
+      0.525
+    ],
+    "walk_forward_60m_hit_rate_range": [
+      0.512,
+      0.517
+    ]
+  },
+  "input": {
+    "combined_snapshot_path": "/tmp/price-prediction-live-edge-input.jsonl",
+    "deduplicated_rows": 11440,
+    "deduplication": "live_eval._read_predictions latest line per (symbol, target_time_s, horizon); supplemental rows added only when key absent",
+    "evaluated_rows": 11116,
+    "evaluation_now_ms": 1789399377127,
+    "invalid_horizon_rows": 0,
+    "invalid_lines": 0,
+    "note": "The live generator was left running; this analysis used one immutable read snapshot of each input log.",
+    "pending_rows": 324,
+    "prediction_paths": [
+      "/home/user/projects/price-prediction/live_predictions.jsonl",
+      "/tmp/price-prediction-live-final.jsonl"
+    ],
+    "records_read": 2872,
+    "skipped_rows": 0
+  },
+  "methods": {
+    "bootstrap": {
+      "block_length_rows": "horizon minutes (1, 5, 15, or 60)",
+      "ci": "percentile 2.5%/97.5%",
+      "hit_p_value": "two-sided null-centered block bootstrap; null-centered observations preserve serial dependence",
+      "ic_p_value": "two-sided bootstrap sign probability from paired Spearman IC resamples; IID Spearman p-values not used",
+      "paired_persistence": "same paired block resampling applied to model_hit - persistence_hit",
+      "resamples": 5000,
+      "seed": 20260914,
+      "type": "moving-block bootstrap on chronological 1-minute row sequence"
+    },
+    "direction_denominator": "finite nonzero realized forward returns with finite market_only p_up; exact-zero returns excluded as in live_eval",
+    "evaluator": "price-prediction/live_eval.evaluate_predictions with its EvaluatedRow outcomes and build_scorecard semantics",
+    "multiple_testing": {
+      "bonferroni_alpha": 0.003125,
+      "pre_registered_cells": 16,
+      "tests_with_adjustment": [
+        "direction_vs_50_percent",
+        "direction_vs_persistence"
+      ],
+      "thirds_and_regime": "descriptive; no additional confirmatory correction"
+    },
+    "naive_wilson": "95% Wilson interval shown only for contrast; it treats rows as independent",
+    "persistence_pair_denominator": "rows with finite nonzero realized forward returns, finite market_only p_up, and a persistence sign",
+    "regime": "60m direction-valid rows split at median realized_vol; descriptive proxy, not a signed trend measure",
+    "stability": {
+      "split": "three chronological thirds by target_time_s using direction-valid rows",
+      "stable_definition": "all thirds on the same side of 50% and chi-square p >= 0.05",
+      "test": "2x3 chi-square test of hit/failure proportions, descriptive only"
+    }
+  },
+  "overall_verdict": "The live 15m/60m hit-rate elevations are not a confirmed trading edge: after horizon-sized block bootstrap and Bonferroni correction (alpha=0.003125), 3/16 cells survive vs chance, 4/16 survive vs persistence, and 2/16 survive both. The accumulated 15m/60m market_only rates span 55.9%\u201372.3% versus persistence 43.1%\u201349.2%; the small, short live sample and third/regime variation are consistent with a trending/regime or sample artifact rather than a stable edge. The historical pooled walk-forward baseline was only about 51.7%\u201352.5% at 15m and 51.2%\u201351.7% at 60m, with naive intervals already known to be optimistic under serial dependence.",
+  "printed_report": "LIVE EDGE SIGNIFICANCE (market_only)\n====================================\nInput: 2872 nonblank records, 11440 deduplicated rows, 11116 evaluated rows, 324 pending rows.\nBootstrap: 5000 moving-block resamples; block length equals horizon minutes; Bonferroni alpha = 0.003125 for each of the two pre-registered direction tests.\nCIs are percentile block-bootstrap intervals; hit p-values are null-centered two-sided tests; IC p-values are bootstrap sign probabilities.\n\nBNBUSDT_15m: n=699, hit=59.94% [52.93, 66.67]%, p50=0.0046; vs persist \u0394=11.59pp [2.72, 20.03]pp p=0.0096; IC=0.2236 p=0.0104; thirds first=65.7% (n=233), middle=58.4% (n=233), last=55.8% (n=233) (weakens, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBNBUSDT_1m: n=697, hit=48.21% [44.48, 51.94]%, p50=0.3497; vs persist \u0394=-0.72pp [-6.31, 5.02]pp p=0.8206; IC=0.0746 p=0.0504; thirds first=48.5% (n=233), middle=47.4% (n=232), last=48.7% (n=232) (flat, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBNBUSDT_5m: n=707, hit=56.72% [51.34, 62.23]%, p50=0.0148; vs persist \u0394=7.78pp [0.28, 15.28]pp p=0.0430; IC=0.1519 p=0.0268; thirds first=56.8% (n=236), middle=53.4% (n=236), last=60.0% (n=235) (mixed, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBNBUSDT_60m: n=654, hit=72.32% [62.84, 80.89]%, p50=0.0002; vs persist \u0394=25.38pp [15.75, 34.40]pp p=0.0002; IC=0.5522 p=0.0004; thirds first=70.6% (n=218), middle=71.6% (n=218), last=74.8% (n=218) (flat, stable=yes); vol low/high=68.2%/76.5%.\n  verdict: chance=yes, persistence=yes; supports a stable live edge beyond chance and persistence.\nBTCUSDT_15m: n=699, hit=55.94% [47.78, 63.81]%, p50=0.1600; vs persist \u0394=7.01pp [-2.86, 17.02]pp p=0.1734; IC=0.1835 p=0.0496; thirds first=62.2% (n=233), middle=59.7% (n=233), last=45.9% (n=233) (fades, stable=no).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBTCUSDT_1m: n=704, hit=51.14% [47.44, 54.69]%, p50=0.5679; vs persist \u0394=0.57pp [-5.40, 6.40]pp p=0.8704; IC=0.0557 p=0.1580; thirds first=51.9% (n=235), middle=54.0% (n=235), last=47.4% (n=234) (fades, stable=no).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBTCUSDT_5m: n=710, hit=54.51% [48.73, 60.42]%, p50=0.1340; vs persist \u0394=6.76pp [-0.70, 14.37]pp p=0.0842; IC=0.1630 p=0.0176; thirds first=56.5% (n=237), middle=55.3% (n=237), last=51.7% (n=236) (flat, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nBTCUSDT_60m: n=655, hit=64.58% [56.64, 72.37]%, p50=0.0004; vs persist \u0394=16.49pp [5.19, 27.33]pp p=0.0028; IC=0.3506 p=0.0016; thirds first=71.7% (n=219), middle=61.9% (n=218), last=60.1% (n=218) (weakens, stable=no); vol low/high=64.9%/64.2%.\n  verdict: chance=yes, persistence=yes; clears chance and persistence after Bonferroni correction but is not stable across thirds.\nETHUSDT_15m: n=699, hit=55.94% [48.93, 63.09]%, p50=0.1024; vs persist \u0394=6.72pp [-1.72, 15.02]pp p=0.1136; IC=0.2572 p=0.0016; thirds first=61.8% (n=233), middle=51.5% (n=233), last=54.5% (n=233) (weakens, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nETHUSDT_1m: n=711, hit=50.35% [46.55, 54.01]%, p50=0.8510; vs persist \u0394=0.42pp [-5.63, 6.47]pp p=0.9042; IC=0.0506 p=0.2008; thirds first=46.4% (n=237), middle=51.9% (n=237), last=52.7% (n=237) (emerges, stable=no).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nETHUSDT_5m: n=706, hit=55.67% [50.14, 61.05]%, p50=0.0440; vs persist \u0394=7.51pp [0.28, 14.59]pp p=0.0402; IC=0.1833 p=0.0052; thirds first=56.8% (n=236), middle=54.5% (n=235), last=55.7% (n=235) (flat, stable=yes).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nETHUSDT_60m: n=655, hit=60.46% [49.77, 69.47]%, p50=0.0366; vs persist \u0394=14.81pp [3.05, 25.50]pp p=0.0104; IC=0.4225 p=0.0004; thirds first=68.5% (n=219), middle=55.0% (n=218), last=57.8% (n=218) (weakens, stable=no); vol low/high=54.6%/66.4%.\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nSOLUSDT_15m: n=684, hit=59.80% [53.07, 66.52]%, p50=0.0066; vs persist \u0394=12.72pp [4.24, 20.76]pp p=0.0030; IC=0.2953 p=0.0012; thirds first=64.9% (n=228), middle=62.3% (n=228), last=52.2% (n=228) (weakens, stable=no).\n  verdict: chance=no, persistence=yes; beats persistence after Bonferroni correction, but not chance.\nSOLUSDT_1m: n=654, hit=51.99% [48.17, 55.66]%, p50=0.3213; vs persist \u0394=1.83pp [-4.43, 8.26]pp p=0.5873; IC=0.0689 p=0.0928; thirds first=49.1% (n=218), middle=56.0% (n=218), last=50.9% (n=218) (emerges, stable=no).\n  verdict: chance=no, persistence=no; does not survive Bonferroni-corrected block-bootstrap testing.\nSOLUSDT_5m: n=686, hit=58.89% [53.06, 64.58]%, p50=0.0018; vs persist \u0394=7.87pp [0.29, 15.01]pp p=0.0386; IC=0.2064 p=0.0048; thirds first=59.4% (n=229), middle=59.4% (n=229), last=57.9% (n=228) (flat, stable=yes).\n  verdict: chance=yes, persistence=no; above chance after Bonferroni correction, but not beyond persistence.\nSOLUSDT_60m: n=647, hit=61.98% [52.40, 70.02]%, p50=0.0100; vs persist \u0394=18.86pp [8.04, 28.90]pp p=0.0004; IC=0.4756 p=0.0004; thirds first=59.3% (n=216), middle=58.3% (n=216), last=68.4% (n=215) (strengthens, stable=yes); vol low/high=69.8%/54.2%.\n  verdict: chance=no, persistence=yes; beats persistence after Bonferroni correction, but not chance.\n\nBonferroni-surviving cells vs chance: BTCUSDT_60m, SOLUSDT_5m, BNBUSDT_60m\nBonferroni-surviving cells vs persistence: BTCUSDT_60m, SOLUSDT_15m, SOLUSDT_60m, BNBUSDT_60m\nCells surviving both tests: BTCUSDT_60m, BNBUSDT_60m\n\nOVERALL VERDICT: The live 15m/60m hit-rate elevations are not a confirmed trading edge: after horizon-sized block bootstrap and Bonferroni correction (alpha=0.003125), 3/16 cells survive vs chance, 4/16 survive vs persistence, and 2/16 survive both. The accumulated 15m/60m market_only rates span 55.9%\u201372.3% versus persistence 43.1%\u201349.2%; the small, short live sample and third/regime variation are consistent with a trending/regime or sample artifact rather than a stable edge. The historical pooled walk-forward baseline was only about 51.7%\u201352.5% at 15m and 51.2%\u201351.7% at 60m, with naive intervals already known to be optimistic under serial dependence.\n\nWINDOWED 6-HOUR STABILITY (market_only)\n=======================================\nPer-window n is shown as window_index:n; windows with n<10 are listed but excluded from the fraction.\nCell                         windows (n)                          survive/count  fraction  verdict\nBNBUSDT_15m                  82840:152, 82841:359, 82842:188          0/3           0.0%      noise\nBNBUSDT_1m                   82840:147, 82841:350, 82842:200          0/3           0.0%      noise\nBNBUSDT_5m                   82840:152, 82841:359, 82842:196          0/3           0.0%      noise\nBNBUSDT_60m                  82840:152, 82841:359, 82842:143          2/3           66.7%     marginal\nBTCUSDT_15m                  82840:152, 82841:359, 82842:188          0/3           0.0%      noise\nBTCUSDT_1m                   82840:149, 82841:354, 82842:201          0/3           0.0%      noise\nBTCUSDT_5m                   82840:152, 82841:360, 82842:198          0/3           0.0%      noise\nBTCUSDT_60m                  82840:152, 82841:360, 82842:143          1/3           33.3%     noise\nETHUSDT_15m                  82840:152, 82841:359, 82842:188          0/3           0.0%      noise\nETHUSDT_1m                   82840:152, 82841:357, 82842:202          0/3           0.0%      noise\nETHUSDT_5m                   82840:151, 82841:358, 82842:197          0/3           0.0%      noise\nETHUSDT_60m                  82840:152, 82841:360, 82842:143          1/3           33.3%     noise\nSOLUSDT_15m                  82840:148, 82841:350, 82842:186          1/3           33.3%     noise\nSOLUSDT_1m                   82840:139, 82841:331, 82842:184          0/3           0.0%      noise\nSOLUSDT_5m                   82840:144, 82841:346, 82842:196          0/3           0.0%      noise\nSOLUSDT_60m                  82840:150, 82841:355, 82842:142          1/3           33.3%     noise\n\nOVERALL WINDOWED VERDICT: The six-hour windowed result is descriptive, not a confirmed trading edge: 0/16 cells are consistent, 1/16 are marginal, and 15/16 are noise. The 60m cells provide only 3-3 windows with n>=50, too few independent windows to conclude on 60m stability; the per-window Bonferroni tests are confirmatory within each window, while the survival fraction adds no alpha inflation.",
+  "surviving_cells": {
+    "both": [
+      "BTCUSDT_60m",
+      "BNBUSDT_60m"
+    ],
+    "vs_chance": [
+      "BTCUSDT_60m",
+      "SOLUSDT_5m",
+      "BNBUSDT_60m"
+    ],
+    "vs_persistence": [
+      "BTCUSDT_60m",
+      "SOLUSDT_15m",
+      "SOLUSDT_60m",
+      "BNBUSDT_60m"
+    ]
+  },
+  "windowed": {
+    "cells": {
+      "BNBUSDT_15m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "15m",
+        "horizon_minutes": 15,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BNBUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6052631578947368,
+            "hits": 92,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.40789473684210525,
+                0.7894736842105263
+              ],
+              "difference": 0.10526315789473684,
+              "hit_rate": 0.6052631578947368,
+              "hits": 92,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.5258826925211715,
+                0.6794541943519046
+              ],
+              "null": 0.5,
+              "observed": 0.6052631578947368,
+              "p_value": 0.2891421715656869,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.13157894736842105,
+                0.3092105263157895
+              ],
+              "difference": 0.09868421052631579,
+              "model_hit_rate": 0.6052631578947368,
+              "model_hits": 92,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.09868421052631579,
+              "p_value": 0.40591881623675263,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.506578947368421,
+              "persistence_hits": 77,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6267409470752089,
+            "hits": 225,
+            "n": 359,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.5376044568245125,
+                0.713091922005571
+              ],
+              "difference": 0.1267409470752089,
+              "hit_rate": 0.6267409470752089,
+              "hits": 225,
+              "n": 359,
+              "naive_wilson_ci_95": [
+                0.5756143343866419,
+                0.6751839076217764
+              ],
+              "null": 0.5,
+              "observed": 0.6267409470752089,
+              "p_value": 0.005198960207958408,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.033426183844011144,
+                0.2590529247910863
+              ],
+              "difference": 0.15041782729805014,
+              "model_hit_rate": 0.6267409470752089,
+              "model_hits": 225,
+              "n": 359,
+              "null": 0.0,
+              "observed": 0.15041782729805014,
+              "p_value": 0.009398120375924815,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4763231197771588,
+              "persistence_hits": 171,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5425531914893617,
+            "hits": 102,
+            "n": 188,
+            "rows_available": 188,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.42021276595744683,
+                0.6542553191489362
+              ],
+              "difference": 0.04255319148936165,
+              "hit_rate": 0.5425531914893617,
+              "hits": 102,
+              "n": 188,
+              "naive_wilson_ci_95": [
+                0.47119932741139137,
+                0.6122028740645392
+              ],
+              "null": 0.5,
+              "observed": 0.5425531914893617,
+              "p_value": 0.4973005398920216,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.09574468085106383,
+                0.21808510638297873
+              ],
+              "difference": 0.06382978723404255,
+              "model_hit_rate": 0.5425531914893617,
+              "model_hits": 102,
+              "n": 188,
+              "null": 0.0,
+              "observed": 0.06382978723404255,
+              "p_value": 0.4569086182763447,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4787234042553192,
+              "persistence_hits": 90,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BNBUSDT_1m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "1m",
+        "horizon_minutes": 1,
+        "minimum_window_n": 147,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BNBUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5034013605442177,
+            "hits": 74,
+            "n": 147,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.4217687074829932,
+                0.5850340136054422
+              ],
+              "difference": 0.003401360544217691,
+              "hit_rate": 0.5034013605442177,
+              "hits": 74,
+              "n": 147,
+              "naive_wilson_ci_95": [
+                0.4235248349971003,
+                0.583104642122905
+              ],
+              "null": 0.5,
+              "observed": 0.5034013605442177,
+              "p_value": 0.9332133573285343,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.11564625850340136,
+                0.1292517006802721
+              ],
+              "difference": 0.006802721088435374,
+              "model_hit_rate": 0.5034013605442177,
+              "model_hits": 74,
+              "n": 147,
+              "null": 0.0,
+              "observed": 0.006802721088435374,
+              "p_value": 0.9578084383123375,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4965986394557823,
+              "persistence_hits": 73,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.4714285714285714,
+            "hits": 165,
+            "n": 350,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.41714285714285715,
+                0.5228571428571429
+              ],
+              "difference": -0.02857142857142858,
+              "hit_rate": 0.4714285714285714,
+              "hits": 165,
+              "n": 350,
+              "naive_wilson_ci_95": [
+                0.4197258340482605,
+                0.5237516768498199
+              ],
+              "null": 0.5,
+              "observed": 0.4714285714285714,
+              "p_value": 0.3143371325734853,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.09142857142857143,
+                0.07428571428571429
+              ],
+              "difference": -0.008571428571428572,
+              "model_hit_rate": 0.4714285714285714,
+              "model_hits": 165,
+              "n": 350,
+              "null": 0.0,
+              "observed": -0.008571428571428572,
+              "p_value": 0.8700259948010398,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.48,
+              "persistence_hits": 168,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.485,
+            "hits": 97,
+            "n": 200,
+            "rows_available": 202,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.415,
+                0.555
+              ],
+              "difference": -0.015000000000000013,
+              "hit_rate": 0.485,
+              "hits": 97,
+              "n": 200,
+              "naive_wilson_ci_95": [
+                0.41667385171877513,
+                0.5538915080725428
+              ],
+              "null": 0.5,
+              "observed": 0.485,
+              "p_value": 0.7192561487702459,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.115,
+                0.085
+              ],
+              "difference": -0.015,
+              "model_hit_rate": 0.485,
+              "model_hits": 97,
+              "n": 200,
+              "null": 0.0,
+              "observed": -0.015,
+              "p_value": 0.8158368326334733,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5,
+              "persistence_hits": 100,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BNBUSDT_5m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "5m",
+        "horizon_minutes": 5,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BNBUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5592105263157895,
+            "hits": 85,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.4342105263157895,
+                0.6776315789473685
+              ],
+              "difference": 0.05921052631578949,
+              "hit_rate": 0.5592105263157895,
+              "hits": 85,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.47978845905599204,
+                0.6357135398101132
+              ],
+              "null": 0.5,
+              "observed": 0.5592105263157895,
+              "p_value": 0.364127174565087,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.09868421052631579,
+                0.24342105263157895
+              ],
+              "difference": 0.07894736842105263,
+              "model_hit_rate": 0.5592105263157895,
+              "model_hits": 85,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.07894736842105263,
+              "p_value": 0.3847230553889222,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.48026315789473684,
+              "persistence_hits": 73,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5571030640668524,
+            "hits": 200,
+            "n": 359,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.479108635097493,
+                0.6323119777158774
+              ],
+              "difference": 0.057103064066852394,
+              "hit_rate": 0.5571030640668524,
+              "hits": 200,
+              "n": 359,
+              "naive_wilson_ci_95": [
+                0.5053845920036699,
+                0.6076124181319911
+              ],
+              "null": 0.5,
+              "observed": 0.5571030640668524,
+              "p_value": 0.15156968606278745,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.06128133704735376,
+                0.14763231197771587
+              ],
+              "difference": 0.04456824512534819,
+              "model_hit_rate": 0.5571030640668524,
+              "model_hits": 200,
+              "n": 359,
+              "null": 0.0,
+              "observed": 0.04456824512534819,
+              "p_value": 0.4117176564687063,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5125348189415042,
+              "persistence_hits": 184,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5918367346938775,
+            "hits": 116,
+            "n": 196,
+            "rows_available": 198,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.5,
+                0.6887755102040817
+              ],
+              "difference": 0.09183673469387754,
+              "hit_rate": 0.5918367346938775,
+              "hits": 116,
+              "n": 196,
+              "naive_wilson_ci_95": [
+                0.5219052294615438,
+                0.6582375707984396
+              ],
+              "null": 0.5,
+              "observed": 0.5918367346938775,
+              "p_value": 0.06798640271945611,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.01020408163265306,
+                0.2602040816326531
+              ],
+              "difference": 0.1377551020408163,
+              "model_hit_rate": 0.5918367346938775,
+              "model_hits": 116,
+              "n": 196,
+              "null": 0.0,
+              "observed": 0.1377551020408163,
+              "p_value": 0.033193361327734455,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.45408163265306123,
+              "persistence_hits": 89,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BNBUSDT_60m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.6666666666666666,
+        "horizon": "60m",
+        "horizon_minutes": 60,
+        "minimum_window_n": 143,
+        "stability_verdict": "marginal",
+        "surviving_windows": 2,
+        "symbol": "BNBUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6842105263157895,
+            "hits": 104,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.49983552631578954,
+                0.8618421052631579
+              ],
+              "difference": 0.1842105263157895,
+              "hit_rate": 0.6842105263157895,
+              "hits": 104,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.6065492505197002,
+                0.7527903015081828
+              ],
+              "null": 0.5,
+              "observed": 0.6842105263157895,
+              "p_value": 0.05558888222355529,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                -0.019736842105263157,
+                0.34868421052631576
+              ],
+              "difference": 0.15789473684210525,
+              "model_hit_rate": 0.6842105263157895,
+              "model_hits": 104,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.15789473684210525,
+              "p_value": 0.10837832433513298,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5263157894736842,
+              "persistence_hits": 80,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6768802228412256,
+            "hits": 243,
+            "n": 359,
+            "rows_available": 360,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.5571030640668524,
+                0.7910863509749304
+              ],
+              "difference": 0.17688022284122562,
+              "hit_rate": 0.6768802228412256,
+              "hits": 243,
+              "n": 359,
+              "naive_wilson_ci_95": [
+                0.6268509511296343,
+                0.7231641778271694
+              ],
+              "null": 0.5,
+              "observed": 0.6768802228412256,
+              "p_value": 0.0009998000399920016,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.09749303621169916,
+                0.3231197771587744
+              ],
+              "difference": 0.21448467966573817,
+              "model_hit_rate": 0.6768802228412256,
+              "model_hits": 243,
+              "n": 359,
+              "null": 0.0,
+              "observed": 0.21448467966573817,
+              "p_value": 0.0001999600079984003,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4623955431754875,
+              "persistence_hits": 166,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.8811188811188811,
+            "hits": 126,
+            "n": 143,
+            "rows_available": 143,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.7972027972027972,
+                0.958041958041958
+              ],
+              "difference": 0.38111888111888115,
+              "hit_rate": 0.8811188811188811,
+              "hits": 126,
+              "n": 143,
+              "naive_wilson_ci_95": [
+                0.8178598793728052,
+                0.9244372952493719
+              ],
+              "null": 0.5,
+              "observed": 0.8811188811188811,
+              "p_value": 0.0001999600079984003,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.3356643356643357,
+                0.5594405594405595
+              ],
+              "difference": 0.45454545454545453,
+              "model_hit_rate": 0.8811188811188811,
+              "model_hits": 126,
+              "n": 143,
+              "null": 0.0,
+              "observed": 0.45454545454545453,
+              "p_value": 0.0001999600079984003,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.42657342657342656,
+              "persistence_hits": 61,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BTCUSDT_15m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "15m",
+        "horizon_minutes": 15,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BTCUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.631578947368421,
+            "hits": 96,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.5263157894736842,
+                0.737006578947366
+              ],
+              "difference": 0.13157894736842102,
+              "hit_rate": 0.631578947368421,
+              "hits": 96,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.5525318328142549,
+                0.70413927577709
+              ],
+              "null": 0.5,
+              "observed": 0.631578947368421,
+              "p_value": 0.016996600679864027,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.03289473684210526,
+                0.27631578947368424
+              ],
+              "difference": 0.125,
+              "model_hit_rate": 0.631578947368421,
+              "model_hits": 96,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.125,
+              "p_value": 0.1239752049590082,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.506578947368421,
+              "persistence_hits": 77,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6072423398328691,
+            "hits": 218,
+            "n": 359,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.49303621169916434,
+                0.7158774373259053
+              ],
+              "difference": 0.10724233983286913,
+              "hit_rate": 0.6072423398328691,
+              "hits": 218,
+              "n": 359,
+              "naive_wilson_ci_95": [
+                0.5558444786153697,
+                0.6563694184686767
+              ],
+              "null": 0.5,
+              "observed": 0.6072423398328691,
+              "p_value": 0.060787842431513694,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.022284122562674095,
+                0.2618384401114206
+              ],
+              "difference": 0.14206128133704735,
+              "model_hit_rate": 0.6072423398328691,
+              "model_hits": 218,
+              "n": 359,
+              "null": 0.0,
+              "observed": 0.14206128133704735,
+              "p_value": 0.01999600079984003,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.46518105849582175,
+              "persistence_hits": 167,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.4095744680851064,
+            "hits": 77,
+            "n": 188,
+            "rows_available": 188,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.25,
+                0.5797872340425532
+              ],
+              "difference": -0.09042553191489361,
+              "hit_rate": 0.4095744680851064,
+              "hits": 77,
+              "n": 188,
+              "naive_wilson_ci_95": [
+                0.3417749683646447,
+                0.4809953534990026
+              ],
+              "null": 0.5,
+              "observed": 0.4095744680851064,
+              "p_value": 0.2907418516296741,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.32978723404255317,
+                0.11170212765957446
+              ],
+              "difference": -0.11170212765957446,
+              "model_hit_rate": 0.4095744680851064,
+              "model_hits": 77,
+              "n": 188,
+              "null": 0.0,
+              "observed": -0.11170212765957446,
+              "p_value": 0.32273545290941813,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5212765957446809,
+              "persistence_hits": 98,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BTCUSDT_1m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "1m",
+        "horizon_minutes": 1,
+        "minimum_window_n": 149,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BTCUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5369127516778524,
+            "hits": 80,
+            "n": 149,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.4563758389261745,
+                0.6174496644295302
+              ],
+              "difference": 0.03691275167785235,
+              "hit_rate": 0.5369127516778524,
+              "hits": 80,
+              "n": 149,
+              "naive_wilson_ci_95": [
+                0.4569279368154242,
+                0.6150420645498771
+              ],
+              "null": 0.5,
+              "observed": 0.5369127516778524,
+              "p_value": 0.3715256948610278,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.087248322147651,
+                0.16778523489932887
+              ],
+              "difference": 0.040268456375838924,
+              "model_hit_rate": 0.5369127516778524,
+              "model_hits": 80,
+              "n": 149,
+              "null": 0.0,
+              "observed": 0.040268456375838924,
+              "p_value": 0.5676864627074585,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4966442953020134,
+              "persistence_hits": 74,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5225988700564972,
+            "hits": 185,
+            "n": 354,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.4689265536723164,
+                0.576271186440678
+              ],
+              "difference": 0.02259887005649719,
+              "hit_rate": 0.5225988700564972,
+              "hits": 185,
+              "n": 354,
+              "naive_wilson_ci_95": [
+                0.4706035123988602,
+                0.5741090260887979
+              ],
+              "null": 0.5,
+              "observed": 0.5225988700564972,
+              "p_value": 0.4383123375324935,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.07062146892655367,
+                0.096045197740113
+              ],
+              "difference": 0.014124293785310734,
+              "model_hit_rate": 0.5225988700564972,
+              "model_hits": 185,
+              "n": 354,
+              "null": 0.0,
+              "observed": 0.014124293785310734,
+              "p_value": 0.7690461907618477,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5084745762711864,
+              "persistence_hits": 180,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.472636815920398,
+            "hits": 95,
+            "n": 201,
+            "rows_available": 202,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.40298507462686567,
+                0.5422885572139303
+              ],
+              "difference": -0.027363184079601977,
+              "hit_rate": 0.472636815920398,
+              "hits": 95,
+              "n": 201,
+              "naive_wilson_ci_95": [
+                0.4047792595695876,
+                0.5415206737382066
+              ],
+              "null": 0.5,
+              "observed": 0.472636815920398,
+              "p_value": 0.4415116976604679,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.15422885572139303,
+                0.0845771144278607
+              ],
+              "difference": -0.03482587064676617,
+              "model_hit_rate": 0.472636815920398,
+              "model_hits": 95,
+              "n": 201,
+              "null": 0.0,
+              "observed": -0.03482587064676617,
+              "p_value": 0.592881423715257,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5074626865671642,
+              "persistence_hits": 102,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BTCUSDT_5m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "5m",
+        "horizon_minutes": 5,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "BTCUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5657894736842105,
+            "hits": 86,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.4605263157894737,
+                0.6710526315789473
+              ],
+              "difference": 0.06578947368421051,
+              "hit_rate": 0.5657894736842105,
+              "hits": 86,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.486332141502749,
+                0.6420034127929235
+              ],
+              "null": 0.5,
+              "observed": 0.5657894736842105,
+              "p_value": 0.25834833033393323,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.0,
+                0.3026315789473684
+              ],
+              "difference": 0.15789473684210525,
+              "model_hit_rate": 0.5657894736842105,
+              "model_hits": 86,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.15789473684210525,
+              "p_value": 0.04859028194361128,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.40789473684210525,
+              "persistence_hits": 62,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5694444444444444,
+            "hits": 205,
+            "n": 360,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.49159722222222224,
+                0.65
+              ],
+              "difference": 0.06944444444444442,
+              "hit_rate": 0.5694444444444444,
+              "hits": 205,
+              "n": 360,
+              "naive_wilson_ci_95": [
+                0.5178277001150945,
+                0.619594791983698
+              ],
+              "null": 0.5,
+              "observed": 0.5694444444444444,
+              "p_value": 0.09718056388722256,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.030555555555555555,
+                0.17506944444444342
+              ],
+              "difference": 0.07222222222222222,
+              "model_hit_rate": 0.5694444444444444,
+              "model_hits": 205,
+              "n": 360,
+              "null": 0.0,
+              "observed": 0.07222222222222222,
+              "p_value": 0.17956408718256348,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.49722222222222223,
+              "persistence_hits": 179,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.48484848484848486,
+            "hits": 96,
+            "n": 198,
+            "rows_available": 198,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.3686868686868687,
+                0.5959595959595959
+              ],
+              "difference": -0.015151515151515138,
+              "hit_rate": 0.48484848484848486,
+              "hits": 96,
+              "n": 198,
+              "naive_wilson_ci_95": [
+                0.41618955738592145,
+                0.5540841414118558
+              ],
+              "null": 0.5,
+              "observed": 0.48484848484848486,
+              "p_value": 0.8210357928414317,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.15656565656565657,
+                0.1414141414141414
+              ],
+              "difference": -0.010101010101010102,
+              "model_hit_rate": 0.48484848484848486,
+              "model_hits": 96,
+              "n": 198,
+              "null": 0.0,
+              "observed": -0.010101010101010102,
+              "p_value": 0.9250149970005999,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.494949494949495,
+              "persistence_hits": 98,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "BTCUSDT_60m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.3333333333333333,
+        "horizon": "60m",
+        "horizon_minutes": 60,
+        "minimum_window_n": 143,
+        "stability_verdict": "noise",
+        "surviving_windows": 1,
+        "symbol": "BTCUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.7171052631578947,
+            "hits": 109,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.6513157894736842,
+                0.7763157894736842
+              ],
+              "difference": 0.2171052631578947,
+              "hit_rate": 0.7171052631578947,
+              "hits": 109,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.6408366269338925,
+                0.7826707022418267
+              ],
+              "null": 0.5,
+              "observed": 0.7171052631578947,
+              "p_value": 0.0001999600079984003,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.15789473684210525,
+                0.3223684210526316
+              ],
+              "difference": 0.23684210526315788,
+              "model_hit_rate": 0.7171052631578947,
+              "model_hits": 109,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.23684210526315788,
+              "p_value": 0.0001999600079984003,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.48026315789473684,
+              "persistence_hits": 73,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6222222222222222,
+            "hits": 224,
+            "n": 360,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.5305555555555556,
+                0.7138888888888889
+              ],
+              "difference": 0.12222222222222223,
+              "hit_rate": 0.6222222222222222,
+              "hits": 224,
+              "n": 360,
+              "naive_wilson_ci_95": [
+                0.5710974644349645,
+                0.6707661216589105
+              ],
+              "null": 0.5,
+              "observed": 0.6222222222222222,
+              "p_value": 0.008398320335932814,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.025,
+                0.2722222222222222
+              ],
+              "difference": 0.14444444444444443,
+              "model_hit_rate": 0.6222222222222222,
+              "model_hits": 224,
+              "n": 360,
+              "null": 0.0,
+              "observed": 0.14444444444444443,
+              "p_value": 0.020395920815836834,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4777777777777778,
+              "persistence_hits": 172,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6293706293706294,
+            "hits": 90,
+            "n": 143,
+            "rows_available": 143,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.35664335664335667,
+                0.8671328671328671
+              ],
+              "difference": 0.12937062937062938,
+              "hit_rate": 0.6293706293706294,
+              "hits": 90,
+              "n": 143,
+              "naive_wilson_ci_95": [
+                0.5477956963455993,
+                0.7041767390766075
+              ],
+              "null": 0.5,
+              "observed": 0.6293706293706294,
+              "p_value": 0.372125574885023,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                -0.21678321678321677,
+                0.46153846153846156
+              ],
+              "difference": 0.13986013986013987,
+              "model_hit_rate": 0.6293706293706294,
+              "model_hits": 90,
+              "n": 143,
+              "null": 0.0,
+              "observed": 0.13986013986013987,
+              "p_value": 0.47730453909218157,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.48951048951048953,
+              "persistence_hits": 70,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "ETHUSDT_15m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "15m",
+        "horizon_minutes": 15,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "ETHUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5986842105263158,
+            "hits": 91,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.47368421052631576,
+                0.7236842105263158
+              ],
+              "difference": 0.09868421052631582,
+              "hit_rate": 0.5986842105263158,
+              "hits": 91,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.5192561441062706,
+                0.6732471873372381
+              ],
+              "null": 0.5,
+              "observed": 0.5986842105263158,
+              "p_value": 0.1307738452309538,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.05263157894736842,
+                0.27631578947368424
+              ],
+              "difference": 0.1118421052631579,
+              "model_hit_rate": 0.5986842105263158,
+              "model_hits": 91,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.1118421052631579,
+              "p_value": 0.19896020795840832,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4868421052631579,
+              "persistence_hits": 74,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5515320334261838,
+            "hits": 198,
+            "n": 359,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.4428969359331476,
+                0.6518105849582173
+              ],
+              "difference": 0.05153203342618384,
+              "hit_rate": 0.5515320334261838,
+              "hits": 198,
+              "n": 359,
+              "naive_wilson_ci_95": [
+                0.4998105657809174,
+                0.6021623458049229
+              ],
+              "null": 0.5,
+              "observed": 0.5515320334261838,
+              "p_value": 0.3251349730053989,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.04178272980501393,
+                0.16991643454038996
+              ],
+              "difference": 0.06685236768802229,
+              "model_hit_rate": 0.5515320334261838,
+              "model_hits": 198,
+              "n": 359,
+              "null": 0.0,
+              "observed": 0.06685236768802229,
+              "p_value": 0.22375524895020996,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.48467966573816157,
+              "persistence_hits": 174,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5425531914893617,
+            "hits": 102,
+            "n": 188,
+            "rows_available": 188,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.3934840425531915,
+                0.6914893617021277
+              ],
+              "difference": 0.04255319148936165,
+              "hit_rate": 0.5425531914893617,
+              "hits": 102,
+              "n": 188,
+              "naive_wilson_ci_95": [
+                0.47119932741139137,
+                0.6122028740645392
+              ],
+              "null": 0.5,
+              "observed": 0.5425531914893617,
+              "p_value": 0.6230753849230154,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.15425531914893617,
+                0.20212765957446807
+              ],
+              "difference": 0.031914893617021274,
+              "model_hit_rate": 0.5425531914893617,
+              "model_hits": 102,
+              "n": 188,
+              "null": 0.0,
+              "observed": 0.031914893617021274,
+              "p_value": 0.7408518296340731,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5106382978723404,
+              "persistence_hits": 96,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "ETHUSDT_1m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "1m",
+        "horizon_minutes": 1,
+        "minimum_window_n": 152,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "ETHUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.46710526315789475,
+            "hits": 71,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.3881578947368421,
+                0.5460526315789473
+              ],
+              "difference": -0.032894736842105254,
+              "hit_rate": 0.46710526315789475,
+              "hits": 71,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.389580731981444,
+                0.5462514908707197
+              ],
+              "null": 0.5,
+              "observed": 0.46710526315789475,
+              "p_value": 0.46650669866026795,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.16447368421052633,
+                0.08552631578947369
+              ],
+              "difference": -0.039473684210526314,
+              "model_hit_rate": 0.46710526315789475,
+              "model_hits": 71,
+              "n": 152,
+              "null": 0.0,
+              "observed": -0.039473684210526314,
+              "p_value": 0.5806838632273545,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.506578947368421,
+              "persistence_hits": 77,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5042016806722689,
+            "hits": 180,
+            "n": 357,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.45098039215686275,
+                0.5574229691876751
+              ],
+              "difference": 0.004201680672268893,
+              "hit_rate": 0.5042016806722689,
+              "hits": 180,
+              "n": 357,
+              "naive_wilson_ci_95": [
+                0.4525694233012901,
+                0.5557444772405286
+              ],
+              "null": 0.5,
+              "observed": 0.5042016806722689,
+              "p_value": 0.8788242351529694,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.09523809523809523,
+                0.0700280112044818
+              ],
+              "difference": -0.014005602240896359,
+              "model_hit_rate": 0.5042016806722689,
+              "model_hits": 180,
+              "n": 357,
+              "null": 0.0,
+              "observed": -0.014005602240896359,
+              "p_value": 0.77124575084983,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5182072829131653,
+              "persistence_hits": 185,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5297029702970297,
+            "hits": 107,
+            "n": 202,
+            "rows_available": 202,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.4603960396039604,
+                0.599009900990099
+              ],
+              "difference": 0.02970297029702973,
+              "hit_rate": 0.5297029702970297,
+              "hits": 107,
+              "n": 202,
+              "naive_wilson_ci_95": [
+                0.4609621562735762,
+                0.5973351375211255
+              ],
+              "null": 0.5,
+              "observed": 0.5297029702970297,
+              "p_value": 0.4319136172765447,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.04950495049504951,
+                0.18811881188118812
+              ],
+              "difference": 0.06930693069306931,
+              "model_hit_rate": 0.5297029702970297,
+              "model_hits": 107,
+              "n": 202,
+              "null": 0.0,
+              "observed": 0.06930693069306931,
+              "p_value": 0.2705458908218356,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4603960396039604,
+              "persistence_hits": 93,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "ETHUSDT_5m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "5m",
+        "horizon_minutes": 5,
+        "minimum_window_n": 151,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "ETHUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5695364238410596,
+            "hits": 86,
+            "n": 151,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.46357615894039733,
+                0.6754966887417219
+              ],
+              "difference": 0.06953642384105962,
+              "hit_rate": 0.5695364238410596,
+              "hits": 86,
+              "n": 151,
+              "naive_wilson_ci_95": [
+                0.48980320596364746,
+                0.6458193860730108
+              ],
+              "null": 0.5,
+              "observed": 0.5695364238410596,
+              "p_value": 0.19376124775044992,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.026490066225165563,
+                0.271523178807947
+              ],
+              "difference": 0.12582781456953643,
+              "model_hit_rate": 0.5695364238410596,
+              "model_hits": 86,
+              "n": 151,
+              "null": 0.0,
+              "observed": 0.12582781456953643,
+              "p_value": 0.10557888422315537,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.44370860927152317,
+              "persistence_hits": 67,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5418994413407822,
+            "hits": 194,
+            "n": 358,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.46368715083798884,
+                0.6201117318435754
+              ],
+              "difference": 0.04189944134078216,
+              "hit_rate": 0.5418994413407822,
+              "hits": 194,
+              "n": 358,
+              "naive_wilson_ci_95": [
+                0.49011590465282784,
+                0.5927933343762635
+              ],
+              "null": 0.5,
+              "observed": 0.5418994413407822,
+              "p_value": 0.3249350129974005,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.061452513966480445,
+                0.13128491620111732
+              ],
+              "difference": 0.036312849162011177,
+              "model_hit_rate": 0.5418994413407822,
+              "model_hits": 194,
+              "n": 358,
+              "null": 0.0,
+              "observed": 0.036312849162011177,
+              "p_value": 0.48270345930813835,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.505586592178771,
+              "persistence_hits": 181,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5736040609137056,
+            "hits": 113,
+            "n": 197,
+            "rows_available": 198,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.4720812182741117,
+                0.6700507614213198
+              ],
+              "difference": 0.07360406091370564,
+              "hit_rate": 0.5736040609137056,
+              "hits": 113,
+              "n": 197,
+              "naive_wilson_ci_95": [
+                0.5037852357387897,
+                0.6406072625545554
+              ],
+              "null": 0.5,
+              "observed": 0.5736040609137056,
+              "p_value": 0.15936812637472506,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.025380710659898477,
+                0.233502538071066
+              ],
+              "difference": 0.1065989847715736,
+              "model_hit_rate": 0.5736040609137056,
+              "model_hits": 113,
+              "n": 197,
+              "null": 0.0,
+              "observed": 0.1065989847715736,
+              "p_value": 0.1195760847830434,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.467005076142132,
+              "persistence_hits": 92,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "ETHUSDT_60m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.3333333333333333,
+        "horizon": "60m",
+        "horizon_minutes": 60,
+        "minimum_window_n": 143,
+        "stability_verdict": "noise",
+        "surviving_windows": 1,
+        "symbol": "ETHUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6513157894736842,
+            "hits": 99,
+            "n": 152,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.5460526315789473,
+                0.75
+              ],
+              "difference": 0.15131578947368418,
+              "hit_rate": 0.6513157894736842,
+              "hits": 99,
+              "n": 152,
+              "naive_wilson_ci_95": [
+                0.5726728315917929,
+                0.7224989432882537
+              ],
+              "null": 0.5,
+              "observed": 0.6513157894736842,
+              "p_value": 0.002999400119976005,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.046052631578947366,
+                0.35526315789473684
+              ],
+              "difference": 0.19078947368421054,
+              "model_hit_rate": 0.6513157894736842,
+              "model_hits": 99,
+              "n": 152,
+              "null": 0.0,
+              "observed": 0.19078947368421054,
+              "p_value": 0.011397720455908818,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4605263157894737,
+              "persistence_hits": 70,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5555555555555556,
+            "hits": 200,
+            "n": 360,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.3972222222222222,
+                0.7027777777777777
+              ],
+              "difference": 0.05555555555555558,
+              "hit_rate": 0.5555555555555556,
+              "hits": 200,
+              "n": 360,
+              "naive_wilson_ci_95": [
+                0.5039075468212766,
+                0.6060304468577575
+              ],
+              "null": 0.5,
+              "observed": 0.5555555555555556,
+              "p_value": 0.49750049990002,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                -0.08062499999999997,
+                0.26666666666666666
+              ],
+              "difference": 0.10833333333333334,
+              "model_hit_rate": 0.5555555555555556,
+              "model_hits": 200,
+              "n": 360,
+              "null": 0.0,
+              "observed": 0.10833333333333334,
+              "p_value": 0.22615476904619075,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.44722222222222224,
+              "persistence_hits": 161,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6783216783216783,
+            "hits": 97,
+            "n": 143,
+            "rows_available": 143,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.5874125874125874,
+                0.7552447552447552
+              ],
+              "difference": 0.17832167832167833,
+              "hit_rate": 0.6783216783216783,
+              "hits": 97,
+              "n": 143,
+              "naive_wilson_ci_95": [
+                0.5979596608523552,
+                0.749353696080957
+              ],
+              "null": 0.5,
+              "observed": 0.6783216783216783,
+              "p_value": 0.0001999600079984003,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.08391608391608392,
+                0.32867132867132864
+              ],
+              "difference": 0.20279720279720279,
+              "model_hit_rate": 0.6783216783216783,
+              "model_hits": 97,
+              "n": 143,
+              "null": 0.0,
+              "observed": 0.20279720279720279,
+              "p_value": 0.0003999200159968006,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4755244755244755,
+              "persistence_hits": 68,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "SOLUSDT_15m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.3333333333333333,
+        "horizon": "15m",
+        "horizon_minutes": 15,
+        "minimum_window_n": 148,
+        "stability_verdict": "noise",
+        "surviving_windows": 1,
+        "symbol": "SOLUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6621621621621622,
+            "hits": 98,
+            "n": 148,
+            "rows_available": 152,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.5608108108108109,
+                0.7567567567567568
+              ],
+              "difference": 0.16216216216216217,
+              "hit_rate": 0.6621621621621622,
+              "hits": 98,
+              "n": 148,
+              "naive_wilson_ci_95": [
+                0.5827181341439055,
+                0.7334010626341104
+              ],
+              "null": 0.5,
+              "observed": 0.6621621621621622,
+              "p_value": 0.001799640071985603,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.07432432432432433,
+                0.33783783783783783
+              ],
+              "difference": 0.20945945945945946,
+              "model_hit_rate": 0.6621621621621622,
+              "model_hits": 98,
+              "n": 148,
+              "null": 0.0,
+              "observed": 0.20945945945945946,
+              "p_value": 0.0021995600879824036,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4527027027027027,
+              "persistence_hits": 67,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6142857142857143,
+            "hits": 215,
+            "n": 350,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.5028571428571429,
+                0.7171428571428572
+              ],
+              "difference": 0.11428571428571432,
+              "hit_rate": 0.6142857142857143,
+              "hits": 215,
+              "n": 350,
+              "naive_wilson_ci_95": [
+                0.5623118411456042,
+                0.6637781152620742
+              ],
+              "null": 0.5,
+              "observed": 0.6142857142857143,
+              "p_value": 0.03439312137572485,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.022857142857142857,
+                0.26285714285714284
+              ],
+              "difference": 0.1457142857142857,
+              "model_hit_rate": 0.6142857142857143,
+              "model_hits": 215,
+              "n": 350,
+              "null": 0.0,
+              "observed": 0.1457142857142857,
+              "p_value": 0.019596080783843232,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4685714285714286,
+              "persistence_hits": 164,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5161290322580645,
+            "hits": 96,
+            "n": 186,
+            "rows_available": 188,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 15,
+              "ci_95": [
+                0.4032258064516129,
+                0.6397849462365591
+              ],
+              "difference": 0.016129032258064502,
+              "hit_rate": 0.5161290322580645,
+              "hits": 96,
+              "n": 186,
+              "naive_wilson_ci_95": [
+                0.44471387940871215,
+                0.5868914403000192
+              ],
+              "null": 0.5,
+              "observed": 0.5161290322580645,
+              "p_value": 0.8120375924815036,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 15,
+              "ci_95": [
+                -0.12903225806451613,
+                0.1827956989247312
+              ],
+              "difference": 0.026881720430107527,
+              "model_hit_rate": 0.5161290322580645,
+              "model_hits": 96,
+              "n": 186,
+              "null": 0.0,
+              "observed": 0.026881720430107527,
+              "p_value": 0.7730453909218157,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.489247311827957,
+              "persistence_hits": 91,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "SOLUSDT_1m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "1m",
+        "horizon_minutes": 1,
+        "minimum_window_n": 139,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "SOLUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.48201438848920863,
+            "hits": 67,
+            "n": 139,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.4028776978417266,
+                0.5683453237410072
+              ],
+              "difference": -0.017985611510791366,
+              "hit_rate": 0.48201438848920863,
+              "hits": 67,
+              "n": 139,
+              "naive_wilson_ci_95": [
+                0.40055403923543487,
+                0.5644421177537177
+              ],
+              "null": 0.5,
+              "observed": 0.48201438848920863,
+              "p_value": 0.6682663467306539,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.2158273381294964,
+                0.04316546762589928
+              ],
+              "difference": -0.08633093525179857,
+              "model_hit_rate": 0.48201438848920863,
+              "model_hits": 67,
+              "n": 139,
+              "null": 0.0,
+              "observed": -0.08633093525179857,
+              "p_value": 0.21655668866226754,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5683453237410072,
+              "persistence_hits": 79,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5377643504531722,
+            "hits": 178,
+            "n": 331,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.48338368580060426,
+                0.5921450151057401
+              ],
+              "difference": 0.03776435045317217,
+              "hit_rate": 0.5377643504531722,
+              "hits": 178,
+              "n": 331,
+              "naive_wilson_ci_95": [
+                0.48392750506505844,
+                0.5907346950342052
+              ],
+              "null": 0.5,
+              "observed": 0.5377643504531722,
+              "p_value": 0.17296540691861628,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.02416918429003021,
+                0.1510574018126888
+              ],
+              "difference": 0.0634441087613293,
+              "model_hit_rate": 0.5377643504531722,
+              "model_hits": 178,
+              "n": 331,
+              "null": 0.0,
+              "observed": 0.0634441087613293,
+              "p_value": 0.17036592681463708,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4743202416918429,
+              "persistence_hits": 157,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5163043478260869,
+            "hits": 95,
+            "n": 184,
+            "rows_available": 202,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 1,
+              "ci_95": [
+                0.44565217391304346,
+                0.5869565217391305
+              ],
+              "difference": 0.016304347826086918,
+              "hit_rate": 0.5163043478260869,
+              "hits": 95,
+              "n": 184,
+              "naive_wilson_ci_95": [
+                0.44450547468405033,
+                0.5874363556108652
+              ],
+              "null": 0.5,
+              "observed": 0.5163043478260869,
+              "p_value": 0.7094581083783243,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 1,
+              "ci_95": [
+                -0.10869565217391304,
+                0.14130434782608695
+              ],
+              "difference": 0.016304347826086956,
+              "model_hit_rate": 0.5163043478260869,
+              "model_hits": 95,
+              "n": 184,
+              "null": 0.0,
+              "observed": 0.016304347826086956,
+              "p_value": 0.8326334733053389,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5,
+              "persistence_hits": 92,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "SOLUSDT_5m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.0,
+        "horizon": "5m",
+        "horizon_minutes": 5,
+        "minimum_window_n": 144,
+        "stability_verdict": "noise",
+        "surviving_windows": 0,
+        "symbol": "SOLUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5694444444444444,
+            "hits": 82,
+            "n": 144,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.4444444444444444,
+                0.6875
+              ],
+              "difference": 0.06944444444444442,
+              "hit_rate": 0.5694444444444444,
+              "hits": 82,
+              "n": 144,
+              "naive_wilson_ci_95": [
+                0.48780357786706985,
+                0.6474764725297305
+              ],
+              "null": 0.5,
+              "observed": 0.5694444444444444,
+              "p_value": 0.27234553089382124,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.10416666666666667,
+                0.2013888888888889
+              ],
+              "difference": 0.05555555555555555,
+              "model_hit_rate": 0.5694444444444444,
+              "model_hits": 82,
+              "n": 144,
+              "null": 0.0,
+              "observed": 0.05555555555555555,
+              "p_value": 0.4979004199160168,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5138888888888888,
+              "persistence_hits": 74,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5809248554913294,
+            "hits": 201,
+            "n": 346,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.5,
+                0.6560693641618497
+              ],
+              "difference": 0.08092485549132944,
+              "hit_rate": 0.5809248554913294,
+              "hits": 201,
+              "n": 346,
+              "naive_wilson_ci_95": [
+                0.5283253045449156,
+                0.6317472042674316
+              ],
+              "null": 0.5,
+              "observed": 0.5809248554913294,
+              "p_value": 0.04559088182363527,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.03468208092485549,
+                0.1676300578034682
+              ],
+              "difference": 0.06647398843930635,
+              "model_hit_rate": 0.5809248554913294,
+              "model_hits": 201,
+              "n": 346,
+              "null": 0.0,
+              "observed": 0.06647398843930635,
+              "p_value": 0.20315936812637472,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5144508670520231,
+              "persistence_hits": 178,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6173469387755102,
+            "hits": 121,
+            "n": 196,
+            "rows_available": 198,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 5,
+              "ci_95": [
+                0.5051020408163265,
+                0.7193877551020408
+              ],
+              "difference": 0.11734693877551017,
+              "hit_rate": 0.6173469387755102,
+              "hits": 121,
+              "n": 196,
+              "naive_wilson_ci_95": [
+                0.5476670458748712,
+                0.6825154211239964
+              ],
+              "null": 0.5,
+              "observed": 0.6173469387755102,
+              "p_value": 0.03579284143171366,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 5,
+              "ci_95": [
+                -0.03571428571428571,
+                0.2602040816326531
+              ],
+              "difference": 0.11734693877551021,
+              "model_hit_rate": 0.6173469387755102,
+              "model_hits": 121,
+              "n": 196,
+              "null": 0.0,
+              "observed": 0.11734693877551021,
+              "p_value": 0.1281743651269746,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.5,
+              "persistence_hits": 98,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      },
+      "SOLUSDT_60m": {
+        "all_counted_windows_n_at_least_50": true,
+        "criterion": "consistent requires fraction >= 80% and every counted window n >= 50; marginal is 40%-79%; noise is <40% or any window n < 20",
+        "fraction_surviving": 0.3333333333333333,
+        "horizon": "60m",
+        "horizon_minutes": 60,
+        "minimum_window_n": 142,
+        "stability_verdict": "noise",
+        "surviving_windows": 1,
+        "symbol": "SOLUSDT",
+        "windows": [
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.6533333333333333,
+            "hits": 98,
+            "n": 150,
+            "rows_available": 152,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.5266666666666666,
+                0.78
+              ],
+              "difference": 0.15333333333333332,
+              "hit_rate": 0.6533333333333333,
+              "hits": 98,
+              "n": 150,
+              "naive_wilson_ci_95": [
+                0.5742042146686651,
+                0.7248049103917914
+              ],
+              "null": 0.5,
+              "observed": 0.6533333333333333,
+              "p_value": 0.015596880623875225,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.02666666666666667,
+                0.32
+              ],
+              "difference": 0.16666666666666666,
+              "model_hit_rate": 0.6533333333333333,
+              "model_hits": 98,
+              "n": 150,
+              "null": 0.0,
+              "observed": 0.16666666666666666,
+              "p_value": 0.024795040991801638,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.4866666666666667,
+              "persistence_hits": 73,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789365600,
+            "window_index": 82840,
+            "window_start_s": 1789344000
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.5690140845070423,
+            "hits": 202,
+            "n": 355,
+            "rows_available": 360,
+            "survives_both": false,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.4365492957746479,
+                0.6873239436619718
+              ],
+              "difference": 0.06901408450704227,
+              "hit_rate": 0.5690140845070423,
+              "hits": 202,
+              "n": 355,
+              "naive_wilson_ci_95": [
+                0.5170322266078763,
+                0.6195183273917505
+              ],
+              "null": 0.5,
+              "observed": 0.5690140845070423,
+              "p_value": 0.28674265146970607,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                -0.0028169014084507044,
+                0.2591549295774648
+              ],
+              "difference": 0.1323943661971831,
+              "model_hit_rate": 0.5690140845070423,
+              "model_hits": 202,
+              "n": 355,
+              "null": 0.0,
+              "observed": 0.1323943661971831,
+              "p_value": 0.046990601879624075,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.43661971830985913,
+              "persistence_hits": 155,
+              "significant": false,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789387200,
+            "window_index": 82841,
+            "window_start_s": 1789365600
+          },
+          {
+            "counted_in_fraction": true,
+            "hit_rate": 0.7112676056338029,
+            "hits": 101,
+            "n": 142,
+            "rows_available": 143,
+            "survives_both": true,
+            "vs_chance": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.6126760563380281,
+                0.823943661971831
+              ],
+              "difference": 0.21126760563380287,
+              "hit_rate": 0.7112676056338029,
+              "hits": 101,
+              "n": 142,
+              "naive_wilson_ci_95": [
+                0.6319444359723534,
+                0.7794612129094742
+              ],
+              "null": 0.5,
+              "observed": 0.7112676056338029,
+              "p_value": 0.0001999600079984003,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "vs_persistence": {
+              "block_length_rows": 60,
+              "ci_95": [
+                0.22535211267605634,
+                0.4788732394366197
+              ],
+              "difference": 0.352112676056338,
+              "model_hit_rate": 0.7112676056338029,
+              "model_hits": 101,
+              "n": 142,
+              "null": 0.0,
+              "observed": 0.352112676056338,
+              "p_value": 0.0001999600079984003,
+              "p_value_method": "two-sided null-centered paired moving-block bootstrap of hit difference",
+              "persistence_hit_rate": 0.3591549295774648,
+              "persistence_hits": 51,
+              "significant": true,
+              "valid_resamples": 5000
+            },
+            "window_end_s": 1789408800,
+            "window_index": 82842,
+            "window_start_s": 1789387200
+          }
+        ],
+        "windows_in_fraction": 3,
+        "windows_skipped_n_lt_10": 0
+      }
+    },
+    "methods": {
+      "bootstrap": {
+        "block_length_rows": "horizon minutes (1, 5, 15, or 60)",
+        "bonferroni_alpha_per_window": 0.003125,
+        "resamples": 5000,
+        "seed": 20260914,
+        "type": "moving-block bootstrap on chronological 1-minute row sequence"
+      },
+      "fraction_denominator": "windows with direction-valid n >= 10; smaller windows are listed but excluded",
+      "fraction_surviving": "descriptive count of windows surviving both direction tests; no new alpha inflation is applied to this fraction",
+      "stability_verdict": "consistent >=80% with every counted window n>=50; marginal 40%-79%; noise <40% or any listed window n<20",
+      "tests": "same cell_summary direction tests as cumulative mode, run independently per window"
+    },
+    "overall_verdict": "The six-hour windowed result is descriptive, not a confirmed trading edge: 0/16 cells are consistent, 1/16 are marginal, and 15/16 are noise. The 60m cells provide only 3-3 windows with n>=50, too few independent windows to conclude on 60m stability; the per-window Bonferroni tests are confirmatory within each window, while the survival fraction adds no alpha inflation.",
+    "window_anchor": "UTC target_time_s // 21600; consecutive non-overlapping windows",
+    "window_seconds": 21600
+  }
+}

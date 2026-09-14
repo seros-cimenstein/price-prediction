@@ -1,0 +1,11 @@
+.venv/
+.gcp2_token
+__pycache__/
+*.pyc
+*.pid
+.orchestrator.lock
+.track_record.lock
+live.log
+orchestrator.log
+live_predictions.jsonl
+model_*.joblib
