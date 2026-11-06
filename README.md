@@ -1,17 +1,28 @@
-# price-prediction
+# price-prediction: my personal schizo research project
 
-A pre-registered, leakage-controlled evaluation of short-horizon (1, 5, 15 and 60 minute)
-direction and volatility prediction for BTC, ETH, SOL and BNB against USDT on Binance 1-minute
-candles, plus a live loop that scores the frozen models on new candles.
+I wanted to predict crypto prices. Apparently, checking normal market features was not enough.
+I also needed to ask whether global consciousness, quantum mechanics, lunar cycles, or the
+universe's hypothetical random seed had anything useful to say about the next Bitcoin candle.
 
-**Result: no robust, cost-aware trading edge.** Market-data models beat naive baselines by a
-statistically detectable but economically useless margin, and none of the extra signal families
-tested (GCP 2.0 network-coherence data, physics analogues, a literal Schrödinger wave-function
-model, determinism/"seed", folk technical analysis, LPPLS) added skill.
+**Spoiler: I did not discover the universe's trading API.**
 
-I built this to answer, with a protocol I could not fool myself with, whether any of these ideas
-predicts crypto prices at minute scale. The answer is no. The full report, with every table and
-amendment, is in [docs/full-report.md](docs/full-report.md).
+This is my rabbit hole, preserved with code, pre-registrations, controls, and negative results.
+The title is a joke about the project's increasingly wild hypotheses, not a medical claim.
+The experiments and their limitations are real.
+
+- Tried global-consciousness data. No consistent improvement.
+- Put price into a literal Schrödinger wave-function model. Still no edge.
+- Tried Fibonacci, Gann, lunar features, and tests of determinism. The holdout remained unimpressed.
+- Found small predictive gains from ordinary market data. Fees ate the lunch.
+
+**Actual conclusion: no robust, cost-aware trading edge in these experiments.**
+This is not a money printer, a signal service, or evidence that quantum mechanics predicts Bitcoin.
+It is a record of trying strange ideas and keeping the results when they didn't work.
+
+Under the jokes: a pre-registered, leakage-controlled evaluation of 1, 5, 15 and 60 minute
+direction and volatility prediction for BTC, ETH, SOL and BNB on Binance 1-minute candles,
+plus a live evaluation loop for frozen models. The full report is in
+[docs/full-report.md](docs/full-report.md).
 
 ## Method
 
