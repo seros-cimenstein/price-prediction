@@ -21,6 +21,7 @@ import argparse
 import json
 import logging
 import math
+import sqlite3
 import sys
 import tempfile
 import time
@@ -51,6 +52,12 @@ RETRY_BACKOFF_SECONDS = 0.5
 CANDLE_MS = 60_000
 CANDLE_CLOSE_OFFSET_MS = 59_999
 HORIZON_KEYS = {f"{h}m": h for h in HORIZONS}
+DEFAULT_KLINE_CACHE = HERE / "kline_cache.sqlite"
+DEFAULT_KLINE_SEED_DB = PROJECT_ROOT / "crypto-data" / "holdout_klines_1m.db"
+# Persist a candle only once its close time is this far behind the local
+# clock, so ordinary clock skew against Binance cannot freeze an open candle.
+PERSIST_CLOSE_MARGIN_MS = 10_000
+SQLITE_BUSY_TIMEOUT_S = 30.0
 
 
 class EvaluationError(RuntimeError):
@@ -181,33 +188,34 @@ def _parse_kline_payload(payload: Any, symbol: str) -> dict[int, Candle]:
 
 def fetch_binance_klines(
     symbol: str,
-    target_time_s: int,
-    horizon: int,
+    first_open_s: int,
+    last_open_s: int,
     *,
     timeout: float = 10.0,
     fetcher: Callable[..., Any] | None = None,
     sleep_fn: Callable[[float], None] = time.sleep,
 ) -> dict[int, Candle]:
-    """Fetch one target window, retrying a failed request exactly once.
+    """Fetch the candles opening ``first_open_s..last_open_s``, retrying once.
 
-    The query includes the anchor candle at ``t-1`` and the ``h`` future
-    candles.  One extra minute is allowed by the ``h+2`` limit/end boundary
-    so Binance's inclusive ``endTime`` behavior cannot truncate the window.
+    For a whole target window the range is the anchor candle at ``t-1``
+    through the ``h`` future candles.  ``endTime`` is the open after the last
+    required candle and ``limit`` allows that one extra candle, so Binance's
+    inclusive ``endTime`` behavior cannot truncate the range.
     """
     if symbol not in ASSETS:
         raise EvaluationError(f"unregistered symbol {symbol!r}")
-    if horizon <= 0:
-        raise EvaluationError(f"invalid horizon {horizon}")
-    target_time_s = int(target_time_s)
-    start_ms = (target_time_s - 60) * 1000
-    end_ms = (target_time_s + horizon * 60) * 1000
+    first_open_s = int(first_open_s)
+    last_open_s = int(last_open_s)
+    if last_open_s < first_open_s:
+        raise EvaluationError(f"invalid kline range {first_open_s}..{last_open_s}")
+    candle_count = (last_open_s - first_open_s) // 60 + 1
     query = urlencode(
         {
             "symbol": symbol,
             "interval": "1m",
-            "startTime": start_ms,
-            "endTime": end_ms,
-            "limit": horizon + 2,
+            "startTime": first_open_s * 1000,
+            "endTime": (last_open_s + 60) * 1000,
+            "limit": candle_count + 1,
         }
     )
     url = f"{BINANCE_KLINES_URL}?{query}"
@@ -225,8 +233,88 @@ def fetch_binance_klines(
     raise EvaluationError(f"Binance {symbol} request failed after {RETRY_ATTEMPTS} attempts: {_safe_error(last_error)}") from last_error
 
 
+def _wall_ms() -> int:
+    return int(time.time() * 1000)
+
+
+class KlineStore:
+    """Persistent SQLite store of closed Binance candles keyed by ``(symbol, open_time_s)``.
+
+    A closed kline never changes, so a stored row is served instead of HTTP
+    forever.  Writes use WAL plus ``INSERT OR IGNORE`` so concurrently running
+    evaluators can share one file.
+    """
+
+    def __init__(self, path: str | Path) -> None:
+        self.path = Path(path).expanduser()
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._connection = sqlite3.connect(str(self.path), timeout=SQLITE_BUSY_TIMEOUT_S)
+        self._connection.execute("PRAGMA journal_mode=WAL")
+        with self._connection:
+            self._connection.execute(
+                "CREATE TABLE IF NOT EXISTS klines_1m ("
+                "symbol TEXT NOT NULL, open_time_s INTEGER NOT NULL, close REAL NOT NULL, "
+                "close_time_ms INTEGER NOT NULL, PRIMARY KEY (symbol, open_time_s)) WITHOUT ROWID"
+            )
+
+    def load(self, symbol: str, first_open_s: int, last_open_s: int) -> dict[int, Candle]:
+        rows = self._connection.execute(
+            "SELECT open_time_s, close, close_time_ms FROM klines_1m "
+            "WHERE symbol = ? AND open_time_s BETWEEN ? AND ?",
+            (symbol, int(first_open_s), int(last_open_s)),
+        )
+        return {int(open_time_s): Candle(float(close), int(close_time_ms)) for open_time_s, close, close_time_ms in rows}
+
+    def save(self, symbol: str, candles: Mapping[int, Candle], *, closed_before_ms: int) -> None:
+        """Persist only candles whose close time is before ``closed_before_ms``."""
+        rows = [
+            (symbol, int(open_time_s), candle.close, candle.close_time_ms)
+            for open_time_s, candle in candles.items()
+            if candle.close_time_ms < closed_before_ms
+        ]
+        if rows:
+            with self._connection:
+                self._connection.executemany("INSERT OR IGNORE INTO klines_1m VALUES (?, ?, ?, ?)", rows)
+
+    def close(self) -> None:
+        self._connection.close()
+
+
+class KlineSeed:
+    """Read-only ``crypto-data`` klines_1m DB filled from Binance ``/api/v3/klines``.
+
+    ``fetch_holdout.py`` stores ``float(kline[4])`` for closed candles only,
+    which is exactly what ``_parse_kline_payload`` keeps; Binance one-minute
+    close times are always ``open + 59_999`` ms.
+    """
+
+    def __init__(self, path: str | Path) -> None:
+        self.path = Path(path).expanduser().resolve()
+        self._connection = sqlite3.connect(f"{self.path.as_uri()}?mode=ro", uri=True, timeout=SQLITE_BUSY_TIMEOUT_S)
+
+    def load(self, symbol: str, first_open_s: int, last_open_s: int) -> dict[int, Candle]:
+        rows = self._connection.execute(
+            "SELECT open_time_s, close FROM klines_1m WHERE symbol = ? AND open_time_s BETWEEN ? AND ?",
+            (symbol, int(first_open_s), int(last_open_s)),
+        )
+        candles: dict[int, Candle] = {}
+        for open_time_s, close in rows:
+            value = _finite(close)
+            if value is not None:
+                candles[int(open_time_s)] = Candle(value, int(open_time_s) * 1000 + CANDLE_CLOSE_OFFSET_MS)
+        return candles
+
+    def close(self) -> None:
+        self._connection.close()
+
+
 class KlineCache:
-    """Per-run candle cache keyed by ``(symbol, open_time_s)``."""
+    """Candle cache keyed by ``(symbol, open_time_s)``.
+
+    Lookups go memory, then the optional persistent ``KlineStore``, then the
+    optional read-only ``KlineSeed``; only the still-missing open range is
+    requested from Binance, and only closed candles are persisted.
+    """
 
     def __init__(
         self,
@@ -234,11 +322,18 @@ class KlineCache:
         timeout: float = 10.0,
         fetcher: Callable[..., Any] | None = None,
         sleep_fn: Callable[[float], None] = time.sleep,
+        store_path: str | Path | None = None,
+        seed_path: str | Path | None = None,
+        clock_ms: Callable[[], int] = _wall_ms,
     ) -> None:
         self.timeout = float(timeout)
         self.fetcher = fetcher
         self.sleep_fn = sleep_fn
+        self.clock_ms = clock_ms
+        self.store = None if store_path is None else KlineStore(store_path)
+        self.seed = None if seed_path is None else KlineSeed(seed_path)
         self.candles: dict[tuple[str, int], Candle] = {}
+        self.http_fetches = 0
         self._attempted_windows: set[tuple[str, int, int]] = set()
         self._window_errors: dict[tuple[str, int, int], EvaluationError] = {}
 
@@ -247,11 +342,20 @@ class KlineCache:
         self._attempted_windows.clear()
         self._window_errors.clear()
 
+    def close(self) -> None:
+        for source in (self.store, self.seed):
+            if source is not None:
+                source.close()
+
+    def _missing(self, symbol: str, opens: Iterable[int]) -> list[int]:
+        return [open_time_s for open_time_s in opens if (symbol, open_time_s) not in self.candles]
+
     def ensure_window(self, symbol: str, target_time_s: int, horizon: int) -> None:
-        """Fetch and cache a target window once in this evaluation cycle."""
+        """Load a target window once in this evaluation cycle, fetching only missing candles."""
         window_key = (symbol, int(target_time_s), int(horizon))
-        required_opens = range(target_time_s - 60, target_time_s + horizon * 60, 60)
-        if all((symbol, int(open_time_s)) in self.candles for open_time_s in required_opens):
+        required_opens = _required_open_times(int(target_time_s), int(horizon))
+        missing = self._missing(symbol, required_opens)
+        if not missing:
             return
         if window_key in self._attempted_windows:
             error = self._window_errors.get(window_key)
@@ -259,11 +363,23 @@ class KlineCache:
                 raise error
             return
         self._attempted_windows.add(window_key)
+        closed_before_ms = self.clock_ms() - PERSIST_CLOSE_MARGIN_MS
+        for source in (self.store, self.seed):
+            if source is None or not missing:
+                continue
+            for open_time_s, candle in source.load(symbol, missing[0], missing[-1]).items():
+                if candle.close_time_ms < closed_before_ms:
+                    self.candles.setdefault((symbol, open_time_s), candle)
+            missing = self._missing(symbol, missing)
+        if not missing:
+            return
+        fetch_started_ms = self.clock_ms()
+        self.http_fetches += 1
         try:
             fetched = fetch_binance_klines(
                 symbol,
-                target_time_s,
-                horizon,
+                missing[0],
+                missing[-1],
                 timeout=self.timeout,
                 fetcher=self.fetcher,
                 sleep_fn=self.sleep_fn,
@@ -273,9 +389,39 @@ class KlineCache:
             raise
         for open_time_s, candle in fetched.items():
             self.candles[(symbol, int(open_time_s))] = candle
+        if self.store is not None:
+            self.store.save(symbol, fetched, closed_before_ms=fetch_started_ms - PERSIST_CLOSE_MARGIN_MS)
 
     def get(self, symbol: str, open_time_s: int) -> Candle | None:
         return self.candles.get((symbol, int(open_time_s)))
+
+
+def add_kline_cache_arguments(parser: argparse.ArgumentParser) -> None:
+    """Register the shared candle-cache options used by every live CLI."""
+    parser.add_argument(
+        "--kline-cache",
+        type=Path,
+        default=DEFAULT_KLINE_CACHE,
+        help="persistent SQLite store of closed Binance candles (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--kline-seed-db",
+        type=Path,
+        default=DEFAULT_KLINE_SEED_DB,
+        help="read-only Binance klines_1m DB consulted before HTTP; skipped if absent (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--no-kline-cache",
+        action="store_true",
+        help="disable the persistent store and seed DB (per-process in-memory cache only)",
+    )
+
+
+def kline_cache_from_args(args: argparse.Namespace, *, timeout: float) -> KlineCache:
+    if args.no_kline_cache:
+        return KlineCache(timeout=timeout)
+    seed_path = args.kline_seed_db if args.kline_seed_db.is_file() else None
+    return KlineCache(timeout=timeout, store_path=args.kline_cache, seed_path=seed_path)
 
 
 def _required_open_times(target_time_s: int, horizon: int) -> range:
@@ -510,6 +656,8 @@ def build_scorecard(rows: Sequence[EvaluatedRow]) -> dict[str, dict[str, dict[st
             arm_names = ["market_only"]
             if any(isinstance(row.prediction.values.get("with_gcp"), Mapping) for row in grouped_rows):
                 arm_names.append("with_gcp")
+            if any(isinstance(row.prediction.values.get("with_physics"), Mapping) for row in grouped_rows):
+                arm_names.append("with_physics")
             arms: dict[str, Any] = {}
             for arm_name in arm_names:
                 available_rows = [
@@ -725,28 +873,34 @@ def _make_synthetic_record(
     persistence_sign: int,
     momentum_sign: int,
     horizon_key: str = "1m",
+    physics_p_up: float | None = None,
 ) -> dict[str, Any]:
+    horizon: dict[str, Any] = {
+        "market_only": {
+            "direction_score": p_up - 0.5,
+            "p_up": p_up,
+            "predicted_vol": predicted_vol,
+        },
+        "baselines": {
+            "persistence": float(persistence_sign) * 0.01,
+            "persistence_sign": persistence_sign,
+            "momentum": float(momentum_sign) * 0.01,
+            "momentum_sign": momentum_sign,
+            "ewma_vol": ewma_vol,
+        },
+    }
+    if physics_p_up is not None:
+        horizon["with_physics"] = {
+            "direction_score": physics_p_up - 0.5,
+            "p_up": physics_p_up,
+            "predicted_vol": predicted_vol,
+        }
     return {
         "timestamp": "2026-01-01T00:00:00+00:00",
         "target_time_s": target_time_s,
         "symbol": "BTCUSDT",
         "current_close": 100.0,
-        "horizons": {
-            horizon_key: {
-                "market_only": {
-                    "direction_score": p_up - 0.5,
-                    "p_up": p_up,
-                    "predicted_vol": predicted_vol,
-                },
-                "baselines": {
-                    "persistence": float(persistence_sign) * 0.01,
-                    "persistence_sign": persistence_sign,
-                    "momentum": float(momentum_sign) * 0.01,
-                    "momentum_sign": momentum_sign,
-                    "ewma_vol": ewma_vol,
-                },
-            }
-        },
+        "horizons": {horizon_key: horizon},
     }
 
 
@@ -754,9 +908,9 @@ def self_test() -> int:
     """Run deterministic, network-free scoring checks over canned klines."""
     base = 1_000_020
     records = [
-        _make_synthetic_record(base, future_close=110.0, p_up=0.9, predicted_vol=0.1, ewma_vol=0.2, persistence_sign=1, momentum_sign=-1),
-        _make_synthetic_record(base + 600, future_close=90.0, p_up=0.1, predicted_vol=0.3, ewma_vol=0.2, persistence_sign=-1, momentum_sign=1),
-        _make_synthetic_record(base + 1_200, future_close=100.0, p_up=0.9, predicted_vol=0.0, ewma_vol=0.1, persistence_sign=1, momentum_sign=-1),
+        _make_synthetic_record(base, future_close=110.0, p_up=0.9, predicted_vol=0.1, ewma_vol=0.2, persistence_sign=1, momentum_sign=-1, physics_p_up=0.9),
+        _make_synthetic_record(base + 600, future_close=90.0, p_up=0.1, predicted_vol=0.3, ewma_vol=0.2, persistence_sign=-1, momentum_sign=1, physics_p_up=0.6),
+        _make_synthetic_record(base + 1_200, future_close=100.0, p_up=0.9, predicted_vol=0.0, ewma_vol=0.1, persistence_sign=1, momentum_sign=-1, physics_p_up=0.9),
     ]
     # A second horizon checks the multi-minute close-to-close and sum-of-
     # squared-returns formulas rather than only the one-minute case.
@@ -865,6 +1019,7 @@ def self_test() -> int:
         momentum = entry["baselines"]["momentum_sign"]
         five_entry = payload["scorecard"]["BTCUSDT"]["5m"]
         five_volatility = five_entry["arms"]["market_only"]["volatility"]
+        physics_direction = entry["arms"]["with_physics"]["direction"]
         def assert_check(condition: bool, detail: Any = None) -> None:
             if not condition:
                 raise AssertionError(detail)
@@ -873,6 +1028,17 @@ def self_test() -> int:
             ("deduplicated rows", lambda: assert_check(loaded.records_read == 4 and len(loaded.rows) == 4, loaded)),
             ("zero return excluded from directional N", lambda: assert_check(market_direction["n"] == 2, market_direction)),
             ("model directional hit-rate", lambda: assert_check(market_direction["hit_rate"] == 1.0, market_direction)),
+            (
+                "with_physics arm scored from its own values",
+                lambda: assert_check(
+                    physics_direction["n"] == 2 and physics_direction["hit_rate"] == 0.5,
+                    physics_direction,
+                ),
+            ),
+            (
+                "record without the physics arm omits it",
+                lambda: assert_check("with_physics" not in five_entry["arms"], sorted(five_entry["arms"])),
+            ),
             ("persistence hit-rate", lambda: assert_check(persistence["hit_rate"] == 1.0, persistence)),
             ("momentum hit-rate", lambda: assert_check(momentum["hit_rate"] == 0.0, momentum)),
             ("IC skipped below ten rows", lambda: assert_check(market_direction["ic_spearman"] is None, market_direction)),
@@ -892,6 +1058,109 @@ def self_test() -> int:
             ),
             ("five-minute realized-vol formula", lambda: assert_check(five_volatility["mae"] == 0.0, five_volatility)),
         ]
+
+        evaluation_now_ms = (five_target + 6 * 60) * 1000
+        rows_by_open = {
+            (symbol, int(row[0]) // 1000): row for (symbol, _, _), window_rows in canned.items() for row in window_rows
+        }
+        requested_ranges: list[tuple[int, int]] = []
+
+        def range_fetcher(url: str, *, timeout: float = 10.0) -> Any:
+            del timeout
+            query = parse_qs(urlparse(url).query)
+            symbol = query["symbol"][0]
+            start_s = int(query["startTime"][0]) // 1000
+            end_s = int(query["endTime"][0]) // 1000
+            requested_ranges.append((start_s, end_s))
+            return [
+                row
+                for (row_symbol, open_s), row in sorted(rows_by_open.items())
+                if row_symbol == symbol and start_s <= open_s <= end_s
+            ]
+
+        def refuse_fetcher(url: str, *, timeout: float = 10.0) -> Any:
+            raise AssertionError("candle source should have served this window without HTTP")
+
+        def comparable(result: Mapping[str, Any]) -> str:
+            projected = {key: result[key] for key in ("evaluated", "pending", "skipped", "prediction_rows", "skip_reasons", "scorecard")}
+            return json.dumps(_json_safe(projected), sort_keys=True)
+
+        def check_store_round_trip() -> None:
+            store_path = Path(directory) / "kline_cache.sqlite"
+            first = KlineCache(fetcher=canned_fetcher, sleep_fn=lambda _: None, store_path=store_path)
+            first_payload, _, _ = evaluate_predictions(predictions_path, cache=first, now_ms=evaluation_now_ms)
+            first.close()
+            second = KlineCache(fetcher=refuse_fetcher, sleep_fn=lambda _: None, store_path=store_path)
+            second_payload, _, _ = evaluate_predictions(predictions_path, cache=second, now_ms=evaluation_now_ms)
+            second.close()
+            assert_check(
+                first.http_fetches == 4
+                and second.http_fetches == 0
+                and comparable(first_payload) == comparable(payload)
+                and comparable(second_payload) == comparable(payload),
+                (first.http_fetches, second.http_fetches),
+            )
+
+        def check_open_candle_not_persisted_and_missing_span_fetch() -> None:
+            store_path = Path(directory) / "open_candle.sqlite"
+            # Clock just past the anchor's close: the anchor is closed, the
+            # target candle is still open and must stay out of the store.
+            early = KlineCache(
+                fetcher=range_fetcher,
+                sleep_fn=lambda _: None,
+                store_path=store_path,
+                clock_ms=lambda: base * 1000 + PERSIST_CLOSE_MARGIN_MS,
+            )
+            early.ensure_window("BTCUSDT", base, 1)
+            assert early.store is not None
+            persisted = sorted(early.store.load("BTCUSDT", base - 60, base))
+            early.close()
+            requested_ranges.clear()
+            later = KlineCache(fetcher=range_fetcher, sleep_fn=lambda _: None, store_path=store_path)
+            later.ensure_window("BTCUSDT", base, 1)
+            target_candle = later.get("BTCUSDT", base)
+            later.close()
+            assert_check(
+                persisted == [base - 60]
+                and requested_ranges == [(base, base + 60)]
+                and target_candle is not None
+                and target_candle.close == 110.0,
+                (persisted, requested_ranges, target_candle),
+            )
+
+        def check_seed_db() -> None:
+            seed_path = Path(directory) / "seed_klines_1m.db"
+            connection = sqlite3.connect(seed_path)
+            with connection:
+                connection.execute(
+                    "CREATE TABLE klines_1m (symbol TEXT NOT NULL, open_time_s INTEGER NOT NULL, "
+                    "close REAL NOT NULL, PRIMARY KEY (symbol, open_time_s))"
+                )
+                connection.executemany(
+                    "INSERT INTO klines_1m VALUES (?, ?, ?)",
+                    [("BTCUSDT", base + 540, float("100.0")), ("BTCUSDT", base + 600, float("90.0"))],
+                )
+            connection.close()
+            seeded = KlineCache(fetcher=refuse_fetcher, sleep_fn=lambda _: None, seed_path=seed_path)
+            seeded.ensure_window("BTCUSDT", base + 600, 1)
+            from_seed = [seeded.get("BTCUSDT", open_s) for open_s in (base + 540, base + 600)]
+            seeded.close()
+            from_binance = _parse_kline_payload(canned[("BTCUSDT", base + 600, 1)], "BTCUSDT")
+            assert_check(
+                seeded.http_fetches == 0 and from_seed == [from_binance[base + 540], from_binance[base + 600]],
+                (from_seed, from_binance),
+            )
+
+        checks.extend(
+            [
+                ("persistent store serves a second run with zero HTTP and identical scores", check_store_round_trip),
+                (
+                    "open candle not persisted; only the missing open range is fetched",
+                    check_open_candle_not_persisted_and_missing_span_fetch,
+                ),
+                ("seed DB candles equal parsed Binance candles without HTTP", check_seed_db),
+            ]
+        )
         for label, check in checks:
             try:
                 check()
@@ -925,6 +1194,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--once", action="store_true", help="evaluate currently mature predictions and exit")
     parser.add_argument("--self-test", action="store_true", help="run network-free scoring self-test and exit")
     parser.add_argument("--timeout", type=float, default=10.0, help="Binance request timeout in seconds")
+    add_kline_cache_arguments(parser)
     return parser.parse_args(argv)
 
 
@@ -936,11 +1206,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.loop_interval <= 0.0:
         print("--loop-interval must be positive", file=sys.stderr)
         return 2
-    cache = KlineCache(timeout=args.timeout)
+    cache = kline_cache_from_args(args, timeout=args.timeout)
     existing: dict[tuple[str, int, str], EvaluatedRow] = {}
     fingerprints: dict[tuple[str, int, str], str] = {}
     while True:
         try:
+            fetches_before = cache.http_fetches
             payload, newly_evaluated, _ = evaluate_predictions(
                 args.predictions,
                 out_path=args.out,
@@ -948,6 +1219,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 existing=existing,
                 fingerprints=fingerprints,
             )
+            LOGGER.info("Binance kline fetches this cycle: %d", cache.http_fetches - fetches_before)
             only = {(row.prediction.symbol, row.prediction.horizon_key) for row in newly_evaluated}
             if args.once:
                 print_scorecard(payload["scorecard"], title="Live outcome scorecard")

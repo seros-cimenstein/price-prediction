@@ -18,10 +18,10 @@ from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.preprocessing import StandardScaler
 
 from features import (
+    FEATURE_ARMS,
     GCP_FEATURES,
     HORIZONS,
     MARKET_FEATURES,
-    FEATURES,
 )
 
 
@@ -115,6 +115,18 @@ def _spearman(y: np.ndarray, score: np.ndarray) -> float:
     if len(y) < 3 or np.ptp(y) == 0.0 or np.ptp(score) == 0.0:
         return float("nan")
     return float(np.corrcoef(rankdata(y), rankdata(score))[0, 1])
+
+
+def _ranked_correlation(rank_y: np.ndarray, rank_score: np.ndarray) -> float:
+    """Pearson correlation of already-ranked series (Spearman building block).
+
+    Identical to :func:`_spearman` when the ranks come from ``rankdata`` on the
+    same samples; the paired IC bootstrap uses it to rank the resampled target
+    once and share it between the two score arms.
+    """
+    if len(rank_y) < 3 or np.ptp(rank_y) == 0.0 or np.ptp(rank_score) == 0.0:
+        return float("nan")
+    return float(np.corrcoef(rank_y, rank_score)[0, 1])
 
 
 def direction_metrics(y_return: Sequence[float], score: Sequence[float]) -> dict:
@@ -327,6 +339,45 @@ def _block_sample_indices(n: int, rng: np.random.Generator, block_len: int) -> n
     return indices.ravel()[:n]
 
 
+def _block_mean_bootstrap(
+    values: np.ndarray,
+    n_boot: int,
+    block_len: int,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Exact moving-block bootstrap of a mean from precomputed cyclic block sums.
+
+    This reproduces ``values[_block_sample_indices(n, rng, block_len)].mean()``
+    for every replicate (same block starts, same cyclic wrap, same truncation
+    to ``n``) but sums precomputed 60-row block sums instead of gathering the
+    index array, so high replicate counts stay cheap.  It is used only for
+    metrics that are means of per-row paired differences (hit rate, MSE).
+    """
+    n = len(values)
+    block_len = max(1, min(int(block_len), n))
+    blocks = (n + block_len - 1) // block_len
+    full_blocks = n // block_len
+    remainder = n - full_blocks * block_len
+    cumulative = np.concatenate([[0.0], np.cumsum(np.asarray(values, dtype="float64"))])
+    starts = np.arange(n)
+    block_sums = np.empty(n, dtype="float64")
+    direct = starts <= n - block_len
+    block_sums[direct] = cumulative[starts[direct] + block_len] - cumulative[starts[direct]]
+    wrapped = starts[~direct]
+    if wrapped.size:
+        block_sums[wrapped] = (cumulative[n] - cumulative[wrapped]) + cumulative[wrapped + block_len - n]
+    tail_offsets = np.arange(remainder)
+    boot = np.empty(int(n_boot), dtype="float64")
+    for i in range(int(n_boot)):
+        chosen = rng.integers(0, n, size=blocks)
+        total = float(block_sums[chosen[:full_blocks]].sum())
+        if remainder:
+            tail_start = int(chosen[full_blocks])
+            total += float(values[(tail_start + tail_offsets) % n].sum())
+        boot[i] = total / float(n)
+    return boot
+
+
 def paired_bootstrap_delta(
     y_return: Sequence[float],
     score_a: Sequence[float],
@@ -337,12 +388,20 @@ def paired_bootstrap_delta(
     seed: int = 20260914,
     max_points: int = 50_000,
 ) -> dict:
-    """Paired moving-block bootstrap for GCP-vs-market-only deltas.
+    """Paired moving-block bootstrap for candidate-vs-reference deltas.
 
     ``score_a`` and ``score_b`` are evaluated on exactly the same OOS rows.
     ``a_minus_b`` is the observed delta.  For very large test sets, a fixed
     deterministic prefix is used solely to bound the bootstrap computation;
     the reported point estimate still uses every row.
+
+    The two-sided p-value has a resolution floor of ``2 / (n_boot + 1)``: with
+    the default 500 replicates no p-value can fall below 0.00399, so callers
+    applying a stricter threshold must raise ``n_boot``.  Hit-rate and MSE
+    deltas are means of per-row paired differences and use the exact
+    block-sum bootstrap (:func:`_block_mean_bootstrap`), which is cheap enough
+    for several thousand replicates; the Spearman IC delta resamples ranks and
+    remains O(n_boot * n log n).
     """
     y = np.asarray(y_return, dtype="float64")
     a = np.asarray(score_a, dtype="float64")
@@ -356,14 +415,11 @@ def paired_bootstrap_delta(
     if metric == "hit_rate":
         observed_values = (np.sign(a) == np.sign(y)).astype("float64") - (np.sign(b) == np.sign(y)).astype("float64")
         observed = float(observed_values.mean())
-        stat = lambda idx: float(observed_values[idx].mean())
     elif metric == "ic_spearman":
         observed = _spearman(y, a) - _spearman(y, b)
-        stat = lambda idx: _spearman(y[idx], a[idx]) - _spearman(y[idx], b[idx])
     elif metric == "mse":
         observed_values = (a - y) ** 2 - (b - y) ** 2
         observed = float(observed_values.mean())
-        stat = lambda idx: float(observed_values[idx].mean())
     else:
         raise ValueError(f"unsupported paired metric: {metric}")
     rng = np.random.default_rng(seed)
@@ -373,19 +429,20 @@ def paired_bootstrap_delta(
     else:
         yb, ab, bb = y, a, b
     n = len(yb)
-    boot = np.empty(n_boot, dtype="float64")
     if metric == "hit_rate":
         vals = (np.sign(ab) == np.sign(yb)).astype("float64") - (np.sign(bb) == np.sign(yb)).astype("float64")
-        for i in range(n_boot):
-            boot[i] = vals[_block_sample_indices(n, rng, block_len)].mean()
+        boot = _block_mean_bootstrap(vals, n_boot, block_len, rng)
     elif metric == "mse":
         vals = (ab - yb) ** 2 - (bb - yb) ** 2
-        for i in range(n_boot):
-            boot[i] = vals[_block_sample_indices(n, rng, block_len)].mean()
+        boot = _block_mean_bootstrap(vals, n_boot, block_len, rng)
     else:
+        boot = np.empty(n_boot, dtype="float64")
         for i in range(n_boot):
             idx = _block_sample_indices(n, rng, block_len)
-            boot[i] = _spearman(yb[idx], ab[idx]) - _spearman(yb[idx], bb[idx])
+            ranks_y = rankdata(yb[idx])
+            boot[i] = _ranked_correlation(ranks_y, rankdata(ab[idx])) - _ranked_correlation(
+                ranks_y, rankdata(bb[idx])
+            )
     finite = boot[np.isfinite(boot)]
     if len(finite):
         p_value = float(min(1.0, 2.0 * min((1.0 + np.sum(finite <= 0.0)) / (len(finite) + 1.0), (1.0 + np.sum(finite >= 0.0)) / (len(finite) + 1.0))))
@@ -437,8 +494,12 @@ def shuffled_target_control(
 
 
 def registered_feature_columns(include_gcp: bool = True) -> tuple[str, ...]:
-    """Return the exact pre-registered model columns for an ablation arm."""
-    return FEATURES if include_gcp else MARKET_FEATURES
+    """Return the exact pre-registered model columns for an ablation arm.
+
+    Kept for existing callers; the arm registry itself lives in
+    :func:`features.feature_columns_for_arm`.
+    """
+    return FEATURE_ARMS["with_gcp" if include_gcp else "market_only"]
 
 
 __all__ = [

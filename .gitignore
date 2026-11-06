@@ -1,11 +1,15 @@
 .venv/
 .gcp2_token
+.env*
+!.env.example
 __pycache__/
 *.pyc
 *.pid
+*.log
 .orchestrator.lock
 .track_record.lock
-live.log
-orchestrator.log
 live_predictions.jsonl
 model_*.joblib
+kline_cache.sqlite
+kline_cache.sqlite-wal
+kline_cache.sqlite-shm

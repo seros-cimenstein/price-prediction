@@ -6,12 +6,18 @@ feature is explicitly shifted by one minute.  A direction target for horizon
 ``h`` is the compounded return from the close of ``t-1`` to the close of
 ``t+h-1``.  A volatility target is the square-root sum of the same future
 one-minute squared returns.
+
+``PHYSICS_FEATURES`` is a separate pre-registered family of physics/geometry
+analogues (Gauss/Kalman drift, Schrodinger/OU mean reversion, Navier-Stokes
+efficiency ratio, Riemann/Fisher-Rao distance); its exact formulas, constants,
+and ablation decision rule are frozen in ``physics_preregistration.md``.
 """
 from __future__ import annotations
 
 import json
 import sqlite3
 import zipfile
+from functools import lru_cache
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
@@ -48,6 +54,51 @@ GCP_FEATURES: tuple[str, ...] = (
     "netvar_std_60m",
 )
 FEATURES: tuple[str, ...] = MARKET_FEATURES + GCP_FEATURES
+
+# Physics/geometry analogue family, pre-registered in
+# ``physics_preregistration.md`` before any arm result was computed.  These
+# columns are computed from the same closed candles as the market features and
+# pass through the same final shift(1); they are never tuned on results.
+# Constants (windows in candle rows, noise ratios for the local-linear-trend
+# Kalman filter) are exactly the ones written in that file.
+GAUSS_LEVEL_TO_NOISE = 1e-4
+GAUSS_SLOPE_TO_NOISE = 1e-8
+GAUSS_GAIN_TOLERANCE = 1e-14
+PHYSICS_GAUSS_VOL_WINDOW = 60
+PHYSICS_DISPLACEMENT_WINDOW = 60
+PHYSICS_OU_WINDOW = 240
+PHYSICS_NS_WINDOW = 60
+PHYSICS_RIEMANN_SHORT_WINDOW = 15
+PHYSICS_RIEMANN_LONG_WINDOW = 240
+
+PHYSICS_FEATURES: tuple[str, ...] = (
+    "gauss_kalman_drift_z",
+    "schrodinger_displacement_60m",
+    "schrodinger_ou_kappa_240m",
+    "ns_reynolds_60m",
+    "ns_signed_flow_60m",
+    "riemann_fisher_rao_15_240",
+)
+FEATURES_WITH_PHYSICS: tuple[str, ...] = MARKET_FEATURES + PHYSICS_FEATURES
+
+# The registered ablation arms and their exact model columns.  ``market_only``
+# and ``with_gcp`` keep their original column contracts; ``with_physics`` is
+# the new pre-registered arm (market features plus physics analogues, no GCP).
+FEATURE_ARMS: dict[str, tuple[str, ...]] = {
+    "market_only": MARKET_FEATURES,
+    "with_gcp": FEATURES,
+    "with_physics": FEATURES_WITH_PHYSICS,
+}
+
+
+def feature_columns_for_arm(arm: str) -> tuple[str, ...]:
+    """Return the exact registered model columns for one ablation arm."""
+    try:
+        return FEATURE_ARMS[str(arm)]
+    except KeyError as exc:
+        raise ValueError(f"unknown feature arm: {arm!r}") from exc
+
+
 TARGET_COLUMNS: tuple[str, ...] = tuple(
     [f"forward_return_{h}m" for h in HORIZONS]
     + [f"forward_direction_{h}m" for h in HORIZONS]
@@ -80,6 +131,148 @@ def _rsi_like(one_minute_returns: pd.Series) -> pd.Series:
     rsi = rsi.where(avg_loss.ne(0.0), 100.0)
     rsi = rsi.where(~(avg_gain.eq(0.0) & avg_loss.eq(0.0)), 50.0)
     return rsi
+
+
+@lru_cache(maxsize=8)
+def steady_state_trend_gains(
+    level_to_noise: float = GAUSS_LEVEL_TO_NOISE,
+    slope_to_noise: float = GAUSS_SLOPE_TO_NOISE,
+    tolerance: float = GAUSS_GAIN_TOLERANCE,
+) -> tuple[float, float]:
+    """Deterministic Riccati fixed point of the registered trend model.
+
+    State ``[level, slope]``, ``F = [[1, 1], [0, 1]]``, ``H = [1, 0]``,
+    ``Q = diag(q_level, q_slope)``, ``R = 1``.  Only the ratios ``Q/R`` matter
+    for the gain, and they are fixed in ``physics_preregistration.md``.  The
+    returned ``(alpha, beta)`` are the fixed-gain (steady-state) filter gains,
+    exactly equivalent to Holt double-exponential smoothing.
+    """
+    transition = np.array([[1.0, 1.0], [0.0, 1.0]])
+    observation = np.array([[1.0, 0.0]])
+    process = np.diag([float(level_to_noise), float(slope_to_noise)])
+    covariance = np.zeros((2, 2))
+    gain = np.zeros(2)
+    for _ in range(500_000):
+        predicted = transition @ covariance @ transition.T + process
+        innovation_var = float((observation @ predicted @ observation.T).item()) + 1.0
+        new_gain = (predicted @ observation.T).ravel() / innovation_var
+        if np.max(np.abs(new_gain - gain)) < float(tolerance):
+            gain = new_gain
+            break
+        gain = new_gain
+        covariance = predicted - np.outer(new_gain, (observation @ predicted).ravel())
+    return float(gain[0]), float(gain[1])
+
+
+def _holt_trend_slope(log_close: pd.Series, alpha: float, beta: float) -> pd.Series:
+    """Fixed-gain local-linear-trend slope of log close (steady-state Kalman).
+
+    The recursion starts at the first candle with a finite close
+    (``level = log close``, ``slope = 0``); non-finite candles leave the state
+    unchanged.  It is the exact fixed-gain form of the registered Kalman model;
+    a per-row time-varying loop is unnecessary because the Riccati recursion
+    reaches this gain long before the series starts.
+    """
+    values = log_close.to_numpy(dtype="float64").tolist()
+    n = len(values)
+    slope = np.full(n, np.nan, dtype="float64")
+    finite = [i for i, value in enumerate(values) if np.isfinite(value)]
+    if finite:
+        start = finite[0]
+        level = float(values[start])
+        trend = 0.0
+        for i in range(start, n):
+            value = values[i]
+            if np.isfinite(value):
+                error = value - level - trend
+                level += trend + alpha * error
+                trend += beta * error
+            slope[i] = trend
+    return pd.Series(slope, index=log_close.index)
+
+
+def _physics_features(
+    frame: pd.DataFrame,
+    one_minute_return: pd.Series,
+    realized_vol_60: pd.Series,
+) -> pd.DataFrame:
+    """Registered physics/geometry analogue columns, before the causal shift.
+
+    Formulas and constants are exactly ``physics_preregistration.md``; see
+    that file for the derivation, the steady-state-gain equivalence, and the
+    honesty statement that these are analogues with no physical mechanism.
+    """
+    close = frame["close"]
+    log_close = np.log(close.where(close > 0.0))
+    output = pd.DataFrame(index=frame.index)
+
+    # 1. Gauss: local-linear-trend drift normalised by 60m realized volatility.
+    alpha, beta = steady_state_trend_gains()
+    slope = _holt_trend_slope(log_close, alpha, beta)
+    output["gauss_kalman_drift_z"] = slope.div(realized_vol_60.replace(0.0, np.nan))
+
+    # 2. Schrodinger / Ornstein-Uhlenbeck: displacement and well stiffness.
+    mean_60 = log_close.rolling(
+        PHYSICS_DISPLACEMENT_WINDOW, min_periods=PHYSICS_DISPLACEMENT_WINDOW
+    ).mean()
+    std_60 = log_close.rolling(
+        PHYSICS_DISPLACEMENT_WINDOW, min_periods=PHYSICS_DISPLACEMENT_WINDOW
+    ).std(ddof=1)
+    output["schrodinger_displacement_60m"] = (log_close - mean_60).div(
+        std_60.replace(0.0, np.nan)
+    )
+
+    window = PHYSICS_OU_WINDOW
+    deviation = log_close - log_close.rolling(window, min_periods=window).mean()
+    deviation_sum = deviation.rolling(window, min_periods=window).sum()
+    deviation_squares = (deviation * deviation).rolling(window, min_periods=window).sum()
+    # Lag-1 products for the window ending at s are the 239-term sum over
+    # i = s-239..s-1, i.e. a 239-row rolling sum shifted by one row.
+    pair_products = (
+        (deviation * deviation.shift(-1))
+        .rolling(window - 1, min_periods=window - 1)
+        .sum()
+        .shift(1)
+    )
+    window_mean = deviation_sum / float(window)
+    numerator = (
+        pair_products
+        - window_mean * (2.0 * deviation_sum - deviation - deviation.shift(window - 1))
+        + float(window - 1) * window_mean * window_mean
+    )
+    denominator = deviation_squares - float(window) * window_mean * window_mean
+    phi = numerator.div(denominator.replace(0.0, np.nan))
+    kappa = pd.Series(np.nan, index=frame.index, dtype="float64")
+    valid = phi.gt(0.0) & phi.lt(1.0)
+    kappa[valid] = -np.log(phi[valid])
+    output["schrodinger_ou_kappa_240m"] = kappa
+
+    # 3. Navier-Stokes: Reynolds analogue (Kaufman efficiency ratio).
+    window = PHYSICS_NS_WINDOW
+    net_flow = one_minute_return.rolling(window, min_periods=window).sum()
+    gross_flow = one_minute_return.abs().rolling(window, min_periods=window).sum()
+    reynolds = net_flow.abs().div(gross_flow.replace(0.0, np.nan))
+    output["ns_reynolds_60m"] = reynolds
+    output["ns_signed_flow_60m"] = np.sign(
+        close.pct_change(PHYSICS_NS_WINDOW, fill_method=None)
+    ) * reynolds
+
+    # 4. Riemann: Fisher-Rao geodesic distance between the trailing 15m and
+    # 240m return Gaussians (closed form; see the pre-registration).
+    short, long = PHYSICS_RIEMANN_SHORT_WINDOW, PHYSICS_RIEMANN_LONG_WINDOW
+    mu_short = one_minute_return.rolling(short, min_periods=short).mean()
+    sigma_short = one_minute_return.rolling(short, min_periods=short).std(ddof=1)
+    mu_long = one_minute_return.rolling(long, min_periods=long).mean()
+    sigma_long = one_minute_return.rolling(long, min_periods=long).std(ddof=1)
+    delta_mu = mu_short - mu_long
+    half_delta_squared = 0.5 * delta_mu * delta_mu
+    ratio = (half_delta_squared + (sigma_short - sigma_long) ** 2).div(
+        (half_delta_squared + (sigma_short + sigma_long) ** 2).replace(0.0, np.nan)
+    )
+    ratio = ratio.where((ratio >= 0.0) & (ratio < 1.0))
+    output["riemann_fisher_rao_15_240"] = 2.0 * np.sqrt(2.0) * np.arctanh(np.sqrt(ratio))
+
+    return output.replace([np.inf, -np.inf], np.nan)
 
 
 def market_db_audit(db_path: str | Path) -> dict:
@@ -329,6 +522,20 @@ def _assemble_feature_frame(
         features["hour_cos"] = np.cos(2.0 * np.pi * hour / 24.0)
         features["dow_sin"] = np.sin(2.0 * np.pi * dow / 7.0)
         features["dow_cos"] = np.cos(2.0 * np.pi * dow / 7.0)
+        # Physics/geometry analogues (physics_preregistration.md) are computed
+        # from the same closed candles and pass through the same final shift,
+        # so live and historical paths stay identical.
+        features = pd.concat(
+            [
+                features,
+                _physics_features(
+                    frame,
+                    one_minute_return,
+                    features[f"realized_vol_{PHYSICS_GAUSS_VOL_WINDOW}m"],
+                ),
+            ],
+            axis=1,
+        )
         # The final shift is the central leakage guard: no feature sees candle t.
         features = features.shift(1)
         if gcp_features is not None:
@@ -349,7 +556,7 @@ def _assemble_feature_frame(
     result = pd.concat(rows, ignore_index=True)
     result = result.sort_values(["target_time_s", "symbol"], kind="mergesort").reset_index(drop=True)
     # Preserve a stable, explicit dtype contract for model consumers.
-    for column in FEATURES + TARGET_COLUMNS + ("ewma_vol_60m",):
+    for column in FEATURES + PHYSICS_FEATURES + TARGET_COLUMNS + ("ewma_vol_60m",):
         if column in result:
             result[column] = pd.to_numeric(result[column], errors="coerce").astype("float64")
     return result
@@ -426,14 +633,16 @@ def assert_causal_features(
     frame: pd.DataFrame,
     sample_rows: int = 128,
     require_gcp: bool = False,
+    require_physics: bool = False,
 ) -> dict:
     """Run programmatic leakage checks and raise AssertionError on violation.
 
     The check samples rows deterministically, confirms the recorded latest
     candle source is strictly before each target timestamp, and verifies that
-    row timestamps agree with ``target_time_s``.  The builder's feature list
-    is also checked to ensure no target/internal column can accidentally enter
-    a model matrix.  Shuffled-target validation is run by backtest.py.
+    row timestamps agree with ``target_time_s``.  The builder's feature lists
+    (market, GCP, and physics) are also checked to ensure no target/internal
+    column can accidentally enter a model matrix, and the requested arms must
+    actually be present.  Shuffled-target validation is run by backtest.py.
     """
     required = {"target_time_s", "feature_source_max_time_s", "symbol"}
     missing = sorted(required - set(frame.columns))
@@ -441,7 +650,10 @@ def assert_causal_features(
         raise AssertionError(f"causality metadata missing: {missing}")
     if require_gcp and not set(GCP_FEATURES).issubset(frame.columns):
         raise AssertionError("GCP feature columns are absent")
-    if set(FEATURES).intersection(TARGET_COLUMNS + INTERNAL_COLUMNS):
+    if require_physics and not set(PHYSICS_FEATURES).issubset(frame.columns):
+        raise AssertionError("physics feature columns are absent")
+    registered = set(MARKET_FEATURES + GCP_FEATURES + PHYSICS_FEATURES)
+    if registered.intersection(TARGET_COLUMNS + INTERNAL_COLUMNS):
         raise AssertionError("feature registration overlaps targets/internal columns")
     if not frame.empty:
         eligible = frame.loc[frame["feature_source_max_time_s"].notna()]
@@ -483,7 +695,22 @@ def feature_manifest() -> dict:
         "horizons_minutes": list(HORIZONS),
         "market_features": list(MARKET_FEATURES),
         "gcp_features": list(GCP_FEATURES),
+        "physics_features": list(PHYSICS_FEATURES),
         "all_features": list(FEATURES),
+        "feature_arms": {arm: list(columns) for arm, columns in FEATURE_ARMS.items()},
+        "physics_registration": {
+            "document": "physics_preregistration.md",
+            "family": "physics/geometry analogues, not physics",
+            "gauss_level_to_noise": GAUSS_LEVEL_TO_NOISE,
+            "gauss_slope_to_noise": GAUSS_SLOPE_TO_NOISE,
+            "gauss_steady_state_gains": list(steady_state_trend_gains()),
+            "gauss_vol_window_minutes": PHYSICS_GAUSS_VOL_WINDOW,
+            "schrodinger_displacement_window_minutes": PHYSICS_DISPLACEMENT_WINDOW,
+            "schrodinger_ou_window_minutes": PHYSICS_OU_WINDOW,
+            "ns_window_minutes": PHYSICS_NS_WINDOW,
+            "riemann_short_window_minutes": PHYSICS_RIEMANN_SHORT_WINDOW,
+            "riemann_long_window_minutes": PHYSICS_RIEMANN_LONG_WINDOW,
+        },
         "rsi_window_minutes": RSI_WINDOW,
         "z_window_minutes": Z_WINDOW,
         "causal_alignment": "features at target open t use data with open_time_s < t; targets start at t",

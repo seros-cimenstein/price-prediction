@@ -3,11 +3,16 @@
 Usage from the repository root::
 
     price-prediction/.venv/bin/python price-prediction/train.py
+    price-prediction/.venv/bin/python price-prediction/train.py --ablation physics
 
 The default run reads the raw SQLite candles and one-second GCP zip archives,
 builds causal minute features, performs expanding walk-forward CV with an
-embargo, runs a market-only ablation on the same rows, writes results.json,
-and stores final full-history joblib artifacts for live inference.
+embargo, runs a market-only vs with-GCP ablation on the same rows, writes
+results.json, and stores final full-history joblib artifacts for live
+inference.  ``--ablation physics`` instead evaluates the pre-registered
+physics/geometry analogue family (``physics_preregistration.md``) as
+market_only vs with_physics, writes results_physics.json, and stores the
+with_physics artifacts; GCP data is not used by that arm.
 """
 from __future__ import annotations
 
@@ -35,7 +40,6 @@ from backtest import (  # noqa: E402
     direction_metrics,
     evaluate_predictions,
     paired_bootstrap_delta,
-    registered_feature_columns,
     shuffled_target_control,
     volatility_metrics,
     walk_forward_predict,
@@ -49,6 +53,7 @@ from features import (  # noqa: E402
     TARGET_COLUMNS,
     assert_causal_features,
     build_feature_frame,
+    feature_columns_for_arm,
     feature_manifest,
     market_db_audit,
 )
@@ -155,7 +160,7 @@ def _same_oos_rows(a: pd.DataFrame, b: pd.DataFrame) -> tuple[pd.DataFrame, pd.D
         aa = aa.merge(merged[keys], on=keys, how="inner").sort_values(keys).reset_index(drop=True)
         bb = bb.merge(merged[keys], on=keys, how="inner").sort_values(keys).reset_index(drop=True)
     if not aa[keys].equals(bb[keys]):
-        raise RuntimeError("GCP ablation arms do not share OOS rows")
+        raise RuntimeError("ablation arms do not share OOS rows")
     return aa, bb
 
 
@@ -208,24 +213,58 @@ def run(args: argparse.Namespace) -> dict:
     started = time.time()
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
+    physics_ablation = args.ablation == "physics"
+    candidate_arm = "with_physics" if physics_ablation else "with_gcp"
+    delta_key = "physics_delta" if physics_ablation else "gcp_delta"
+    candidate_features = feature_columns_for_arm(candidate_arm)
+    market_features = feature_columns_for_arm("market_only")
+    results_name = "results_physics.json" if physics_ablation else "results.json"
+    bootstrap_hit_mse = args.bootstrap if args.bootstrap_hit_mse is None else int(args.bootstrap_hit_mse)
+    bootstrap_ic = args.bootstrap if args.bootstrap_ic is None else int(args.bootstrap_ic)
     audit = market_db_audit(args.db)
     print("Market schema/ranges verified:")
     for symbol, row in audit["ranges"].items():
         print(f"  {symbol}: {row['rows']:,} rows {row['min_time_s']}..{row['max_time_s']}")
-    print("Building causal features from raw market and GCP files ...", flush=True)
+    if physics_ablation:
+        print("Building causal features from raw market files (physics ablation; GCP unused) ...", flush=True)
+    else:
+        print("Building causal features from raw market and GCP files ...", flush=True)
     frame = build_feature_frame(
         args.db,
-        args.gcp,
+        None if physics_ablation else args.gcp,
         start_time_s=args.start_time_s,
         end_time_s=args.end_time_s,
-        include_gcp=True,
+        include_gcp=not physics_ablation,
     )
-    leakage = assert_causal_features(frame, require_gcp=True)
+    leakage = assert_causal_features(
+        frame,
+        require_gcp=not physics_ablation,
+        require_physics=physics_ablation,
+    )
     print(f"Leakage self-check passed: {leakage}")
     results: dict[str, Any] = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "source_audit": audit,
         "feature_manifest": feature_manifest(),
+        "ablation": {
+            "reference_arm": "market_only",
+            "candidate_arm": candidate_arm,
+            "delta_key": delta_key,
+            "candidate_feature_columns": list(candidate_features),
+            "bonferroni_alpha": 0.05 / float(len(ASSETS) * len(HORIZONS)),
+            "bootstrap": {
+                "hit_rate": bootstrap_hit_mse,
+                "mse": bootstrap_hit_mse,
+                "ic_spearman": bootstrap_ic,
+                "block_minutes": max(1, args.block_minutes),
+                "p_value_floor": {
+                    "hit_rate": 2.0 / (bootstrap_hit_mse + 1.0),
+                    "mse": 2.0 / (bootstrap_hit_mse + 1.0),
+                    "ic_spearman": 2.0 / (bootstrap_ic + 1.0),
+                },
+            },
+            "preregistration": "physics_preregistration.md" if physics_ablation else None,
+        },
         "cv": {
             "method": "expanding walk-forward",
             "n_folds": args.n_folds,
@@ -249,21 +288,19 @@ def run(args: argparse.Namespace) -> dict:
             for task in ("direction", "volatility"):
                 arm_results: dict[str, Any] = {}
                 target_col = f"forward_return_{horizon}m" if task == "direction" else f"forward_vol_{horizon}m"
-                full_features = registered_feature_columns(True)
-                market_features = registered_feature_columns(False)
-                # Full and ablation arms must use the identical complete-case
-                # rows.  Otherwise differing missing-GCP months would alter
-                # fold boundaries and make a paired delta invalid.
+                # Candidate and reference arms must use the identical
+                # complete-case rows.  Otherwise differing missing values
+                # would alter fold boundaries and make a paired delta invalid.
                 pair_valid = (
                     asset_frame.replace([np.inf, -np.inf], np.nan)
-                    .dropna(subset=[*full_features, target_col])
+                    .dropna(subset=[*candidate_features, target_col])
                     .copy()
                 )
                 if task == "direction":
                     pair_valid = pair_valid.loc[pair_valid[target_col].ne(0.0)]
-                full_pred, full_folds = walk_forward_predict(
+                candidate_pred, candidate_folds = walk_forward_predict(
                     pair_valid,
-                    full_features,
+                    candidate_features,
                     target_col,
                     horizon,
                     task,
@@ -281,49 +318,50 @@ def run(args: argparse.Namespace) -> dict:
                     initial_train_fraction=args.initial_train_fraction,
                     embargo=args.embargo,
                 )
-                full_pred, market_pred = _same_oos_rows(full_pred, market_pred)
-                full_eval = evaluate_predictions(full_pred, horizon, task)
+                candidate_pred, market_pred = _same_oos_rows(candidate_pred, market_pred)
+                candidate_eval = evaluate_predictions(candidate_pred, horizon, task)
                 market_eval = evaluate_predictions(market_pred, horizon, task)
-                arm_results["with_gcp"] = {"evaluation": full_eval, "folds": full_folds}
+                arm_results[candidate_arm] = {"evaluation": candidate_eval, "folds": candidate_folds}
                 arm_results["market_only"] = {"evaluation": market_eval, "folds": market_folds}
-                y = full_pred[target_col].to_numpy(dtype="float64")
+                y = candidate_pred[target_col].to_numpy(dtype="float64")
                 if task == "direction":
-                    arm_results["gcp_delta"] = {
+                    arm_results[delta_key] = {
                         "hit_rate": paired_bootstrap_delta(
                             y,
-                            full_pred["score"],
+                            candidate_pred["score"],
                             market_pred["score"],
                             metric="hit_rate",
-                            n_boot=args.bootstrap,
+                            n_boot=bootstrap_hit_mse,
                             block_len=max(1, args.block_minutes),
                             seed=20260914 + horizon,
                         ),
                         "ic_spearman": paired_bootstrap_delta(
                             y,
-                            full_pred["score"],
+                            candidate_pred["score"],
                             market_pred["score"],
                             metric="ic_spearman",
-                            n_boot=args.bootstrap,
+                            n_boot=bootstrap_ic,
                             block_len=max(1, args.block_minutes),
                             seed=20260915 + horizon,
                         ),
                     }
                 else:
-                    arm_results["gcp_delta"] = {
+                    arm_results[delta_key] = {
                         "mse": paired_bootstrap_delta(
                             y,
-                            full_pred["score"],
+                            candidate_pred["score"],
                             market_pred["score"],
                             metric="mse",
-                            n_boot=args.bootstrap,
+                            n_boot=bootstrap_hit_mse,
                             block_len=max(1, args.block_minutes),
                             seed=20260916 + horizon,
                         )
                     }
                 # Final full-history artifacts: both arms are retained so a
-                # live consumer can inspect whether GCP was helpful.
+                # live consumer can inspect whether the candidate feature
+                # family was helpful.
                 artifact_names = {}
-                for arm, cols in (("with_gcp", full_features), ("market_only", market_features)):
+                for arm, cols in ((candidate_arm, candidate_features), ("market_only", market_features)):
                     name, n_rows, fit_end = _save_artifact(
                         output_dir, asset, horizon, task, arm, asset_frame, cols
                     )
@@ -333,7 +371,7 @@ def run(args: argparse.Namespace) -> dict:
                 if task == "direction" and asset == "BTCUSDT":
                     control = shuffled_target_control(
                         pair_valid,
-                        full_features,
+                        candidate_features,
                         horizon,
                         kind="direction",
                         n_folds=max(2, min(args.n_folds, 3)),
@@ -341,19 +379,116 @@ def run(args: argparse.Namespace) -> dict:
                     )
                     results["leakage_checks"]["shuffled_target_controls"][f"{asset}_{horizon}m"] = control
             results["assets"][asset][f"{horizon}m"] = result_h
+    results["ablation_summary"] = _ablation_summary(results)
     results["event_study"] = _event_study(frame, Path(args.events))
     results["runtime_seconds"] = time.time() - started
-    path = output_dir / "results.json"
+    path = output_dir / results_name
     path.write_text(json.dumps(_jsonable(results), indent=2, allow_nan=False) + "\n")
     _print_table(results)
+    _print_ablation_summary(results)
     print(f"Wrote {path}")
     print(f"Saved {len(list(output_dir.glob('model_*.joblib')))} model artifacts")
     return results
 
 
+def _ablation_summary(results: dict) -> dict:
+    """Pre-registered Bonferroni summary for the registered ablation arms.
+
+    The rule is frozen in ``physics_preregistration.md`` (for the physics arm)
+    and mirrors the per-cell paired deltas already stored in the results: a
+    metric supports a claim only when at least 9 of the 16 cells improve and at
+    least 9 improve with a bootstrap p-value below ``0.05/16``.
+    """
+    ablation = results["ablation"]
+    candidate = ablation["candidate_arm"]
+    delta_key = ablation["delta_key"]
+    alpha = float(ablation["bonferroni_alpha"])
+    metrics: dict[str, dict[str, str]] = {
+        "hit_rate": {"task": "direction", "better": "higher"},
+        "ic_spearman": {"task": "direction", "better": "higher"},
+        "mse": {"task": "volatility", "better": "lower"},
+    }
+    cells: dict[str, list[dict[str, Any]]] = {name: [] for name in metrics}
+    for asset in ASSETS:
+        for horizon in HORIZONS:
+            cell = results["assets"][asset][f"{horizon}m"]
+            for name, spec in metrics.items():
+                stat = cell[spec["task"]][delta_key].get(name)
+                if not isinstance(stat, dict):
+                    continue
+                delta = stat.get("delta")
+                p_value = stat.get("p_value")
+                if delta is None or p_value is None or not np.isfinite(delta) or not np.isfinite(p_value):
+                    continue
+                improves = bool(delta > 0.0) if spec["better"] == "higher" else bool(delta < 0.0)
+                worsens = bool(delta < 0.0) if spec["better"] == "higher" else bool(delta > 0.0)
+                cells[name].append(
+                    {
+                        "asset": asset,
+                        "horizon_minutes": int(horizon),
+                        "delta": float(delta),
+                        "p_value": float(p_value),
+                        "improves": improves,
+                        "worsens": worsens,
+                        "survives_bonferroni": bool(improves and p_value < alpha),
+                        "significantly_worse": bool(worsens and p_value < alpha),
+                    }
+                )
+    summary: dict[str, Any] = {
+        "candidate_arm": candidate,
+        "reference_arm": ablation["reference_arm"],
+        "bonferroni_alpha": alpha,
+        "n_cells_expected": len(ASSETS) * len(HORIZONS),
+        "rule": (
+            "claim only if a metric has >=9/16 improving cells and >=9/16 improving cells "
+            "with paired bootstrap p-value below the Bonferroni threshold"
+        ),
+        "metrics": {},
+    }
+    verdicts: dict[str, bool] = {}
+    for name, spec in metrics.items():
+        items = cells[name]
+        improving = [item for item in items if item["improves"]]
+        survivors = [item for item in items if item["survives_bonferroni"]]
+        worse = [item for item in items if item["significantly_worse"]]
+        deltas = [item["delta"] for item in items]
+        summary["metrics"][name] = {
+            "task": spec["task"],
+            "better": spec["better"],
+            "n_cells": len(items),
+            "n_improving": len(improving),
+            "n_survivors": len(survivors),
+            "n_significantly_worse": len(worse),
+            "median_delta": float(np.median(deltas)) if deltas else None,
+            "survivor_cells": [f"{item['asset']}_{item['horizon_minutes']}m" for item in survivors],
+            "significantly_worse_cells": [f"{item['asset']}_{item['horizon_minutes']}m" for item in worse],
+            "cells": items,
+        }
+        verdicts[name] = bool(
+            len(items) == len(ASSETS) * len(HORIZONS)
+            and len(improving) >= 9
+            and len(survivors) >= 9
+        )
+    summary["verdicts"] = verdicts
+    summary["physics_adds_direction_skill"] = bool(verdicts["hit_rate"] or verdicts["ic_spearman"])
+    summary["physics_adds_volatility_skill"] = bool(verdicts["mse"])
+    summary["verdict"] = (
+        f"{candidate} adds skill (pre-registered majority + Bonferroni rule met)"
+        if (summary["physics_adds_direction_skill"] or summary["physics_adds_volatility_skill"])
+        else f"null: no evidence the {candidate} arm adds skill (pre-registered majority + Bonferroni rule not met)"
+    )
+    return summary
+
+
 def _print_table(results: dict) -> None:
-    print("\nPer-asset x horizon OOS table (with-GCP model; deltas are with-GCP minus market-only):")
-    header = "asset horizon direction_hit [95% CI] direction_IC GCP_hit_delta (p) | vol_MSE EWMA_MSE GCP_MSE_delta (p)"
+    ablation = results.get("ablation", {})
+    candidate = ablation.get("candidate_arm", "with_gcp")
+    delta_key = ablation.get("delta_key", "gcp_delta")
+    print(f"\nPer-asset x horizon OOS table ({candidate}; deltas are {candidate} minus market_only):")
+    header = (
+        "asset horizon cand_hit [95% CI] cand_IC dHit_pp (p) dIC (p) | "
+        "vol_MSE EWMA_MSE dMSE (p)"
+    )
     print(header)
     print("-" * len(header))
     for asset in ASSETS:
@@ -361,19 +496,41 @@ def _print_table(results: dict) -> None:
             h = results["assets"][asset][f"{horizon}m"]
             d = h["direction"]
             v = h["volatility"]
-            dm = d["with_gcp"]["evaluation"]["model"]
-            dd = d["gcp_delta"]["hit_rate"]
-            vm = v["with_gcp"]["evaluation"]["model"]
-            vd = v["gcp_delta"]["mse"]
+            dm = d[candidate]["evaluation"]["model"]
+            dd = d[delta_key]["hit_rate"]
+            di = d[delta_key]["ic_spearman"]
+            vm = v[candidate]["evaluation"]["model"]
+            vd = v[delta_key]["mse"]
             ci = dm.get("hit_ci95", [None, None])
             print(
                 f"{asset:7s} {horizon:>3d}m {_fmt_pct(dm.get('hit_rate'))} "
                 f"[{_fmt_pct(ci[0])},{_fmt_pct(ci[1])}] "
                 f"{_fmt_num(dm.get('ic_spearman'))} "
-                f"{_fmt_pct(dd.get('delta'))} ({_fmt_num(dd.get('p_value'))}) | "
+                f"{_fmt_pct(dd.get('delta'))} ({_fmt_num(dd.get('p_value'))}) "
+                f"{_fmt_num(di.get('delta'), 5)} ({_fmt_num(di.get('p_value'))}) | "
                 f"{_fmt_num(vm.get('mse'), 6)} {_fmt_num(vm.get('ewma_mse'), 6)} "
                 f"{_fmt_num(vd.get('delta'), 6)} ({_fmt_num(vd.get('p_value'))})"
             )
+
+
+def _print_ablation_summary(results: dict) -> None:
+    summary = results.get("ablation_summary")
+    if not summary:
+        return
+    print(
+        f"\nAblation summary: candidate={summary['candidate_arm']} "
+        f"reference={summary['reference_arm']} "
+        f"Bonferroni alpha={summary['bonferroni_alpha']:.6f} over "
+        f"{summary['n_cells_expected']} cells"
+    )
+    for name, metrics in summary["metrics"].items():
+        print(
+            f"  {name}: improving {metrics['n_improving']}/{metrics['n_cells']}, "
+            f"Bonferroni survivors {metrics['n_survivors']}, "
+            f"significantly worse {metrics['n_significantly_worse']}, "
+            f"median delta {_fmt_num(metrics['median_delta'], 6)}"
+        )
+    print(f"  verdict: {summary['verdict']}")
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -382,10 +539,35 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--gcp", type=Path, default=DEFAULT_GCP)
     parser.add_argument("--events", type=Path, default=DEFAULT_EVENTS)
     parser.add_argument("--output-dir", type=Path, default=HERE)
+    parser.add_argument(
+        "--ablation",
+        choices=("gcp", "physics"),
+        default="gcp",
+        help=(
+            "gcp (default): market_only vs market+GCP, writes results.json; "
+            "physics: market_only vs market+PHYSICS_FEATURES, writes results_physics.json"
+        ),
+    )
     parser.add_argument("--n-folds", type=int, default=3)
     parser.add_argument("--initial-train-fraction", type=float, default=0.50)
     parser.add_argument("--embargo", type=int, default=None, help="minimum embargo minutes; horizon is always enforced")
     parser.add_argument("--bootstrap", type=int, default=300, help="paired moving-block bootstrap replicates")
+    parser.add_argument(
+        "--bootstrap-hit-mse",
+        type=int,
+        default=None,
+        help=(
+            "replicates for the hit-rate and MSE deltas (default: --bootstrap). "
+            "The two-sided p-value floor is 2/(n_boot+1), so thresholds below "
+            "2/(n_boot+1) need a larger value (e.g. 4999 for a 0.0004 floor)"
+        ),
+    )
+    parser.add_argument(
+        "--bootstrap-ic",
+        type=int,
+        default=None,
+        help="replicates for the Spearman IC delta (default: --bootstrap)",
+    )
     parser.add_argument("--block-minutes", type=int, default=60)
     parser.add_argument("--start-time-s", type=int, default=None)
     parser.add_argument("--end-time-s", type=int, default=None)

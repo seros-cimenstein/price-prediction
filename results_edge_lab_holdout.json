@@ -1,0 +1,537 @@
+{
+  "bonferroni_alpha": 0.016666666666666666,
+  "created_utc": "2026-10-02T17:51:32.334202+00:00",
+  "eval_rows": 105376,
+  "evaluated_minutes": 26343,
+  "finalists": [
+    {
+      "cid": "d1_logistic_physics_h15_per",
+      "config": {
+        "cid": "d1_logistic_physics_h15_per",
+        "features": "physics",
+        "horizon": 15,
+        "kind": "direction",
+        "max_train_rows": null,
+        "model": "logistic",
+        "note": "",
+        "phase": "D1_nonlinear",
+        "pooled": false
+      },
+      "direction": {
+        "delta_hit_vs_momentum_p": 0.002,
+        "delta_hit_vs_momentum_pp": 4.909713544399185,
+        "delta_hit_vs_persistence_p": 0.002,
+        "delta_hit_vs_persistence_pp": 4.452796352293648,
+        "hit_rate": 0.5253498421298637,
+        "hit_rate_momentum": 0.47625270668587183,
+        "hit_rate_persistence": 0.4808218786069272,
+        "ic_spearman": 0.07287514576862696,
+        "n": 104833,
+        "per_asset": {
+          "BNBUSDT": {
+            "chance_p_normal": 2.220446049250313e-16,
+            "hit_ci95": [
+              0.5192511428718923,
+              0.5313319309263927
+            ],
+            "hit_delta_vs_50": 0.02529523809523815,
+            "hit_rate": 0.5252952380952381,
+            "hits": 13789,
+            "ic_spearman": 0.07173029919788786,
+            "n": 26250
+          },
+          "BTCUSDT": {
+            "chance_p_normal": 1.922462189440921e-12,
+            "hit_ci95": [
+              0.5156612196768353,
+              0.5277313967650137
+            ],
+            "hit_delta_vs_50": 0.021699475564338377,
+            "hit_rate": 0.5216994755643384,
+            "hits": 13728,
+            "ic_spearman": 0.05926654544203836,
+            "n": 26314
+          },
+          "ETHUSDT": {
+            "chance_p_normal": 0.0,
+            "hit_ci95": [
+              0.527764095411946,
+              0.5398203167407225
+            ],
+            "hit_delta_vs_50": 0.033797141119221386,
+            "hit_rate": 0.5337971411192214,
+            "hits": 14041,
+            "ic_spearman": 0.09015554659661308,
+            "n": 26304
+          },
+          "SOLUSDT": {
+            "chance_p_normal": 3.5506264595142056e-11,
+            "hit_ci95": [
+              0.5144677514272714,
+              0.5266199498354885
+            ],
+            "hit_delta_vs_50": 0.020546890044290445,
+            "hit_rate": 0.5205468900442904,
+            "hits": 13516,
+            "ic_spearman": 0.070110437107379,
+            "n": 25965
+          }
+        }
+      },
+      "expected_trades": 2.5664150321246217,
+      "hit_criterion": "pass",
+      "hit_tests": {
+        "momentum": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.03568485114420078,
+            0.062280007249625596
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104833,
+          "delta": 0.04909713544399187,
+          "n": 104833,
+          "p_value": 0.0004
+        },
+        "persistence": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.035475470510240095,
+            0.0535236995984089
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104833,
+          "delta": 0.04452796352293648,
+          "n": 104833,
+          "p_value": 0.0004
+        }
+      },
+      "n_test": 104833,
+      "n_train": 5303313,
+      "net_criterion": "inconclusive_underpowered",
+      "overall_verdict": "inconclusive_underpowered",
+      "passes_preregistered_rule": false,
+      "runtime_seconds": 37.27863836288452,
+      "theta": 0.1,
+      "trades": {
+        "maker_2bp": {
+          "fee_per_side": 0.0002,
+          "gross_mean_return": NaN,
+          "hit_rate": NaN,
+          "long_share": NaN,
+          "n_trades": 0,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": NaN,
+          "net_sd": NaN,
+          "net_sum_return": NaN,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.1
+        },
+        "taker_10bp": {
+          "fee_per_side": 0.001,
+          "gross_mean_return": NaN,
+          "hit_rate": NaN,
+          "long_share": NaN,
+          "n_trades": 0,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": NaN,
+          "net_sd": NaN,
+          "net_sum_return": NaN,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.1
+        },
+        "taker_7p5bp": {
+          "fee_per_side": 0.00075,
+          "gross_mean_return": NaN,
+          "hit_rate": NaN,
+          "long_share": NaN,
+          "n_trades": 0,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": NaN,
+          "net_sd": NaN,
+          "net_sum_return": NaN,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.1
+        }
+      }
+    },
+    {
+      "cid": "d1_logistic_market_h15_per",
+      "config": {
+        "cid": "d1_logistic_market_h15_per",
+        "features": "market",
+        "horizon": 15,
+        "kind": "direction",
+        "max_train_rows": null,
+        "model": "logistic",
+        "note": "",
+        "phase": "D1_nonlinear",
+        "pooled": false
+      },
+      "direction": {
+        "delta_hit_vs_momentum_p": 0.002,
+        "delta_hit_vs_momentum_pp": 4.7446891723026186,
+        "delta_hit_vs_persistence_p": 0.002,
+        "delta_hit_vs_persistence_pp": 4.28777198019708,
+        "hit_rate": 0.523699598408898,
+        "hit_rate_momentum": 0.47625270668587183,
+        "hit_rate_persistence": 0.4808218786069272,
+        "ic_spearman": 0.06229632406517963,
+        "n": 104833,
+        "per_asset": {
+          "BNBUSDT": {
+            "chance_p_normal": 1.152455160191579e-06,
+            "hit_ci95": [
+              0.5089619153098145,
+              0.5210527399259147
+            ],
+            "hit_delta_vs_50": 0.015009523809523806,
+            "hit_rate": 0.5150095238095238,
+            "hits": 13519,
+            "ic_spearman": 0.05527409280684131,
+            "n": 26250
+          },
+          "BTCUSDT": {
+            "chance_p_normal": 3.552713678800501e-15,
+            "hit_ci95": [
+              0.5182084358107966,
+              0.5302757836110943
+            ],
+            "hit_delta_vs_50": 0.024245648704111833,
+            "hit_rate": 0.5242456487041118,
+            "hits": 13795,
+            "ic_spearman": 0.04950696181935683,
+            "n": 26314
+          },
+          "ETHUSDT": {
+            "chance_p_normal": 0.0,
+            "hit_ci95": [
+              0.5243784432813458,
+              0.5364399253599758
+            ],
+            "hit_delta_vs_50": 0.03041362530413627,
+            "hit_rate": 0.5304136253041363,
+            "hits": 13952,
+            "ic_spearman": 0.07718521927096623,
+            "n": 26304
+          },
+          "SOLUSDT": {
+            "chance_p_normal": 4.440892098500626e-16,
+            "hit_ci95": [
+              0.5190527145123728,
+              0.5311998160854733
+            ],
+            "hit_delta_vs_50": 0.02512998266897748,
+            "hit_rate": 0.5251299826689775,
+            "hits": 13635,
+            "ic_spearman": 0.06398726164030731,
+            "n": 25965
+          }
+        }
+      },
+      "expected_trades": 8.62052228739296,
+      "hit_criterion": "pass",
+      "hit_tests": {
+        "momentum": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.033633970219301174,
+            0.06092642583919186
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104833,
+          "delta": 0.047446891723026144,
+          "n": 104833,
+          "p_value": 0.0004
+        },
+        "persistence": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.034240649413829614,
+            0.051559146451976005
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104833,
+          "delta": 0.042877719801970755,
+          "n": 104833,
+          "p_value": 0.0004
+        }
+      },
+      "n_test": 104833,
+      "n_train": 5304967,
+      "net_criterion": "inconclusive_underpowered",
+      "overall_verdict": "inconclusive_underpowered",
+      "passes_preregistered_rule": false,
+      "post_holdout_reporting_fix": "2026-10-02 post-holdout reporting fix: every fee scenario has n_trades=3 <= block_len_trades=10, so each moving-block resample is the whole sample and the net-return p-value and CI are degenerate; trades[*].net_mean_ci95 and trades[*].p_net_gt0 are set to null. All other fields are the one-shot run's original values.",
+      "runtime_seconds": 24.72728395462036,
+      "theta": 0.1,
+      "trades": {
+        "maker_2bp": {
+          "fee_per_side": 0.0002,
+          "gross_mean_return": 0.011746037716816779,
+          "hit_rate": 1.0,
+          "long_share": 0.3333333333333333,
+          "n_trades": 3,
+          "net_mean_ci95": null,
+          "net_mean_return": 0.011346037716816778,
+          "net_sd": 0.00793105114303955,
+          "net_sum_return": 0.034038113150450335,
+          "p_net_gt0": null,
+          "sharpe_ci95": [
+            1.4305843591456708,
+            1.430584359145671
+          ],
+          "sharpe_like": 1.430584359145671,
+          "theta": 0.1
+        },
+        "taker_10bp": {
+          "fee_per_side": 0.001,
+          "gross_mean_return": 0.011746037716816779,
+          "hit_rate": 1.0,
+          "long_share": 0.3333333333333333,
+          "n_trades": 3,
+          "net_mean_ci95": null,
+          "net_mean_return": 0.009746037716816777,
+          "net_sd": 0.00793105114303955,
+          "net_sum_return": 0.02923811315045033,
+          "p_net_gt0": null,
+          "sharpe_ci95": [
+            1.2288456524921154,
+            1.2288456524921159
+          ],
+          "sharpe_like": 1.2288456524921159,
+          "theta": 0.1
+        },
+        "taker_7p5bp": {
+          "fee_per_side": 0.00075,
+          "gross_mean_return": 0.011746037716816779,
+          "hit_rate": 1.0,
+          "long_share": 0.3333333333333333,
+          "n_trades": 3,
+          "net_mean_ci95": null,
+          "net_mean_return": 0.010246037716816777,
+          "net_sd": 0.00793105114303955,
+          "net_sum_return": 0.03073811315045033,
+          "p_net_gt0": null,
+          "sharpe_ci95": [
+            1.2918889983213515,
+            1.2918889983213517
+          ],
+          "sharpe_like": 1.2918889983213517,
+          "theta": 0.1
+        }
+      }
+    },
+    {
+      "cid": "d2_hgb_physics_h240_per",
+      "config": {
+        "cid": "d2_hgb_physics_h240_per",
+        "features": "physics",
+        "horizon": 240,
+        "kind": "direction",
+        "max_train_rows": null,
+        "model": "hgb",
+        "note": "",
+        "phase": "D2_long",
+        "pooled": false
+      },
+      "direction": {
+        "delta_hit_vs_momentum_p": 0.03,
+        "delta_hit_vs_momentum_pp": 3.258954223328858,
+        "delta_hit_vs_persistence_p": 0.006,
+        "delta_hit_vs_persistence_pp": 3.5606205707718774,
+        "hit_rate": 0.5175636851177935,
+        "hit_rate_momentum": 0.4849741428845049,
+        "hit_rate_persistence": 0.4819574794100747,
+        "ic_spearman": 0.0222545886020676,
+        "n": 104420,
+        "per_asset": {
+          "BNBUSDT": {
+            "chance_p_normal": 0.16374633405709393,
+            "hit_ci95": [
+              0.49824420134238195,
+              0.5103735690154056
+            ],
+            "hit_delta_vs_50": 0.004309519249185989,
+            "hit_rate": 0.504309519249186,
+            "hits": 13165,
+            "ic_spearman": -0.023961282575176646,
+            "n": 26105
+          },
+          "BTCUSDT": {
+            "chance_p_normal": 0.0,
+            "hit_ci95": [
+              0.5246832773229286,
+              0.5367901512292894
+            ],
+            "hit_delta_vs_50": 0.03074123731085998,
+            "hit_rate": 0.53074123731086,
+            "hits": 13855,
+            "ic_spearman": 0.039757020055285704,
+            "n": 26105
+          },
+          "ETHUSDT": {
+            "chance_p_normal": 7.512574806689543e-08,
+            "hit_ci95": [
+              0.5105803238107169,
+              0.5227034203711383
+            ],
+            "hit_delta_vs_50": 0.016644321011300534,
+            "hit_rate": 0.5166443210113005,
+            "hits": 13487,
+            "ic_spearman": 0.0535484458382545,
+            "n": 26105
+          },
+          "SOLUSDT": {
+            "chance_p_normal": 2.0052028926187404e-09,
+            "hit_ci95": [
+              0.5124962021638414,
+              0.5246176621770303
+            ],
+            "hit_delta_vs_50": 0.018559662899827578,
+            "hit_rate": 0.5185596628998276,
+            "hits": 13537,
+            "ic_spearman": 0.011016712024035183,
+            "n": 26105
+          }
+        }
+      },
+      "expected_trades": 5.1328300642492435,
+      "hit_criterion": "pass",
+      "hit_tests": {
+        "momentum": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.013377226584945412,
+            0.051953648726297645
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104420,
+          "delta": 0.032589542233288644,
+          "n": 104420,
+          "p_value": 0.0016
+        },
+        "persistence": {
+          "block_len": 60,
+          "bootstrap_ci95": [
+            0.0184538402604865,
+            0.0521940241333078
+          ],
+          "bootstrap_n": 4999,
+          "bootstrap_points": 104420,
+          "delta": 0.03560620570771883,
+          "n": 104420,
+          "p_value": 0.0004
+        }
+      },
+      "n_test": 104420,
+      "n_train": 5337882,
+      "net_criterion": "inconclusive_underpowered",
+      "overall_verdict": "inconclusive_underpowered",
+      "passes_preregistered_rule": false,
+      "runtime_seconds": 115.70850872993469,
+      "theta": 0.15,
+      "trades": {
+        "maker_2bp": {
+          "fee_per_side": 0.0002,
+          "gross_mean_return": 0.002951212763994501,
+          "hit_rate": 1.0,
+          "long_share": 1.0,
+          "n_trades": 1,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": 0.0025512127639945007,
+          "net_sd": NaN,
+          "net_sum_return": 0.0025512127639945007,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.15
+        },
+        "taker_10bp": {
+          "fee_per_side": 0.001,
+          "gross_mean_return": 0.002951212763994501,
+          "hit_rate": 1.0,
+          "long_share": 1.0,
+          "n_trades": 1,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": 0.0009512127639945008,
+          "net_sd": NaN,
+          "net_sum_return": 0.0009512127639945008,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.15
+        },
+        "taker_7p5bp": {
+          "fee_per_side": 0.00075,
+          "gross_mean_return": 0.002951212763994501,
+          "hit_rate": 1.0,
+          "long_share": 1.0,
+          "n_trades": 1,
+          "net_mean_ci95": [
+            NaN,
+            NaN
+          ],
+          "net_mean_return": 0.0014512127639945008,
+          "net_sd": NaN,
+          "net_sum_return": 0.0014512127639945008,
+          "p_net_gt0": NaN,
+          "sharpe_ci95": [
+            NaN,
+            NaN
+          ],
+          "sharpe_like": NaN,
+          "theta": 0.15
+        }
+      }
+    }
+  ],
+  "fit_end_time_s": 1789362540,
+  "holdout_database": "/home/user/projects/finance/crypto-data/holdout_klines_1m.db",
+  "holdout_minutes_per_symbol": 26584,
+  "lab_version": "edge-lab-v1",
+  "min_holdout_trades": 30,
+  "test_start_time_s": 1789376940,
+  "verdict": "inconclusive: the net-return criterion is underpowered (<30 holdout trades) for at least one finalist and no finalist passes both criteria",
+  "warmup": {
+    "combined_db": "/home/user/.cache/edge_lab/holdout_combined.sqlite",
+    "dev_tail_minutes": 600,
+    "targets": "overlaid from a holdout-only build; features from the combined series"
+  }
+}

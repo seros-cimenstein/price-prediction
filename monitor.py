@@ -65,6 +65,9 @@ def snapshot_from_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
             with_gcp = _mapping_value(arms, "with_gcp")
             if isinstance(with_gcp, Mapping):
                 summary["with_gcp_n"] = _mapping_value(with_gcp, "n") or 0
+            with_physics = _mapping_value(arms, "with_physics")
+            if isinstance(with_physics, Mapping):
+                summary["with_physics_n"] = _mapping_value(with_physics, "n") or 0
             per_symbol_horizon[f"{symbol}_{horizon}"] = summary
 
     snapshot = {
@@ -136,6 +139,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--once", action="store_true", help="append one snapshot and exit")
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT, help="Binance request timeout in seconds")
+    live_eval.add_kline_cache_arguments(parser)
     return parser.parse_args(argv)
 
 
@@ -154,7 +158,7 @@ def main(argv: list[str] | None = None) -> int:
         datefmt="%Y-%m-%dT%H:%M:%SZ",
         stream=sys.stderr,
     )
-    cache = live_eval.KlineCache(timeout=args.timeout)
+    cache = live_eval.kline_cache_from_args(args, timeout=args.timeout)
     existing: dict[Any, Any] = {}
     fingerprints: dict[Any, str] = {}
 

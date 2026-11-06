@@ -17,13 +17,17 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from scipy.stats import chi2_contingency, norm, spearmanr
+from scipy.stats import chi2_contingency, norm, rankdata, spearmanr
 
 HERE = Path(__file__).resolve().parent
 PROJECT_ROOT = HERE.parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 import live_eval  # noqa: E402
+from features import FEATURE_ARMS  # noqa: E402
+
+DEFAULT_ARM = "market_only"
+ARM_CHOICES = tuple(sorted(FEATURE_ARMS))
 
 PREDICTIONS = HERE / "live_predictions.jsonl"
 SUPPLEMENTAL = Path("/tmp/price-prediction-live-final.jsonl")
@@ -35,6 +39,9 @@ HORIZONS = [1, 5, 15, 60]
 HORIZON_KEYS = {h: f"{h}m" for h in HORIZONS}
 BOOTSTRAP_RESAMPLES = 5000
 BOOTSTRAP_SEED = 20260914
+# Bootstrap resamples ranked per vectorized block in ``bootstrap_ic`` (bounds
+# memory to IC_BOOTSTRAP_CHUNK x n floats per array).
+IC_BOOTSTRAP_CHUNK = 500
 BONFERRONI_ALPHA = 0.05 / 16.0
 WINDOW_SECONDS = 6 * 60 * 60
 WINDOW_MIN_ROWS_FOR_FRACTION = 10
@@ -131,6 +138,25 @@ def spearman_stat(scores: np.ndarray, returns: np.ndarray) -> float | None:
     return json_float(correlation)
 
 
+def rowwise_spearman(scores: np.ndarray, returns: np.ndarray) -> np.ndarray:
+    """Spearman rho of each row pair: Pearson correlation of average ranks.
+
+    Identical in definition to ``scipy.stats.spearmanr`` per row (ties get
+    average ranks; NaN or constant rows yield NaN), but computed for a whole
+    block of bootstrap resamples at once.
+    """
+    score_ranks = rankdata(scores, axis=1)
+    return_ranks = rankdata(returns, axis=1)
+    score_ranks -= score_ranks.mean(axis=1, keepdims=True)
+    return_ranks -= return_ranks.mean(axis=1, keepdims=True)
+    numerator = np.einsum("ij,ij->i", score_ranks, return_ranks)
+    denominator = np.sqrt(
+        np.einsum("ij,ij->i", score_ranks, score_ranks) * np.einsum("ij,ij->i", return_ranks, return_ranks)
+    )
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return numerator / denominator
+
+
 def bootstrap_ic(scores: Sequence[float], returns: Sequence[float], *, block_length: int, seed_offset: int) -> dict[str, Any]:
     score_array = np.asarray(scores, dtype=float)
     return_array = np.asarray(returns, dtype=float)
@@ -149,12 +175,16 @@ def bootstrap_ic(scores: Sequence[float], returns: Sequence[float], *, block_len
         }
     rng = np.random.default_rng(BOOTSTRAP_SEED + seed_offset)
     indices = bootstrap_indices(n, block_length, rng)
-    boot_values: list[float] = []
-    for index_row in indices:
-        value = spearman_stat(score_array[index_row], return_array[index_row])
-        if value is not None:
-            boot_values.append(value)
-    if not boot_values:
+    boot_all = np.empty(indices.shape[0], dtype=float)
+    for start in range(0, indices.shape[0], IC_BOOTSTRAP_CHUNK):
+        index_rows = indices[start : start + IC_BOOTSTRAP_CHUNK]
+        boot_all[start : start + index_rows.shape[0]] = rowwise_spearman(
+            score_array[index_rows], return_array[index_rows]
+        )
+    # Non-finite resamples (constant or NaN rows) are dropped, exactly as the
+    # per-resample spearmanr path dropped its None values.
+    boot_values = boot_all[np.isfinite(boot_all)]
+    if boot_values.size == 0:
         return {
             "n": n,
             "spearman": observed,
@@ -163,7 +193,7 @@ def bootstrap_ic(scores: Sequence[float], returns: Sequence[float], *, block_len
             "p_value_method": "two-sided sign probability of paired moving-block bootstrap IC",
             "valid_resamples": 0,
         }
-    boot = np.asarray(boot_values, dtype=float)
+    boot = boot_values
     ci = [float(value) for value in np.quantile(boot, [0.025, 0.975])]
     # For a rank statistic, use the bootstrap probability that the association
     # has either sign.  This is deliberately labelled as a bootstrap sign p,
@@ -237,7 +267,10 @@ def baseline_hit(row: live_eval.EvaluatedRow, name: str) -> int | None:
     return value
 
 
-def direction_observations(rows: Sequence[live_eval.EvaluatedRow]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+def direction_observations(
+    rows: Sequence[live_eval.EvaluatedRow],
+    arm_name: str = DEFAULT_ARM,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     model_rows: list[dict[str, Any]] = []
     paired_rows: list[dict[str, Any]] = []
     ic_rows: list[dict[str, Any]] = []
@@ -245,7 +278,7 @@ def direction_observations(rows: Sequence[live_eval.EvaluatedRow]) -> tuple[list
         realized = finite(row.outcome.forward_return)
         if realized is None or realized == 0.0:
             continue
-        arm = row.prediction.values.get("market_only")
+        arm = row.prediction.values.get(arm_name)
         if not isinstance(arm, Mapping):
             continue
         probability = finite(arm.get("p_up"))
@@ -429,9 +462,15 @@ def regime_summary(observations: Sequence[dict[str, Any]]) -> dict[str, Any] | N
     }
 
 
-def cell_summary(symbol: str, horizon: int, rows: Sequence[live_eval.EvaluatedRow], cell_index: int) -> dict[str, Any]:
-    arm_rows = [row for row in rows if isinstance(row.prediction.values.get("market_only"), Mapping)]
-    model_obs, paired_obs, ic_obs = direction_observations(arm_rows)
+def cell_summary(
+    symbol: str,
+    horizon: int,
+    rows: Sequence[live_eval.EvaluatedRow],
+    cell_index: int,
+    arm_name: str = DEFAULT_ARM,
+) -> dict[str, Any]:
+    arm_rows = [row for row in rows if isinstance(row.prediction.values.get(arm_name), Mapping)]
+    model_obs, paired_obs, ic_obs = direction_observations(arm_rows, arm_name)
     model_hits = [item["model_hit"] for item in model_obs]
     persistence_hits = [item["persistence_hit"] for item in paired_obs]
     differences = [item["model_hit"] - item["persistence_hit"] for item in paired_obs]
@@ -486,6 +525,7 @@ def cell_summary(symbol: str, horizon: int, rows: Sequence[live_eval.EvaluatedRo
         "symbol": symbol,
         "horizon_minutes": horizon,
         "horizon": HORIZON_KEYS[horizon],
+        "arm": arm_name,
         "rows_available": len(arm_rows),
         "direction": {
             "n": len(model_obs),
@@ -542,9 +582,10 @@ def windowed_cell_summary(
     horizon: int,
     rows: Sequence[live_eval.EvaluatedRow],
     cell_index: int,
+    arm_name: str = DEFAULT_ARM,
 ) -> dict[str, Any]:
     """Run the registered cell tests independently in each UTC six-hour window."""
-    arm_rows = [row for row in rows if isinstance(row.prediction.values.get("market_only"), Mapping)]
+    arm_rows = [row for row in rows if isinstance(row.prediction.values.get(arm_name), Mapping)]
     grouped: dict[int, list[live_eval.EvaluatedRow]] = {}
     for row in arm_rows:
         window_index = int(row.prediction.target_time_s) // WINDOW_SECONDS
@@ -560,6 +601,7 @@ def windowed_cell_summary(
             horizon,
             window_rows,
             cell_index + window_index * cell_stride,
+            arm_name,
         )
         direction = summary["direction"]
         chance = dict(direction["vs_chance"])
@@ -618,12 +660,14 @@ def windowed_overall_verdict(cells: Mapping[str, Mapping[str, Any]]) -> str:
 
 def build_windowed_summary(
     grouped: Mapping[tuple[str, int], Sequence[live_eval.EvaluatedRow]],
+    arm_name: str = DEFAULT_ARM,
 ) -> dict[str, Any]:
     cells: dict[str, Any] = {}
     for index, (symbol, horizon) in enumerate((item for item in ((s, h) for s in SYMBOLS for h in HORIZONS))):
         key = f"{symbol}_{HORIZON_KEYS[horizon]}"
-        cells[key] = windowed_cell_summary(symbol, horizon, grouped.get((symbol, horizon), []), index)
+        cells[key] = windowed_cell_summary(symbol, horizon, grouped.get((symbol, horizon), []), index, arm_name)
     return {
+        "arm": arm_name,
         "window_seconds": WINDOW_SECONDS,
         "window_anchor": "UTC target_time_s // 21600; consecutive non-overlapping windows",
         "methods": {
@@ -651,9 +695,10 @@ def build_windowed_summary(
 
 
 def windowed_report_lines(windowed: Mapping[str, Any]) -> list[str]:
+    arm_name = str(windowed.get("arm", DEFAULT_ARM))
     lines = [
         "",
-        "WINDOWED 6-HOUR STABILITY (market_only)",
+        f"WINDOWED 6-HOUR STABILITY ({arm_name})",
         "=======================================",
         "Per-window n is shown as window_index:n; windows with n<10 are listed but excluded from the fraction.",
         "Cell                         windows (n)                          survive/count  fraction  verdict",
@@ -712,6 +757,16 @@ def run_windowed_self_test() -> int:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--arm",
+        choices=ARM_CHOICES,
+        default=DEFAULT_ARM,
+        help=(
+            "feature arm to test (default: market_only). Any arm recorded in the "
+            "live log can be tested with the same pipeline; records without that "
+            "arm yield empty cells"
+        ),
+    )
+    parser.add_argument(
         "--windowed",
         action="store_true",
         help="also analyse consecutive non-overlapping six-hour UTC windows",
@@ -721,13 +776,15 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="run the deterministic windowed stability classifier check and exit",
     )
+    live_eval.add_kline_cache_arguments(parser)
     return parser.parse_args(argv)
 
 
 
 def make_report(payload: Mapping[str, Any]) -> str:
+    arm_name = str(payload.get("arm", DEFAULT_ARM))
     lines = [
-        "LIVE EDGE SIGNIFICANCE (market_only)",
+        f"LIVE EDGE SIGNIFICANCE ({arm_name})",
         "====================================",
         f"Input: {payload['input']['records_read']} nonblank records, {payload['input']['deduplicated_rows']} deduplicated rows, "
         f"{payload['input']['evaluated_rows']} evaluated rows, {payload['input']['pending_rows']} pending rows.",
@@ -787,6 +844,7 @@ def main() -> int:
     args = parse_args()
     if args.windowed_self_test:
         return run_windowed_self_test()
+    arm_name = args.arm
     input_path, records_read_snapshot, now_ms = snapshot_input()
     loaded = live_eval._read_predictions(input_path)
     if not loaded.rows:
@@ -794,7 +852,7 @@ def main() -> int:
     min_target = min(row.target_time_s for row in loaded.rows)
     max_target = max(row.target_time_s for row in loaded.rows)
     max_horizon = max(row.horizon for row in loaded.rows)
-    cache = live_eval.KlineCache(timeout=20.0)
+    cache = live_eval.kline_cache_from_args(args, timeout=20.0)
     # One broad request per symbol populates the evaluator's normal cache and
     # avoids one HTTP request per target window while preserving its formulas.
     for symbol in SYMBOLS:
@@ -817,6 +875,7 @@ def main() -> int:
             horizon,
             grouped.get((symbol, horizon), []),
             index,
+            arm_name,
         )
     chance_cells = [key for key, cell in cells.items() if cell["verdict"]["significant_vs_chance"]]
     persistence_cells = [key for key, cell in cells.items() if cell["verdict"]["significant_vs_persistence"]]
@@ -833,7 +892,7 @@ def main() -> int:
         f"The live {focus_labels} hit-rate elevations are not a confirmed trading edge: after horizon-sized "
         f"block bootstrap and Bonferroni correction (alpha={BONFERRONI_ALPHA:.6f}), "
         f"{len(chance_cells)}/16 cells survive vs chance, {len(persistence_cells)}/16 survive vs persistence, "
-        f"and {len(both_cells)}/16 survive both. The accumulated {focus_labels} market_only rates span "
+        f"{len(both_cells)}/16 survive both. The accumulated {focus_labels} {arm_name} rates span "
         f"{min(focus_rates) * 100:.1f}%–{max(focus_rates) * 100:.1f}% versus persistence "
         f"{min(focus_persist) * 100:.1f}%–{max(focus_persist) * 100:.1f}%; the small, short live sample and "
         "third/regime variation are consistent with a trending/regime or sample artifact rather than a stable edge. "
@@ -842,6 +901,7 @@ def main() -> int:
     )
     result: dict[str, Any] = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "arm": arm_name,
         "input": {
             "prediction_paths": [str(PREDICTIONS), str(SUPPLEMENTAL)],
             "combined_snapshot_path": str(input_path),
@@ -858,8 +918,8 @@ def main() -> int:
         },
         "methods": {
             "evaluator": "price-prediction/live_eval.evaluate_predictions with its EvaluatedRow outcomes and build_scorecard semantics",
-            "direction_denominator": "finite nonzero realized forward returns with finite market_only p_up; exact-zero returns excluded as in live_eval",
-            "persistence_pair_denominator": "rows with finite nonzero realized forward returns, finite market_only p_up, and a persistence sign",
+            "direction_denominator": f"finite nonzero realized forward returns with a finite {arm_name} p_up; exact-zero returns excluded as in live_eval",
+            "persistence_pair_denominator": f"rows with finite nonzero realized forward returns, a finite {arm_name} p_up, and a persistence sign",
             "bootstrap": {
                 "type": "moving-block bootstrap on chronological 1-minute row sequence",
                 "block_length_rows": "horizon minutes (1, 5, 15, or 60)",
@@ -898,7 +958,7 @@ def main() -> int:
         },
     }
     if args.windowed:
-        result["windowed"] = build_windowed_summary(grouped)
+        result["windowed"] = build_windowed_summary(grouped, arm_name)
 
     report = make_report(result)
     result["printed_report"] = report

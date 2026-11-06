@@ -34,6 +34,9 @@ SIGNIFICANCE_OUTPUT = HERE / "live_edge_significance.json"
 VERDICT_HISTORY = HERE / "verdict_history.jsonl"
 ORCHESTRATOR_LOG = HERE / "orchestrator.log"
 ORCHESTRATOR_LOCK = HERE / ".orchestrator.lock"
+# Shared persistent store of closed Binance candles: each cycle downloads only
+# windows that matured since the previous cycle.
+KLINE_CACHE = HERE / "kline_cache.sqlite"
 
 DEFAULT_INTERVAL = 1800.0
 DEFAULT_MAX_CYCLES = 0
@@ -309,9 +312,9 @@ def append_verdict(record: Mapping[str, Any], path: str | Path = VERDICT_HISTORY
 
 def _tool_commands() -> tuple[tuple[str, list[str | Path]], ...]:
     return (
-        ("monitor", [VENV_PYTHON, MONITOR, "--once"]),
-        ("live_eval", [VENV_PYTHON, LIVE_EVAL, "--once"]),
-        ("significance", [VENV_PYTHON, SIGNIFICANCE, "--windowed"]),
+        ("monitor", [VENV_PYTHON, MONITOR, "--once", "--kline-cache", KLINE_CACHE]),
+        ("live_eval", [VENV_PYTHON, LIVE_EVAL, "--once", "--kline-cache", KLINE_CACHE]),
+        ("significance", [VENV_PYTHON, SIGNIFICANCE, "--windowed", "--kline-cache", KLINE_CACHE]),
     )
 
 

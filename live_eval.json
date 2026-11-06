@@ -1,33 +1,33 @@
 {
-  "evaluated": 2820,
-  "generated_utc": "2026-09-14T15:22:55.901900+00:00",
+  "evaluated": 13951,
+  "generated_utc": "2026-10-11T20:45:21.164192+00:00",
   "invalid_horizon_rows": 0,
-  "invalid_lines": 0,
+  "invalid_lines": 1,
   "pending": 240,
   "prediction_rows": {
-    "deduplicated": 11296,
-    "evaluated": 10972,
+    "deduplicated": 55820,
+    "evaluated": 55496,
     "pending": 324,
     "skipped": 0
   },
-  "records_read": 2836,
+  "records_read": 13972,
   "run_metadata": {
-    "evaluated": 2820,
-    "generated_utc": "2026-09-14T15:22:55.901900+00:00",
+    "evaluated": 13951,
+    "generated_utc": "2026-10-11T20:45:21.164192+00:00",
     "invalid_horizon_rows": 0,
-    "invalid_lines": 0,
+    "invalid_lines": 1,
     "pending": 240,
     "prediction_rows": {
-      "deduplicated": 11296,
-      "evaluated": 10972,
+      "deduplicated": 55820,
+      "evaluated": 55496,
       "pending": 324,
       "skipped": 0
     },
-    "records_read": 2836,
+    "records_read": 13972,
     "skip_reasons": {
       "required future candle is not fully closed": 324
     },
-    "skipped": 0
+    "skipped": 1
   },
   "scorecard": {
     "BNBUSDT": {
@@ -35,20 +35,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5971014492753624,
-              "hits": 412,
-              "ic_spearman": 0.21429943735669882,
-              "n": 690
+              "hit_rate": 0.5134431916738942,
+              "hits": 1776,
+              "ic_spearman": 0.005693246148084373,
+              "n": 3459
             },
-            "n": 691,
+            "n": 3474,
             "volatility": {
-              "ewma_mae": 0.000431217239752941,
-              "ewma_mean_abs_error": 0.000431217239752941,
-              "ewma_n": 691,
-              "mae": 0.0004414333582153844,
-              "mae_delta_vs_ewma": 1.0216118462443426e-05,
-              "mean_abs_error": 0.0004414333582153844,
-              "n": 691
+              "ewma_mae": 0.0004287599669052585,
+              "ewma_mean_abs_error": 0.0004287599669052585,
+              "ewma_n": 3474,
+              "mae": 0.00045622106353586454,
+              "mae_delta_vs_ewma": 2.7461096630606024e-05,
+              "mean_abs_error": 0.00045622106353586454,
+              "n": 3474
             }
           },
           "with_gcp": {
@@ -60,56 +60,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.000431217239752941,
-              "ewma_mean_abs_error": 0.000431217239752941,
-              "ewma_n": 691,
+              "ewma_mae": 0.0004287599669052585,
+              "ewma_mean_abs_error": 0.0004287599669052585,
+              "ewma_n": 3474,
               "mae": 0.0065492280160155195,
-              "mae_delta_vs_ewma": 0.006118010776262579,
+              "mae_delta_vs_ewma": 0.0061204680491102606,
               "mean_abs_error": 0.0065492280160155195,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5303030303030303,
+              "hits": 1190,
+              "ic_spearman": 0.0451296118044906,
+              "n": 2244
+            },
+            "n": 2257,
+            "volatility": {
+              "ewma_mae": 0.0004287599669052585,
+              "ewma_mean_abs_error": 0.0004287599669052585,
+              "ewma_n": 3474,
+              "mae": 0.0004159487162241504,
+              "mae_delta_vs_ewma": -1.2811250681108138e-05,
+              "mean_abs_error": 0.0004159487162241504,
+              "n": 2257
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4608695652173913,
-            "hits": 318,
-            "n": 690
+            "hit_rate": 0.48048568950563747,
+            "hits": 1662,
+            "n": 3459
           },
           "persistence_sign": {
-            "hit_rate": 0.48840579710144927,
-            "hits": 337,
-            "n": 690
+            "hit_rate": 0.49956634865568084,
+            "hits": 1728,
+            "n": 3459
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5971014492753624,
-            "hits": 412,
-            "ic_spearman": 0.21429943735669882,
-            "n": 690
+            "hit_rate": 0.5134431916738942,
+            "hits": 1776,
+            "ic_spearman": 0.005693246148084373,
+            "n": 3459
           },
           "momentum_sign": {
-            "hit_rate": 0.4608695652173913,
-            "hits": 318,
-            "n": 690
+            "hit_rate": 0.48048568950563747,
+            "hits": 1662,
+            "n": 3459
           },
           "persistence_sign": {
-            "hit_rate": 0.48840579710144927,
-            "hits": 337,
-            "n": 690
+            "hit_rate": 0.49956634865568084,
+            "hits": 1728,
+            "n": 3459
           }
         },
-        "n": 691,
+        "n": 3474,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.000431217239752941,
-            "ewma_mean_abs_error": 0.000431217239752941,
-            "ewma_n": 691,
-            "mae": 0.0004414333582153844,
-            "mae_delta_vs_ewma": 1.0216118462443426e-05,
-            "mean_abs_error": 0.0004414333582153844,
-            "n": 691
+            "ewma_mae": 0.0004287599669052585,
+            "ewma_mean_abs_error": 0.0004287599669052585,
+            "ewma_n": 3474,
+            "mae": 0.00045622106353586454,
+            "mae_delta_vs_ewma": 2.7461096630606024e-05,
+            "mean_abs_error": 0.00045622106353586454,
+            "n": 3474
           }
         }
       },
@@ -117,20 +135,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.4811046511627907,
-              "hits": 331,
-              "ic_spearman": 0.0729213434197929,
-              "n": 688
+              "hit_rate": 0.49074355083459786,
+              "hits": 1617,
+              "ic_spearman": -0.010443392242277829,
+              "n": 3295
             },
-            "n": 705,
+            "n": 3488,
             "volatility": {
-              "ewma_mae": 0.0002535010553597695,
-              "ewma_mean_abs_error": 0.0002535010553597695,
-              "ewma_n": 705,
-              "mae": 0.00022309652567152635,
-              "mae_delta_vs_ewma": -3.0404529688243153e-05,
-              "mean_abs_error": 0.00022309652567152635,
-              "n": 705
+              "ewma_mae": 0.00022178699235745825,
+              "ewma_mean_abs_error": 0.00022178699235745825,
+              "ewma_n": 3488,
+              "mae": 0.00018969174863278795,
+              "mae_delta_vs_ewma": -3.20952437246703e-05,
+              "mean_abs_error": 0.00018969174863278795,
+              "n": 3488
             }
           },
           "with_gcp": {
@@ -142,56 +160,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0002535010553597695,
-              "ewma_mean_abs_error": 0.0002535010553597695,
-              "ewma_n": 705,
+              "ewma_mae": 0.00022178699235745825,
+              "ewma_mean_abs_error": 0.00022178699235745825,
+              "ewma_n": 3488,
               "mae": 0.0009634928709272161,
-              "mae_delta_vs_ewma": 0.0007099918155674466,
+              "mae_delta_vs_ewma": 0.0007417058785697579,
               "mean_abs_error": 0.0009634928709272161,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.4990503323836657,
+              "hits": 1051,
+              "ic_spearman": 0.01274393220023253,
+              "n": 2106
+            },
+            "n": 2271,
+            "volatility": {
+              "ewma_mae": 0.00022178699235745825,
+              "ewma_mean_abs_error": 0.00022178699235745825,
+              "ewma_n": 3488,
+              "mae": 0.00016243270746683493,
+              "mae_delta_vs_ewma": -5.9354284890623314e-05,
+              "mean_abs_error": 0.00016243270746683493,
+              "n": 2271
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.498546511627907,
-            "hits": 343,
-            "n": 688
+            "hit_rate": 0.48619119878603945,
+            "hits": 1602,
+            "n": 3295
           },
           "persistence_sign": {
-            "hit_rate": 0.4883720930232558,
-            "hits": 336,
-            "n": 688
+            "hit_rate": 0.5080424886191198,
+            "hits": 1674,
+            "n": 3295
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.4811046511627907,
-            "hits": 331,
-            "ic_spearman": 0.0729213434197929,
-            "n": 688
+            "hit_rate": 0.49074355083459786,
+            "hits": 1617,
+            "ic_spearman": -0.010443392242277829,
+            "n": 3295
           },
           "momentum_sign": {
-            "hit_rate": 0.498546511627907,
-            "hits": 343,
-            "n": 688
+            "hit_rate": 0.48619119878603945,
+            "hits": 1602,
+            "n": 3295
           },
           "persistence_sign": {
-            "hit_rate": 0.4883720930232558,
-            "hits": 336,
-            "n": 688
+            "hit_rate": 0.5080424886191198,
+            "hits": 1674,
+            "n": 3295
           }
         },
-        "n": 705,
+        "n": 3488,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0002535010553597695,
-            "ewma_mean_abs_error": 0.0002535010553597695,
-            "ewma_n": 705,
-            "mae": 0.00022309652567152635,
-            "mae_delta_vs_ewma": -3.0404529688243153e-05,
-            "mean_abs_error": 0.00022309652567152635,
-            "n": 705
+            "ewma_mae": 0.00022178699235745825,
+            "ewma_mean_abs_error": 0.00022178699235745825,
+            "ewma_n": 3488,
+            "mae": 0.00018969174863278795,
+            "mae_delta_vs_ewma": -3.20952437246703e-05,
+            "mean_abs_error": 0.00018969174863278795,
+            "n": 3488
           }
         }
       },
@@ -199,20 +235,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5659025787965616,
-              "hits": 395,
-              "ic_spearman": 0.1482370520167998,
-              "n": 698
+              "hit_rate": 0.5131998839570641,
+              "hits": 1769,
+              "ic_spearman": 0.020393003930925677,
+              "n": 3447
             },
-            "n": 701,
+            "n": 3484,
             "volatility": {
-              "ewma_mae": 0.00032014602772296145,
-              "ewma_mean_abs_error": 0.00032014602772296145,
-              "ewma_n": 701,
-              "mae": 0.000323685911516179,
-              "mae_delta_vs_ewma": 3.539883793217532e-06,
-              "mean_abs_error": 0.000323685911516179,
-              "n": 701
+              "ewma_mae": 0.0003052388070780419,
+              "ewma_mean_abs_error": 0.0003052388070780419,
+              "ewma_n": 3484,
+              "mae": 0.00029889214030060787,
+              "mae_delta_vs_ewma": -6.346666777434058e-06,
+              "mean_abs_error": 0.00029889214030060787,
+              "n": 3484
             }
           },
           "with_gcp": {
@@ -224,56 +260,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.00032014602772296145,
-              "ewma_mean_abs_error": 0.00032014602772296145,
-              "ewma_n": 701,
+              "ewma_mae": 0.0003052388070780419,
+              "ewma_mean_abs_error": 0.0003052388070780419,
+              "ewma_n": 3484,
               "mae": 0.0022003593984458877,
-              "mae_delta_vs_ewma": 0.0018802133707229263,
+              "mae_delta_vs_ewma": 0.0018951205913678457,
               "mean_abs_error": 0.0022003593984458877,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.516331096196868,
+              "hits": 1154,
+              "ic_spearman": 0.07809876681254077,
+              "n": 2235
+            },
+            "n": 2267,
+            "volatility": {
+              "ewma_mae": 0.0003052388070780419,
+              "ewma_mean_abs_error": 0.0003052388070780419,
+              "ewma_n": 3484,
+              "mae": 0.0002621618834178303,
+              "mae_delta_vs_ewma": -4.307692366021165e-05,
+              "mean_abs_error": 0.0002621618834178303,
+              "n": 2267
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.46418338108882523,
-            "hits": 324,
-            "n": 698
+            "hit_rate": 0.4734551784160139,
+            "hits": 1632,
+            "n": 3447
           },
           "persistence_sign": {
-            "hit_rate": 0.49140401146131807,
-            "hits": 343,
-            "n": 698
+            "hit_rate": 0.48970118944009283,
+            "hits": 1688,
+            "n": 3447
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5659025787965616,
-            "hits": 395,
-            "ic_spearman": 0.1482370520167998,
-            "n": 698
+            "hit_rate": 0.5131998839570641,
+            "hits": 1769,
+            "ic_spearman": 0.020393003930925677,
+            "n": 3447
           },
           "momentum_sign": {
-            "hit_rate": 0.46418338108882523,
-            "hits": 324,
-            "n": 698
+            "hit_rate": 0.4734551784160139,
+            "hits": 1632,
+            "n": 3447
           },
           "persistence_sign": {
-            "hit_rate": 0.49140401146131807,
-            "hits": 343,
-            "n": 698
+            "hit_rate": 0.48970118944009283,
+            "hits": 1688,
+            "n": 3447
           }
         },
-        "n": 701,
+        "n": 3484,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.00032014602772296145,
-            "ewma_mean_abs_error": 0.00032014602772296145,
-            "ewma_n": 701,
-            "mae": 0.000323685911516179,
-            "mae_delta_vs_ewma": 3.539883793217532e-06,
-            "mean_abs_error": 0.000323685911516179,
-            "n": 701
+            "ewma_mae": 0.0003052388070780419,
+            "ewma_mean_abs_error": 0.0003052388070780419,
+            "ewma_n": 3484,
+            "mae": 0.00029889214030060787,
+            "mae_delta_vs_ewma": -6.346666777434058e-06,
+            "mean_abs_error": 0.00029889214030060787,
+            "n": 3484
           }
         }
       },
@@ -281,20 +335,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.7193798449612403,
-              "hits": 464,
-              "ic_spearman": 0.5523374831275105,
-              "n": 645
+              "hit_rate": 0.5349517402749342,
+              "hits": 1829,
+              "ic_spearman": -0.014554573793120584,
+              "n": 3419
             },
-            "n": 646,
+            "n": 3429,
             "volatility": {
-              "ewma_mae": 0.0008264308686976047,
-              "ewma_mean_abs_error": 0.0008264308686976047,
-              "ewma_n": 646,
-              "mae": 0.0008233795619102665,
-              "mae_delta_vs_ewma": -3.0513067873381636e-06,
-              "mean_abs_error": 0.0008233795619102665,
-              "n": 646
+              "ewma_mae": 0.0007826838024597803,
+              "ewma_mean_abs_error": 0.0007826838024597803,
+              "ewma_n": 3429,
+              "mae": 0.0009741794562969248,
+              "mae_delta_vs_ewma": 0.00019149565383714444,
+              "mean_abs_error": 0.0009741794562969248,
+              "n": 3429
             }
           },
           "with_gcp": {
@@ -306,56 +360,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0008264308686976047,
-              "ewma_mean_abs_error": 0.0008264308686976047,
-              "ewma_n": 646,
+              "ewma_mae": 0.0007826838024597803,
+              "ewma_mean_abs_error": 0.0007826838024597803,
+              "ewma_n": 3429,
               "mae": 0.0328673959010552,
-              "mae_delta_vs_ewma": 0.0320409650323576,
+              "mae_delta_vs_ewma": 0.032084712098595425,
               "mean_abs_error": 0.0328673959010552,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.49251021334543804,
+              "hits": 1085,
+              "ic_spearman": 0.004204700500239714,
+              "n": 2203
+            },
+            "n": 2212,
+            "volatility": {
+              "ewma_mae": 0.0007826838024597803,
+              "ewma_mean_abs_error": 0.0007826838024597803,
+              "ewma_n": 3429,
+              "mae": 0.0009696516617651537,
+              "mae_delta_vs_ewma": 0.0001869678593053734,
+              "mean_abs_error": 0.0009696516617651537,
+              "n": 2212
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4945736434108527,
-            "hits": 319,
-            "n": 645
+            "hit_rate": 0.49663644340450425,
+            "hits": 1698,
+            "n": 3419
           },
           "persistence_sign": {
-            "hit_rate": 0.4682170542635659,
-            "hits": 302,
-            "n": 645
+            "hit_rate": 0.4922491956712489,
+            "hits": 1683,
+            "n": 3419
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.7193798449612403,
-            "hits": 464,
-            "ic_spearman": 0.5523374831275105,
-            "n": 645
+            "hit_rate": 0.5349517402749342,
+            "hits": 1829,
+            "ic_spearman": -0.014554573793120584,
+            "n": 3419
           },
           "momentum_sign": {
-            "hit_rate": 0.4945736434108527,
-            "hits": 319,
-            "n": 645
+            "hit_rate": 0.49663644340450425,
+            "hits": 1698,
+            "n": 3419
           },
           "persistence_sign": {
-            "hit_rate": 0.4682170542635659,
-            "hits": 302,
-            "n": 645
+            "hit_rate": 0.4922491956712489,
+            "hits": 1683,
+            "n": 3419
           }
         },
-        "n": 646,
+        "n": 3429,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0008264308686976047,
-            "ewma_mean_abs_error": 0.0008264308686976047,
-            "ewma_n": 646,
-            "mae": 0.0008233795619102665,
-            "mae_delta_vs_ewma": -3.0513067873381636e-06,
-            "mean_abs_error": 0.0008233795619102665,
-            "n": 646
+            "ewma_mae": 0.0007826838024597803,
+            "ewma_mean_abs_error": 0.0007826838024597803,
+            "ewma_n": 3429,
+            "mae": 0.0009741794562969248,
+            "mae_delta_vs_ewma": 0.00019149565383714444,
+            "mean_abs_error": 0.0009741794562969248,
+            "n": 3429
           }
         }
       }
@@ -365,20 +437,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5550724637681159,
-              "hits": 383,
-              "ic_spearman": 0.1776774596660888,
-              "n": 690
+              "hit_rate": 0.5105399942246607,
+              "hits": 1768,
+              "ic_spearman": 0.020866201478508536,
+              "n": 3463
             },
-            "n": 691,
+            "n": 3473,
             "volatility": {
-              "ewma_mae": 0.0005082221190594015,
-              "ewma_mean_abs_error": 0.0005082221190594015,
-              "ewma_n": 691,
-              "mae": 0.000505390572026972,
-              "mae_delta_vs_ewma": -2.8315470324294595e-06,
-              "mean_abs_error": 0.000505390572026972,
-              "n": 691
+              "ewma_mae": 0.00044216932347452024,
+              "ewma_mean_abs_error": 0.00044216932347452024,
+              "ewma_n": 3473,
+              "mae": 0.00045972836789357526,
+              "mae_delta_vs_ewma": 1.7559044419055022e-05,
+              "mean_abs_error": 0.00045972836789357526,
+              "n": 3473
             }
           },
           "with_gcp": {
@@ -390,56 +462,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0005082221190594015,
-              "ewma_mean_abs_error": 0.0005082221190594015,
-              "ewma_n": 691,
+              "ewma_mae": 0.00044216932347452024,
+              "ewma_mean_abs_error": 0.00044216932347452024,
+              "ewma_n": 3473,
               "mae": 0.011509384517239998,
-              "mae_delta_vs_ewma": 0.011001162398180596,
+              "mae_delta_vs_ewma": 0.011067215193765478,
               "mean_abs_error": 0.011509384517239998,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5353805073431241,
+              "hits": 1203,
+              "ic_spearman": 0.04103142863334998,
+              "n": 2247
+            },
+            "n": 2256,
+            "volatility": {
+              "ewma_mae": 0.00044216932347452024,
+              "ewma_mean_abs_error": 0.00044216932347452024,
+              "ewma_n": 3473,
+              "mae": 0.0004309505587963832,
+              "mae_delta_vs_ewma": -1.1218764678137068e-05,
+              "mean_abs_error": 0.0004309505587963832,
+              "n": 2256
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.47246376811594204,
-            "hits": 326,
-            "n": 690
+            "hit_rate": 0.47531042448743865,
+            "hits": 1646,
+            "n": 3463
           },
           "persistence_sign": {
-            "hit_rate": 0.4927536231884058,
-            "hits": 340,
-            "n": 690
+            "hit_rate": 0.4909038406006353,
+            "hits": 1700,
+            "n": 3463
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5550724637681159,
-            "hits": 383,
-            "ic_spearman": 0.1776774596660888,
-            "n": 690
+            "hit_rate": 0.5105399942246607,
+            "hits": 1768,
+            "ic_spearman": 0.020866201478508536,
+            "n": 3463
           },
           "momentum_sign": {
-            "hit_rate": 0.47246376811594204,
-            "hits": 326,
-            "n": 690
+            "hit_rate": 0.47531042448743865,
+            "hits": 1646,
+            "n": 3463
           },
           "persistence_sign": {
-            "hit_rate": 0.4927536231884058,
-            "hits": 340,
-            "n": 690
+            "hit_rate": 0.4909038406006353,
+            "hits": 1700,
+            "n": 3463
           }
         },
-        "n": 691,
+        "n": 3473,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0005082221190594015,
-            "ewma_mean_abs_error": 0.0005082221190594015,
-            "ewma_n": 691,
-            "mae": 0.000505390572026972,
-            "mae_delta_vs_ewma": -2.8315470324294595e-06,
-            "mean_abs_error": 0.000505390572026972,
-            "n": 691
+            "ewma_mae": 0.00044216932347452024,
+            "ewma_mean_abs_error": 0.00044216932347452024,
+            "ewma_n": 3473,
+            "mae": 0.00045972836789357526,
+            "mae_delta_vs_ewma": 1.7559044419055022e-05,
+            "mean_abs_error": 0.00045972836789357526,
+            "n": 3473
           }
         }
       },
@@ -447,20 +537,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5093525179856115,
-              "hits": 354,
-              "ic_spearman": 0.05068889735672457,
-              "n": 695
+              "hit_rate": 0.5015954052329291,
+              "hits": 1572,
+              "ic_spearman": 0.006022906163343763,
+              "n": 3134
             },
-            "n": 705,
+            "n": 3487,
             "volatility": {
-              "ewma_mae": 0.0002866542494678653,
-              "ewma_mean_abs_error": 0.0002866542494678653,
-              "ewma_n": 705,
-              "mae": 0.00024804858498627975,
-              "mae_delta_vs_ewma": -3.860566448158557e-05,
-              "mean_abs_error": 0.00024804858498627975,
-              "n": 705
+              "ewma_mae": 0.0002264570402002976,
+              "ewma_mean_abs_error": 0.0002264570402002976,
+              "ewma_n": 3487,
+              "mae": 0.00018723142713823512,
+              "mae_delta_vs_ewma": -3.922561306206248e-05,
+              "mean_abs_error": 0.00018723142713823512,
+              "n": 3487
             }
           },
           "with_gcp": {
@@ -472,56 +562,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0002866542494678653,
-              "ewma_mean_abs_error": 0.0002866542494678653,
-              "ewma_n": 705,
+              "ewma_mae": 0.0002264570402002976,
+              "ewma_mean_abs_error": 0.0002264570402002976,
+              "ewma_n": 3487,
               "mae": 0.002377029347465783,
-              "mae_delta_vs_ewma": 0.0020903750979979173,
+              "mae_delta_vs_ewma": 0.002150572307265485,
               "mean_abs_error": 0.002377029347465783,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5101088646967341,
+              "hits": 984,
+              "ic_spearman": 0.028324022772281156,
+              "n": 1929
+            },
+            "n": 2270,
+            "volatility": {
+              "ewma_mae": 0.0002264570402002976,
+              "ewma_mean_abs_error": 0.0002264570402002976,
+              "ewma_n": 3487,
+              "mae": 0.00015131017154036773,
+              "mae_delta_vs_ewma": -7.514686865992988e-05,
+              "mean_abs_error": 0.00015131017154036773,
+              "n": 2270
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.5179856115107914,
-            "hits": 360,
-            "n": 695
+            "hit_rate": 0.5175494575622208,
+            "hits": 1622,
+            "n": 3134
           },
           "persistence_sign": {
-            "hit_rate": 0.5093525179856115,
-            "hits": 354,
-            "n": 695
+            "hit_rate": 0.501914486279515,
+            "hits": 1573,
+            "n": 3134
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5093525179856115,
-            "hits": 354,
-            "ic_spearman": 0.05068889735672457,
-            "n": 695
+            "hit_rate": 0.5015954052329291,
+            "hits": 1572,
+            "ic_spearman": 0.006022906163343763,
+            "n": 3134
           },
           "momentum_sign": {
-            "hit_rate": 0.5179856115107914,
-            "hits": 360,
-            "n": 695
+            "hit_rate": 0.5175494575622208,
+            "hits": 1622,
+            "n": 3134
           },
           "persistence_sign": {
-            "hit_rate": 0.5093525179856115,
-            "hits": 354,
-            "n": 695
+            "hit_rate": 0.501914486279515,
+            "hits": 1573,
+            "n": 3134
           }
         },
-        "n": 705,
+        "n": 3487,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0002866542494678653,
-            "ewma_mean_abs_error": 0.0002866542494678653,
-            "ewma_n": 705,
-            "mae": 0.00024804858498627975,
-            "mae_delta_vs_ewma": -3.860566448158557e-05,
-            "mean_abs_error": 0.00024804858498627975,
-            "n": 705
+            "ewma_mae": 0.0002264570402002976,
+            "ewma_mean_abs_error": 0.0002264570402002976,
+            "ewma_n": 3487,
+            "mae": 0.00018723142713823512,
+            "mae_delta_vs_ewma": -3.922561306206248e-05,
+            "mean_abs_error": 0.00018723142713823512,
+            "n": 3487
           }
         }
       },
@@ -529,20 +637,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.543509272467903,
-              "hits": 381,
-              "ic_spearman": 0.1613912446722718,
-              "n": 701
+              "hit_rate": 0.5164579085348092,
+              "hits": 1773,
+              "ic_spearman": 0.04098975094705864,
+              "n": 3433
             },
-            "n": 701,
+            "n": 3483,
             "volatility": {
-              "ewma_mae": 0.0003889178903318498,
-              "ewma_mean_abs_error": 0.0003889178903318498,
-              "ewma_n": 701,
-              "mae": 0.00036860806005233586,
-              "mae_delta_vs_ewma": -2.0309830279513963e-05,
-              "mean_abs_error": 0.00036860806005233586,
-              "n": 701
+              "ewma_mae": 0.00032226030954019035,
+              "ewma_mean_abs_error": 0.00032226030954019035,
+              "ewma_n": 3483,
+              "mae": 0.00030930261099433153,
+              "mae_delta_vs_ewma": -1.2957698545858817e-05,
+              "mean_abs_error": 0.00030930261099433153,
+              "n": 3483
             }
           },
           "with_gcp": {
@@ -554,56 +662,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0003889178903318498,
-              "ewma_mean_abs_error": 0.0003889178903318498,
-              "ewma_n": 701,
+              "ewma_mae": 0.00032226030954019035,
+              "ewma_mean_abs_error": 0.00032226030954019035,
+              "ewma_n": 3483,
               "mae": 0.007211516745053571,
-              "mae_delta_vs_ewma": 0.006822598854721721,
+              "mae_delta_vs_ewma": 0.00688925643551338,
               "mean_abs_error": 0.007211516745053571,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5187189896256202,
+              "hits": 1150,
+              "ic_spearman": 0.05606369903040403,
+              "n": 2217
+            },
+            "n": 2266,
+            "volatility": {
+              "ewma_mae": 0.00032226030954019035,
+              "ewma_mean_abs_error": 0.00032226030954019035,
+              "ewma_n": 3483,
+              "mae": 0.0002685635339621337,
+              "mae_delta_vs_ewma": -5.3696775578056634e-05,
+              "mean_abs_error": 0.0002685635339621337,
+              "n": 2266
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4693295292439372,
-            "hits": 329,
-            "n": 701
+            "hit_rate": 0.481794348965919,
+            "hits": 1654,
+            "n": 3433
           },
           "persistence_sign": {
-            "hit_rate": 0.47788873038516405,
-            "hits": 335,
-            "n": 701
+            "hit_rate": 0.48820273812991555,
+            "hits": 1676,
+            "n": 3433
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.543509272467903,
-            "hits": 381,
-            "ic_spearman": 0.1613912446722718,
-            "n": 701
+            "hit_rate": 0.5164579085348092,
+            "hits": 1773,
+            "ic_spearman": 0.04098975094705864,
+            "n": 3433
           },
           "momentum_sign": {
-            "hit_rate": 0.4693295292439372,
-            "hits": 329,
-            "n": 701
+            "hit_rate": 0.481794348965919,
+            "hits": 1654,
+            "n": 3433
           },
           "persistence_sign": {
-            "hit_rate": 0.47788873038516405,
-            "hits": 335,
-            "n": 701
+            "hit_rate": 0.48820273812991555,
+            "hits": 1676,
+            "n": 3433
           }
         },
-        "n": 701,
+        "n": 3483,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0003889178903318498,
-            "ewma_mean_abs_error": 0.0003889178903318498,
-            "ewma_n": 701,
-            "mae": 0.00036860806005233586,
-            "mae_delta_vs_ewma": -2.0309830279513963e-05,
-            "mean_abs_error": 0.00036860806005233586,
-            "n": 701
+            "ewma_mae": 0.00032226030954019035,
+            "ewma_mean_abs_error": 0.00032226030954019035,
+            "ewma_n": 3483,
+            "mae": 0.00030930261099433153,
+            "mae_delta_vs_ewma": -1.2957698545858817e-05,
+            "mean_abs_error": 0.00030930261099433153,
+            "n": 3483
           }
         }
       },
@@ -611,20 +737,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.6439628482972136,
-              "hits": 416,
-              "ic_spearman": 0.3463071918299461,
-              "n": 646
+              "hit_rate": 0.5186806771745476,
+              "hits": 1777,
+              "ic_spearman": -0.0421825808209272,
+              "n": 3426
             },
-            "n": 646,
+            "n": 3428,
             "volatility": {
-              "ewma_mae": 0.0009400632910779912,
-              "ewma_mean_abs_error": 0.0009400632910779912,
-              "ewma_n": 646,
-              "mae": 0.000833044614753442,
-              "mae_delta_vs_ewma": -0.00010701867632454927,
-              "mean_abs_error": 0.000833044614753442,
-              "n": 646
+              "ewma_mae": 0.0007784378555537052,
+              "ewma_mean_abs_error": 0.0007784378555537052,
+              "ewma_n": 3428,
+              "mae": 0.0008719442545756785,
+              "mae_delta_vs_ewma": 9.350639902197327e-05,
+              "mean_abs_error": 0.0008719442545756785,
+              "n": 3428
             }
           },
           "with_gcp": {
@@ -636,56 +762,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0009400632910779912,
-              "ewma_mean_abs_error": 0.0009400632910779912,
-              "ewma_n": 646,
+              "ewma_mae": 0.0007784378555537052,
+              "ewma_mean_abs_error": 0.0007784378555537052,
+              "ewma_n": 3428,
               "mae": 0.020325708687740314,
-              "mae_delta_vs_ewma": 0.01938564539666232,
+              "mae_delta_vs_ewma": 0.01954727083218661,
               "mean_abs_error": 0.020325708687740314,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5533936651583711,
+              "hits": 1223,
+              "ic_spearman": 0.060028276640835015,
+              "n": 2210
+            },
+            "n": 2211,
+            "volatility": {
+              "ewma_mae": 0.0007784378555537052,
+              "ewma_mean_abs_error": 0.0007784378555537052,
+              "ewma_n": 3428,
+              "mae": 0.000917749088084005,
+              "mae_delta_vs_ewma": 0.00013931123253029974,
+              "mean_abs_error": 0.000917749088084005,
+              "n": 2211
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.44891640866873067,
-            "hits": 290,
-            "n": 646
+            "hit_rate": 0.4868651488616462,
+            "hits": 1668,
+            "n": 3426
           },
           "persistence_sign": {
-            "hit_rate": 0.47832817337461303,
-            "hits": 309,
-            "n": 646
+            "hit_rate": 0.4836544074722709,
+            "hits": 1657,
+            "n": 3426
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.6439628482972136,
-            "hits": 416,
-            "ic_spearman": 0.3463071918299461,
-            "n": 646
+            "hit_rate": 0.5186806771745476,
+            "hits": 1777,
+            "ic_spearman": -0.0421825808209272,
+            "n": 3426
           },
           "momentum_sign": {
-            "hit_rate": 0.44891640866873067,
-            "hits": 290,
-            "n": 646
+            "hit_rate": 0.4868651488616462,
+            "hits": 1668,
+            "n": 3426
           },
           "persistence_sign": {
-            "hit_rate": 0.47832817337461303,
-            "hits": 309,
-            "n": 646
+            "hit_rate": 0.4836544074722709,
+            "hits": 1657,
+            "n": 3426
           }
         },
-        "n": 646,
+        "n": 3428,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0009400632910779912,
-            "ewma_mean_abs_error": 0.0009400632910779912,
-            "ewma_n": 646,
-            "mae": 0.000833044614753442,
-            "mae_delta_vs_ewma": -0.00010701867632454927,
-            "mean_abs_error": 0.000833044614753442,
-            "n": 646
+            "ewma_mae": 0.0007784378555537052,
+            "ewma_mean_abs_error": 0.0007784378555537052,
+            "ewma_n": 3428,
+            "mae": 0.0008719442545756785,
+            "mae_delta_vs_ewma": 9.350639902197327e-05,
+            "mean_abs_error": 0.0008719442545756785,
+            "n": 3428
           }
         }
       }
@@ -695,20 +839,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5550724637681159,
-              "hits": 383,
-              "ic_spearman": 0.24941770879403324,
-              "n": 690
+              "hit_rate": 0.5208873523480265,
+              "hits": 1808,
+              "ic_spearman": 0.050671600312379314,
+              "n": 3471
             },
-            "n": 691,
+            "n": 3474,
             "volatility": {
-              "ewma_mae": 0.0006012413892846686,
-              "ewma_mean_abs_error": 0.0006012413892846686,
-              "ewma_n": 691,
-              "mae": 0.0005953040952056695,
-              "mae_delta_vs_ewma": -5.937294078999129e-06,
-              "mean_abs_error": 0.0005953040952056695,
-              "n": 691
+              "ewma_mae": 0.000684101137136213,
+              "ewma_mean_abs_error": 0.000684101137136213,
+              "ewma_n": 3474,
+              "mae": 0.0007039268889220984,
+              "mae_delta_vs_ewma": 1.9825751785885397e-05,
+              "mean_abs_error": 0.0007039268889220984,
+              "n": 3474
             }
           },
           "with_gcp": {
@@ -720,56 +864,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0006012413892846686,
-              "ewma_mean_abs_error": 0.0006012413892846686,
-              "ewma_n": 691,
+              "ewma_mae": 0.000684101137136213,
+              "ewma_mean_abs_error": 0.000684101137136213,
+              "ewma_n": 3474,
               "mae": 0.018592093001225014,
-              "mae_delta_vs_ewma": 0.017990851611940344,
+              "mae_delta_vs_ewma": 0.017907991864088802,
               "mean_abs_error": 0.018592093001225014,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5352549889135255,
+              "hits": 1207,
+              "ic_spearman": 0.02400295146904725,
+              "n": 2255
+            },
+            "n": 2257,
+            "volatility": {
+              "ewma_mae": 0.000684101137136213,
+              "ewma_mean_abs_error": 0.000684101137136213,
+              "ewma_n": 3474,
+              "mae": 0.0006660620529847594,
+              "mae_delta_vs_ewma": -1.8039084151453568e-05,
+              "mean_abs_error": 0.0006660620529847594,
+              "n": 2257
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4666666666666667,
-            "hits": 322,
-            "n": 690
+            "hit_rate": 0.46701238836070297,
+            "hits": 1621,
+            "n": 3471
           },
           "persistence_sign": {
-            "hit_rate": 0.4956521739130435,
-            "hits": 342,
-            "n": 690
+            "hit_rate": 0.4955344281186978,
+            "hits": 1720,
+            "n": 3471
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5550724637681159,
-            "hits": 383,
-            "ic_spearman": 0.24941770879403324,
-            "n": 690
+            "hit_rate": 0.5208873523480265,
+            "hits": 1808,
+            "ic_spearman": 0.050671600312379314,
+            "n": 3471
           },
           "momentum_sign": {
-            "hit_rate": 0.4666666666666667,
-            "hits": 322,
-            "n": 690
+            "hit_rate": 0.46701238836070297,
+            "hits": 1621,
+            "n": 3471
           },
           "persistence_sign": {
-            "hit_rate": 0.4956521739130435,
-            "hits": 342,
-            "n": 690
+            "hit_rate": 0.4955344281186978,
+            "hits": 1720,
+            "n": 3471
           }
         },
-        "n": 691,
+        "n": 3474,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0006012413892846686,
-            "ewma_mean_abs_error": 0.0006012413892846686,
-            "ewma_n": 691,
-            "mae": 0.0005953040952056695,
-            "mae_delta_vs_ewma": -5.937294078999129e-06,
-            "mean_abs_error": 0.0005953040952056695,
-            "n": 691
+            "ewma_mae": 0.000684101137136213,
+            "ewma_mean_abs_error": 0.000684101137136213,
+            "ewma_n": 3474,
+            "mae": 0.0007039268889220984,
+            "mae_delta_vs_ewma": 1.9825751785885397e-05,
+            "mean_abs_error": 0.0007039268889220984,
+            "n": 3474
           }
         }
       },
@@ -777,20 +939,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5042735042735043,
-              "hits": 354,
-              "ic_spearman": 0.050842614924002404,
-              "n": 702
+              "hit_rate": 0.5096410560664492,
+              "hits": 1718,
+              "ic_spearman": 0.03264592947307911,
+              "n": 3371
             },
-            "n": 705,
+            "n": 3488,
             "volatility": {
-              "ewma_mae": 0.00035108608423747736,
-              "ewma_mean_abs_error": 0.00035108608423747736,
-              "ewma_n": 705,
-              "mae": 0.00030312677228258654,
-              "mae_delta_vs_ewma": -4.7959311954890826e-05,
-              "mean_abs_error": 0.00030312677228258654,
-              "n": 705
+              "ewma_mae": 0.00030918507349612207,
+              "ewma_mean_abs_error": 0.00030918507349612207,
+              "ewma_n": 3488,
+              "mae": 0.00025619775326580254,
+              "mae_delta_vs_ewma": -5.298732023031953e-05,
+              "mean_abs_error": 0.00025619775326580254,
+              "n": 3488
             }
           },
           "with_gcp": {
@@ -802,56 +964,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.00035108608423747736,
-              "ewma_mean_abs_error": 0.00035108608423747736,
-              "ewma_n": 705,
+              "ewma_mae": 0.00030918507349612207,
+              "ewma_mean_abs_error": 0.00030918507349612207,
+              "ewma_n": 3488,
               "mae": 0.0028705597402908993,
-              "mae_delta_vs_ewma": 0.002519473656053422,
+              "mae_delta_vs_ewma": 0.0025613746667947773,
               "mean_abs_error": 0.0028705597402908993,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5122742010189902,
+              "hits": 1106,
+              "ic_spearman": 0.04185152275619522,
+              "n": 2159
+            },
+            "n": 2271,
+            "volatility": {
+              "ewma_mae": 0.00030918507349612207,
+              "ewma_mean_abs_error": 0.00030918507349612207,
+              "ewma_n": 3488,
+              "mae": 0.00020888488091983654,
+              "mae_delta_vs_ewma": -0.00010030019257628554,
+              "mean_abs_error": 0.00020888488091983654,
+              "n": 2271
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4985754985754986,
-            "hits": 350,
-            "n": 702
+            "hit_rate": 0.4971818451498072,
+            "hits": 1676,
+            "n": 3371
           },
           "persistence_sign": {
-            "hit_rate": 0.5014245014245015,
-            "hits": 352,
-            "n": 702
+            "hit_rate": 0.49540195787600116,
+            "hits": 1670,
+            "n": 3371
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5042735042735043,
-            "hits": 354,
-            "ic_spearman": 0.050842614924002404,
-            "n": 702
+            "hit_rate": 0.5096410560664492,
+            "hits": 1718,
+            "ic_spearman": 0.03264592947307911,
+            "n": 3371
           },
           "momentum_sign": {
-            "hit_rate": 0.4985754985754986,
-            "hits": 350,
-            "n": 702
+            "hit_rate": 0.4971818451498072,
+            "hits": 1676,
+            "n": 3371
           },
           "persistence_sign": {
-            "hit_rate": 0.5014245014245015,
-            "hits": 352,
-            "n": 702
+            "hit_rate": 0.49540195787600116,
+            "hits": 1670,
+            "n": 3371
           }
         },
-        "n": 705,
+        "n": 3488,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.00035108608423747736,
-            "ewma_mean_abs_error": 0.00035108608423747736,
-            "ewma_n": 705,
-            "mae": 0.00030312677228258654,
-            "mae_delta_vs_ewma": -4.7959311954890826e-05,
-            "mean_abs_error": 0.00030312677228258654,
-            "n": 705
+            "ewma_mae": 0.00030918507349612207,
+            "ewma_mean_abs_error": 0.00030918507349612207,
+            "ewma_n": 3488,
+            "mae": 0.00025619775326580254,
+            "mae_delta_vs_ewma": -5.298732023031953e-05,
+            "mean_abs_error": 0.00025619775326580254,
+            "n": 3488
           }
         }
       },
@@ -859,20 +1039,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5538020086083214,
-              "hits": 386,
-              "ic_spearman": 0.18378316742918524,
-              "n": 697
+              "hit_rate": 0.5213133640552995,
+              "hits": 1810,
+              "ic_spearman": 0.042426836698073025,
+              "n": 3472
             },
-            "n": 701,
+            "n": 3484,
             "volatility": {
-              "ewma_mae": 0.00047816619718112443,
-              "ewma_mean_abs_error": 0.00047816619718112443,
-              "ewma_n": 701,
-              "mae": 0.0004574453727916059,
-              "mae_delta_vs_ewma": -2.0720824389518515e-05,
-              "mean_abs_error": 0.0004574453727916059,
-              "n": 701
+              "ewma_mae": 0.0004622668717771916,
+              "ewma_mean_abs_error": 0.0004622668717771916,
+              "ewma_n": 3484,
+              "mae": 0.00043753775671394514,
+              "mae_delta_vs_ewma": -2.4729115063246447e-05,
+              "mean_abs_error": 0.00043753775671394514,
+              "n": 3484
             }
           },
           "with_gcp": {
@@ -884,56 +1064,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.00047816619718112443,
-              "ewma_mean_abs_error": 0.00047816619718112443,
-              "ewma_n": 701,
+              "ewma_mae": 0.0004622668717771916,
+              "ewma_mean_abs_error": 0.0004622668717771916,
+              "ewma_n": 3484,
               "mae": 0.006952776157289013,
-              "mae_delta_vs_ewma": 0.006474609960107889,
+              "mae_delta_vs_ewma": 0.006490509285511822,
               "mean_abs_error": 0.006952776157289013,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5342768686421937,
+              "hits": 1208,
+              "ic_spearman": 0.061798828453679476,
+              "n": 2261
+            },
+            "n": 2267,
+            "volatility": {
+              "ewma_mae": 0.0004622668717771916,
+              "ewma_mean_abs_error": 0.0004622668717771916,
+              "ewma_n": 3484,
+              "mae": 0.0003891974585412503,
+              "mae_delta_vs_ewma": -7.306941323594128e-05,
+              "mean_abs_error": 0.0003891974585412503,
+              "n": 2267
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.45911047345767575,
-            "hits": 320,
-            "n": 697
+            "hit_rate": 0.48963133640552997,
+            "hits": 1700,
+            "n": 3472
           },
           "persistence_sign": {
-            "hit_rate": 0.48493543758967,
-            "hits": 338,
-            "n": 697
+            "hit_rate": 0.4853110599078341,
+            "hits": 1685,
+            "n": 3472
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5538020086083214,
-            "hits": 386,
-            "ic_spearman": 0.18378316742918524,
-            "n": 697
+            "hit_rate": 0.5213133640552995,
+            "hits": 1810,
+            "ic_spearman": 0.042426836698073025,
+            "n": 3472
           },
           "momentum_sign": {
-            "hit_rate": 0.45911047345767575,
-            "hits": 320,
-            "n": 697
+            "hit_rate": 0.48963133640552997,
+            "hits": 1700,
+            "n": 3472
           },
           "persistence_sign": {
-            "hit_rate": 0.48493543758967,
-            "hits": 338,
-            "n": 697
+            "hit_rate": 0.4853110599078341,
+            "hits": 1685,
+            "n": 3472
           }
         },
-        "n": 701,
+        "n": 3484,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.00047816619718112443,
-            "ewma_mean_abs_error": 0.00047816619718112443,
-            "ewma_n": 701,
-            "mae": 0.0004574453727916059,
-            "mae_delta_vs_ewma": -2.0720824389518515e-05,
-            "mean_abs_error": 0.0004574453727916059,
-            "n": 701
+            "ewma_mae": 0.0004622668717771916,
+            "ewma_mean_abs_error": 0.0004622668717771916,
+            "ewma_n": 3484,
+            "mae": 0.00043753775671394514,
+            "mae_delta_vs_ewma": -2.4729115063246447e-05,
+            "mean_abs_error": 0.00043753775671394514,
+            "n": 3484
           }
         }
       },
@@ -941,20 +1139,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.6052631578947368,
-              "hits": 391,
-              "ic_spearman": 0.4184250198332263,
-              "n": 646
+              "hit_rate": 0.47474452554744523,
+              "hits": 1626,
+              "ic_spearman": -0.07335324152389971,
+              "n": 3425
             },
-            "n": 646,
+            "n": 3429,
             "volatility": {
-              "ewma_mae": 0.001205187381101093,
-              "ewma_mean_abs_error": 0.001205187381101093,
-              "ewma_n": 646,
-              "mae": 0.0010948044752099398,
-              "mae_delta_vs_ewma": -0.00011038290589115334,
-              "mean_abs_error": 0.0010948044752099398,
-              "n": 646
+              "ewma_mae": 0.0014267166980623848,
+              "ewma_mean_abs_error": 0.0014267166980623848,
+              "ewma_n": 3429,
+              "mae": 0.0015607726556645383,
+              "mae_delta_vs_ewma": 0.0001340559576021535,
+              "mean_abs_error": 0.0015607726556645383,
+              "n": 3429
             }
           },
           "with_gcp": {
@@ -966,56 +1164,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.001205187381101093,
-              "ewma_mean_abs_error": 0.001205187381101093,
-              "ewma_n": 646,
+              "ewma_mae": 0.0014267166980623848,
+              "ewma_mean_abs_error": 0.0014267166980623848,
+              "ewma_n": 3429,
               "mae": 0.04131980013118012,
-              "mae_delta_vs_ewma": 0.04011461275007903,
+              "mae_delta_vs_ewma": 0.03989308343311773,
               "mean_abs_error": 0.04131980013118012,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.4936594202898551,
+              "hits": 1090,
+              "ic_spearman": -0.1037157367058478,
+              "n": 2208
+            },
+            "n": 2212,
+            "volatility": {
+              "ewma_mae": 0.0014267166980623848,
+              "ewma_mean_abs_error": 0.0014267166980623848,
+              "ewma_n": 3429,
+              "mae": 0.001615063210868292,
+              "mae_delta_vs_ewma": 0.00018834651280590716,
+              "mean_abs_error": 0.001615063210868292,
+              "n": 2212
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4086687306501548,
-            "hits": 264,
-            "n": 646
+            "hit_rate": 0.49547445255474454,
+            "hits": 1697,
+            "n": 3425
           },
           "persistence_sign": {
-            "hit_rate": 0.4535603715170279,
-            "hits": 293,
-            "n": 646
+            "hit_rate": 0.491970802919708,
+            "hits": 1685,
+            "n": 3425
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.6052631578947368,
-            "hits": 391,
-            "ic_spearman": 0.4184250198332263,
-            "n": 646
+            "hit_rate": 0.47474452554744523,
+            "hits": 1626,
+            "ic_spearman": -0.07335324152389971,
+            "n": 3425
           },
           "momentum_sign": {
-            "hit_rate": 0.4086687306501548,
-            "hits": 264,
-            "n": 646
+            "hit_rate": 0.49547445255474454,
+            "hits": 1697,
+            "n": 3425
           },
           "persistence_sign": {
-            "hit_rate": 0.4535603715170279,
-            "hits": 293,
-            "n": 646
+            "hit_rate": 0.491970802919708,
+            "hits": 1685,
+            "n": 3425
           }
         },
-        "n": 646,
+        "n": 3429,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.001205187381101093,
-            "ewma_mean_abs_error": 0.001205187381101093,
-            "ewma_n": 646,
-            "mae": 0.0010948044752099398,
-            "mae_delta_vs_ewma": -0.00011038290589115334,
-            "mean_abs_error": 0.0010948044752099398,
-            "n": 646
+            "ewma_mae": 0.0014267166980623848,
+            "ewma_mean_abs_error": 0.0014267166980623848,
+            "ewma_n": 3429,
+            "mae": 0.0015607726556645383,
+            "mae_delta_vs_ewma": 0.0001340559576021535,
+            "mean_abs_error": 0.0015607726556645383,
+            "n": 3429
           }
         }
       }
@@ -1025,20 +1241,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.6014814814814815,
-              "hits": 406,
-              "ic_spearman": 0.29417233672041326,
-              "n": 675
+              "hit_rate": 0.5145228215767634,
+              "hits": 1736,
+              "ic_spearman": 0.02699871494530578,
+              "n": 3374
             },
-            "n": 691,
+            "n": 3474,
             "volatility": {
-              "ewma_mae": 0.0007736099963507285,
-              "ewma_mean_abs_error": 0.0007736099963507285,
-              "ewma_n": 691,
-              "mae": 0.0007797665290923081,
-              "mae_delta_vs_ewma": 6.156532741579692e-06,
-              "mean_abs_error": 0.0007797665290923081,
-              "n": 691
+              "ewma_mae": 0.0007095186969126959,
+              "ewma_mean_abs_error": 0.0007095186969126959,
+              "ewma_n": 3474,
+              "mae": 0.000739428207237263,
+              "mae_delta_vs_ewma": 2.9909510324567165e-05,
+              "mean_abs_error": 0.000739428207237263,
+              "n": 3474
             }
           },
           "with_gcp": {
@@ -1050,56 +1266,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0007736099963507285,
-              "ewma_mean_abs_error": 0.0007736099963507285,
-              "ewma_n": 691,
+              "ewma_mae": 0.0007095186969126959,
+              "ewma_mean_abs_error": 0.0007095186969126959,
+              "ewma_n": 3474,
               "mae": 0.018046717894270186,
-              "mae_delta_vs_ewma": 0.017273107897919457,
+              "mae_delta_vs_ewma": 0.01733719919735749,
               "mean_abs_error": 0.018046717894270186,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5481651376146789,
+              "hits": 1195,
+              "ic_spearman": 0.057187313959589495,
+              "n": 2180
+            },
+            "n": 2257,
+            "volatility": {
+              "ewma_mae": 0.0007095186969126959,
+              "ewma_mean_abs_error": 0.0007095186969126959,
+              "ewma_n": 3474,
+              "mae": 0.0006981158876466175,
+              "mae_delta_vs_ewma": -1.1402809266078395e-05,
+              "mean_abs_error": 0.0006981158876466175,
+              "n": 2257
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.41185185185185186,
-            "hits": 278,
-            "n": 675
+            "hit_rate": 0.472732661529342,
+            "hits": 1595,
+            "n": 3374
           },
           "persistence_sign": {
-            "hit_rate": 0.4711111111111111,
-            "hits": 318,
-            "n": 675
+            "hit_rate": 0.48103141671606403,
+            "hits": 1623,
+            "n": 3374
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.6014814814814815,
-            "hits": 406,
-            "ic_spearman": 0.29417233672041326,
-            "n": 675
+            "hit_rate": 0.5145228215767634,
+            "hits": 1736,
+            "ic_spearman": 0.02699871494530578,
+            "n": 3374
           },
           "momentum_sign": {
-            "hit_rate": 0.41185185185185186,
-            "hits": 278,
-            "n": 675
+            "hit_rate": 0.472732661529342,
+            "hits": 1595,
+            "n": 3374
           },
           "persistence_sign": {
-            "hit_rate": 0.4711111111111111,
-            "hits": 318,
-            "n": 675
+            "hit_rate": 0.48103141671606403,
+            "hits": 1623,
+            "n": 3374
           }
         },
-        "n": 691,
+        "n": 3474,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0007736099963507285,
-            "ewma_mean_abs_error": 0.0007736099963507285,
-            "ewma_n": 691,
-            "mae": 0.0007797665290923081,
-            "mae_delta_vs_ewma": 6.156532741579692e-06,
-            "mean_abs_error": 0.0007797665290923081,
-            "n": 691
+            "ewma_mae": 0.0007095186969126959,
+            "ewma_mean_abs_error": 0.0007095186969126959,
+            "ewma_n": 3474,
+            "mae": 0.000739428207237263,
+            "mae_delta_vs_ewma": 2.9909510324567165e-05,
+            "mean_abs_error": 0.000739428207237263,
+            "n": 3474
           }
         }
       },
@@ -1107,20 +1341,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5185758513931888,
-              "hits": 335,
-              "ic_spearman": 0.0687487034932427,
-              "n": 646
+              "hit_rate": 0.5039796243234639,
+              "hits": 1583,
+              "ic_spearman": 0.025911648348315445,
+              "n": 3141
             },
-            "n": 705,
+            "n": 3488,
             "volatility": {
-              "ewma_mae": 0.00039316187526621974,
-              "ewma_mean_abs_error": 0.00039316187526621974,
-              "ewma_n": 705,
-              "mae": 0.0003418054681678468,
-              "mae_delta_vs_ewma": -5.135640709837293e-05,
-              "mean_abs_error": 0.0003418054681678468,
-              "n": 705
+              "ewma_mae": 0.00035341431481764046,
+              "ewma_mean_abs_error": 0.00035341431481764046,
+              "ewma_n": 3488,
+              "mae": 0.000299044446419787,
+              "mae_delta_vs_ewma": -5.4369868397853485e-05,
+              "mean_abs_error": 0.000299044446419787,
+              "n": 3488
             }
           },
           "with_gcp": {
@@ -1132,56 +1366,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.00039316187526621974,
-              "ewma_mean_abs_error": 0.00039316187526621974,
-              "ewma_n": 705,
+              "ewma_mae": 0.00035341431481764046,
+              "ewma_mean_abs_error": 0.00035341431481764046,
+              "ewma_n": 3488,
               "mae": 0.006306071044621723,
-              "mae_delta_vs_ewma": 0.005912909169355503,
+              "mae_delta_vs_ewma": 0.005952656729804082,
               "mean_abs_error": 0.006306071044621723,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5,
+              "hits": 1007,
+              "ic_spearman": 0.03207757983356459,
+              "n": 2014
+            },
+            "n": 2271,
+            "volatility": {
+              "ewma_mae": 0.00035341431481764046,
+              "ewma_mean_abs_error": 0.00035341431481764046,
+              "ewma_n": 3488,
+              "mae": 0.0002637165154550679,
+              "mae_delta_vs_ewma": -8.969779936257257e-05,
+              "mean_abs_error": 0.0002637165154550679,
+              "n": 2271
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.48297213622291024,
-            "hits": 312,
-            "n": 646
+            "hit_rate": 0.4976122254059217,
+            "hits": 1563,
+            "n": 3141
           },
           "persistence_sign": {
-            "hit_rate": 0.5030959752321982,
-            "hits": 325,
-            "n": 646
+            "hit_rate": 0.48933460681311686,
+            "hits": 1537,
+            "n": 3141
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5185758513931888,
-            "hits": 335,
-            "ic_spearman": 0.0687487034932427,
-            "n": 646
+            "hit_rate": 0.5039796243234639,
+            "hits": 1583,
+            "ic_spearman": 0.025911648348315445,
+            "n": 3141
           },
           "momentum_sign": {
-            "hit_rate": 0.48297213622291024,
-            "hits": 312,
-            "n": 646
+            "hit_rate": 0.4976122254059217,
+            "hits": 1563,
+            "n": 3141
           },
           "persistence_sign": {
-            "hit_rate": 0.5030959752321982,
-            "hits": 325,
-            "n": 646
+            "hit_rate": 0.48933460681311686,
+            "hits": 1537,
+            "n": 3141
           }
         },
-        "n": 705,
+        "n": 3488,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.00039316187526621974,
-            "ewma_mean_abs_error": 0.00039316187526621974,
-            "ewma_n": 705,
-            "mae": 0.0003418054681678468,
-            "mae_delta_vs_ewma": -5.135640709837293e-05,
-            "mean_abs_error": 0.0003418054681678468,
-            "n": 705
+            "ewma_mae": 0.00035341431481764046,
+            "ewma_mean_abs_error": 0.00035341431481764046,
+            "ewma_n": 3488,
+            "mae": 0.000299044446419787,
+            "mae_delta_vs_ewma": -5.4369868397853485e-05,
+            "mean_abs_error": 0.000299044446419787,
+            "n": 3488
           }
         }
       },
@@ -1189,20 +1441,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.5920471281296024,
-              "hits": 402,
-              "ic_spearman": 0.20967481610931163,
-              "n": 679
+              "hit_rate": 0.5141748731721874,
+              "hits": 1723,
+              "ic_spearman": 0.03416422781680833,
+              "n": 3351
             },
-            "n": 701,
+            "n": 3484,
             "volatility": {
-              "ewma_mae": 0.0005472304165847481,
-              "ewma_mean_abs_error": 0.0005472304165847481,
-              "ewma_n": 701,
-              "mae": 0.0005273123206075306,
-              "mae_delta_vs_ewma": -1.9918095977217555e-05,
-              "mean_abs_error": 0.0005273123206075306,
-              "n": 701
+              "ewma_mae": 0.0004978381956219852,
+              "ewma_mean_abs_error": 0.0004978381956219852,
+              "ewma_n": 3484,
+              "mae": 0.0004749294002236137,
+              "mae_delta_vs_ewma": -2.2908795398371494e-05,
+              "mean_abs_error": 0.0004749294002236137,
+              "n": 3484
             }
           },
           "with_gcp": {
@@ -1214,56 +1466,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.0005472304165847481,
-              "ewma_mean_abs_error": 0.0005472304165847481,
-              "ewma_n": 701,
+              "ewma_mae": 0.0004978381956219852,
+              "ewma_mean_abs_error": 0.0004978381956219852,
+              "ewma_n": 3484,
               "mae": 0.013792636801103778,
-              "mae_delta_vs_ewma": 0.013245406384519029,
+              "mae_delta_vs_ewma": 0.013294798605481793,
               "mean_abs_error": 0.013792636801103778,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5064635272391506,
+              "hits": 1097,
+              "ic_spearman": 0.032098487016868425,
+              "n": 2166
+            },
+            "n": 2267,
+            "volatility": {
+              "ewma_mae": 0.0004978381956219852,
+              "ewma_mean_abs_error": 0.0004978381956219852,
+              "ewma_n": 3484,
+              "mae": 0.0004337681302709772,
+              "mae_delta_vs_ewma": -6.407006535100803e-05,
+              "mean_abs_error": 0.0004337681302709772,
+              "n": 2267
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4256259204712813,
-            "hits": 289,
-            "n": 679
+            "hit_rate": 0.489406147418681,
+            "hits": 1640,
+            "n": 3351
           },
           "persistence_sign": {
-            "hit_rate": 0.5095729013254786,
-            "hits": 346,
-            "n": 679
+            "hit_rate": 0.4813488510892271,
+            "hits": 1613,
+            "n": 3351
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.5920471281296024,
-            "hits": 402,
-            "ic_spearman": 0.20967481610931163,
-            "n": 679
+            "hit_rate": 0.5141748731721874,
+            "hits": 1723,
+            "ic_spearman": 0.03416422781680833,
+            "n": 3351
           },
           "momentum_sign": {
-            "hit_rate": 0.4256259204712813,
-            "hits": 289,
-            "n": 679
+            "hit_rate": 0.489406147418681,
+            "hits": 1640,
+            "n": 3351
           },
           "persistence_sign": {
-            "hit_rate": 0.5095729013254786,
-            "hits": 346,
-            "n": 679
+            "hit_rate": 0.4813488510892271,
+            "hits": 1613,
+            "n": 3351
           }
         },
-        "n": 701,
+        "n": 3484,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.0005472304165847481,
-            "ewma_mean_abs_error": 0.0005472304165847481,
-            "ewma_n": 701,
-            "mae": 0.0005273123206075306,
-            "mae_delta_vs_ewma": -1.9918095977217555e-05,
-            "mean_abs_error": 0.0005273123206075306,
-            "n": 701
+            "ewma_mae": 0.0004978381956219852,
+            "ewma_mean_abs_error": 0.0004978381956219852,
+            "ewma_n": 3484,
+            "mae": 0.0004749294002236137,
+            "mae_delta_vs_ewma": -2.2908795398371494e-05,
+            "mean_abs_error": 0.0004749294002236137,
+            "n": 3484
           }
         }
       },
@@ -1271,20 +1541,20 @@
         "arms": {
           "market_only": {
             "direction": {
-              "hit_rate": 0.6159874608150471,
-              "hits": 393,
-              "ic_spearman": 0.47175774858817826,
-              "n": 638
+              "hit_rate": 0.47685048658212914,
+              "hits": 1617,
+              "ic_spearman": -0.12346070638155374,
+              "n": 3391
             },
-            "n": 646,
+            "n": 3429,
             "volatility": {
-              "ewma_mae": 0.001595078143324889,
-              "ewma_mean_abs_error": 0.001595078143324889,
-              "ewma_n": 646,
-              "mae": 0.0015721727732170543,
-              "mae_delta_vs_ewma": -2.2905370107834718e-05,
-              "mean_abs_error": 0.0015721727732170543,
-              "n": 646
+              "ewma_mae": 0.0014125095942826224,
+              "ewma_mean_abs_error": 0.0014125095942826224,
+              "ewma_n": 3429,
+              "mae": 0.0016109179493076606,
+              "mae_delta_vs_ewma": 0.0001984083550250382,
+              "mean_abs_error": 0.0016109179493076606,
+              "n": 3429
             }
           },
           "with_gcp": {
@@ -1296,56 +1566,74 @@
             },
             "n": 48,
             "volatility": {
-              "ewma_mae": 0.001595078143324889,
-              "ewma_mean_abs_error": 0.001595078143324889,
-              "ewma_n": 646,
+              "ewma_mae": 0.0014125095942826224,
+              "ewma_mean_abs_error": 0.0014125095942826224,
+              "ewma_n": 3429,
               "mae": 0.043528697087788816,
-              "mae_delta_vs_ewma": 0.04193361894446393,
+              "mae_delta_vs_ewma": 0.042116187493506194,
               "mean_abs_error": 0.043528697087788816,
               "n": 48
+            }
+          },
+          "with_physics": {
+            "direction": {
+              "hit_rate": 0.5261228230980751,
+              "hits": 1148,
+              "ic_spearman": 0.006426421436179835,
+              "n": 2182
+            },
+            "n": 2212,
+            "volatility": {
+              "ewma_mae": 0.0014125095942826224,
+              "ewma_mean_abs_error": 0.0014125095942826224,
+              "ewma_n": 3429,
+              "mae": 0.0016413744116055928,
+              "mae_delta_vs_ewma": 0.00022886481732297044,
+              "mean_abs_error": 0.0016413744116055928,
+              "n": 2212
             }
           }
         },
         "baselines": {
           "momentum_sign": {
-            "hit_rate": 0.4169278996865204,
-            "hits": 266,
-            "n": 638
+            "hit_rate": 0.47714538484222946,
+            "hits": 1618,
+            "n": 3391
           },
           "persistence_sign": {
-            "hit_rate": 0.43260188087774293,
-            "hits": 276,
-            "n": 638
+            "hit_rate": 0.48923621350634033,
+            "hits": 1659,
+            "n": 3391
           }
         },
         "direction": {
           "model_call": {
-            "hit_rate": 0.6159874608150471,
-            "hits": 393,
-            "ic_spearman": 0.47175774858817826,
-            "n": 638
+            "hit_rate": 0.47685048658212914,
+            "hits": 1617,
+            "ic_spearman": -0.12346070638155374,
+            "n": 3391
           },
           "momentum_sign": {
-            "hit_rate": 0.4169278996865204,
-            "hits": 266,
-            "n": 638
+            "hit_rate": 0.47714538484222946,
+            "hits": 1618,
+            "n": 3391
           },
           "persistence_sign": {
-            "hit_rate": 0.43260188087774293,
-            "hits": 276,
-            "n": 638
+            "hit_rate": 0.48923621350634033,
+            "hits": 1659,
+            "n": 3391
           }
         },
-        "n": 646,
+        "n": 3429,
         "volatility": {
           "model_call": {
-            "ewma_mae": 0.001595078143324889,
-            "ewma_mean_abs_error": 0.001595078143324889,
-            "ewma_n": 646,
-            "mae": 0.0015721727732170543,
-            "mae_delta_vs_ewma": -2.2905370107834718e-05,
-            "mean_abs_error": 0.0015721727732170543,
-            "n": 646
+            "ewma_mae": 0.0014125095942826224,
+            "ewma_mean_abs_error": 0.0014125095942826224,
+            "ewma_n": 3429,
+            "mae": 0.0016109179493076606,
+            "mae_delta_vs_ewma": 0.0001984083550250382,
+            "mean_abs_error": 0.0016109179493076606,
+            "n": 3429
           }
         }
       }
@@ -1354,5 +1642,5 @@
   "skip_reasons": {
     "required future candle is not fully closed": 324
   },
-  "skipped": 0
+  "skipped": 1
 }

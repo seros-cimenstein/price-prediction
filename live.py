@@ -5,7 +5,9 @@ The runner intentionally predicts the next Binance one-minute open.  It only
 uses klines whose close time has passed, aligns the four assets on their inner
 open-time intersection, and delegates feature construction to ``features.py``.
 GCP is an optional arm: an unavailable or malformed GCP response never blocks
-market-only predictions.
+market-only predictions.  The physics arm is derived entirely from the same
+closed candles as the market arm, so it is emitted whenever the artifacts are
+present and its registered windows have enough closed history.
 """
 from __future__ import annotations
 
@@ -39,14 +41,19 @@ from features import (  # noqa: E402
     FEATURES,
     GCP_FEATURES,
     HORIZONS,
-    MARKET_FEATURES,
+    PHYSICS_FEATURES,
     build_live_feature_frame,
+    feature_columns_for_arm,
 )
 
 LOGGER = logging.getLogger("price_prediction.live")
 BINANCE_KLINES_URL = "https://api.binance.com/api/v3/klines"
 GCP_NETVAR_URL = "https://gcp2.net/api/getcurrentnetvar"
-KLINE_LIMIT = 130
+# The physics arm's longest registered window is the 240-minute OU filter,
+# which needs 479 closed candles (each deviation uses a trailing 240-minute
+# mean).  600 keeps that warm-up available in one request; market and GCP
+# features are trailing-only, so their values do not depend on the limit.
+KLINE_LIMIT = 600
 MIN_COMMON_MINUTES = 61
 GCP_HISTORY_LIMIT = 180
 DEFAULT_GUARD_Z_THRESHOLD = 3.0
@@ -427,7 +434,10 @@ def load_artifact(
         raise LiveDataError(f"cannot load model artifact {path.name}: {type(exc).__name__}") from exc
     if not isinstance(artifact, dict) or not isinstance(artifact.get("feature_names"), list):
         raise LiveDataError(f"invalid model artifact {path.name}")
-    expected = MARKET_FEATURES if arm == "market_only" else FEATURES
+    try:
+        expected = feature_columns_for_arm(arm)
+    except ValueError:
+        raise LiveDataError(f"unknown feature arm {arm!r} in {path.name}") from None
     if tuple(artifact["feature_names"]) != tuple(expected):
         raise LiveDataError(f"feature contract mismatch in {path.name}")
     if artifact.get("asset") != symbol or int(artifact.get("horizon_minutes", -1)) != int(horizon):
@@ -672,6 +682,7 @@ def _record_predictions(
     gcp_value: float | None,
     gcp_available: bool | None = None,
     gcp_guard: Mapping[str, Any] | None = None,
+    physics_enabled: bool = False,
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     gcp_available = bool(gcp_enabled if gcp_available is None else gcp_available)
@@ -726,6 +737,7 @@ def _record_predictions(
             "current_close": current_close,
             "gcp_available": gcp_available,
             "gcp_guard": dict(guard_record),
+            "physics_available": bool(physics_enabled),
             "horizons": {},
         }
         if gcp_available and gcp_value is not None:
@@ -776,6 +788,20 @@ def _record_predictions(
                         **direction_gcp,
                         "predicted_vol": volatility_gcp,
                     }
+            if physics_enabled:
+                direction_physics = _direction_prediction(
+                    load_artifact(model_dir, symbol, horizon, "direction", "with_physics", model_cache),
+                    row,
+                )
+                volatility_physics = _volatility_prediction(
+                    load_artifact(model_dir, symbol, horizon, "volatility", "with_physics", model_cache),
+                    row,
+                )
+                if direction_physics is not None and volatility_physics is not None:
+                    horizon_record["with_physics"] = {
+                        **direction_physics,
+                        "predicted_vol": volatility_physics,
+                    }
             record["horizons"][f"{horizon}m"] = horizon_record
         records.append(record)
     if with_gcp_enabled:
@@ -821,14 +847,21 @@ def _print_records(records: Sequence[Mapping[str, Any]]) -> None:
     for record in records:
         print(
             f"{record['symbol']} close={record['current_close']:.8g} "
-            f"target={record['target_time_s']} gcp={'on' if record['gcp_available'] else 'off'}"
+            f"target={record['target_time_s']} gcp={'on' if record['gcp_available'] else 'off'} "
+            f"physics={'on' if record.get('physics_available') else 'off'}"
         )
         for horizon, values in record["horizons"].items():
             market = values["market_only"]
             suffix = ""
             if "with_gcp" in values:
                 gcp = values["with_gcp"]
-                suffix = f" gcp(score={gcp['direction_score']:+.5f},vol={gcp['predicted_vol']:.6g})"
+                suffix += f" gcp(score={gcp['direction_score']:+.5f},vol={gcp['predicted_vol']:.6g})"
+            if "with_physics" in values:
+                physics = values["with_physics"]
+                suffix += (
+                    f" physics(score={physics['direction_score']:+.5f},"
+                    f"p_up={physics['p_up']:.4f},vol={physics['predicted_vol']:.6g})"
+                )
             print(
                 f"  {horizon}: market(score={market['direction_score']:+.5f},"
                 f"p_up={market['p_up']:.4f},vol={market['predicted_vol']:.6g}){suffix}"
@@ -889,6 +922,26 @@ def run_cycle(
         and set(FEATURES).issubset(target_rows.columns)
         and np.isfinite(target_rows.loc[:, list(FEATURES)].to_numpy(dtype="float64")).all()
     )
+    # The physics arm is derived from the same closed candles, so it does not
+    # depend on the GCP endpoint or cache; it needs the registered warm-up
+    # history and its own artifacts.
+    physics_features_finite = bool(
+        not target_rows.empty
+        and set(PHYSICS_FEATURES).issubset(target_rows.columns)
+        and np.isfinite(target_rows.loc[:, list(PHYSICS_FEATURES)].to_numpy(dtype="float64")).all()
+    )
+    physics_enabled = False
+    if physics_features_finite:
+        try:
+            for symbol in ASSETS:
+                for horizon in HORIZONS:
+                    for task in ("direction", "volatility"):
+                        load_artifact(model_dir, symbol, horizon, task, "with_physics", model_cache)
+            physics_enabled = True
+        except LiveDataError as exc:
+            LOGGER.warning("with-physics artifacts unavailable (%s); omitting that arm", exc)
+    else:
+        LOGGER.info("physics warm-up history is insufficient this cycle; omitting that arm")
     gcp_guard = _empty_gcp_guard(gcp_available=gcp_available)
     if gcp_available:
         with_gcp_artifacts = (
@@ -935,6 +988,7 @@ def run_cycle(
         gcp_value=netvar,
         gcp_available=gcp_available,
         gcp_guard=gcp_guard,
+        physics_enabled=physics_enabled,
     )
     if netvar is not None and not gcp_enabled and not gcp_guard["suppressed"]:
         LOGGER.warning("GCP value received but feature history is insufficient; omitted with-GCP arm")
@@ -986,6 +1040,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
+    # datefmt carries a literal "Z"; format asctime in UTC so the label is true.
+    logging.Formatter.converter = time.gmtime
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
